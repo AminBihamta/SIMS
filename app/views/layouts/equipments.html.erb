@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SIMS</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <!-- Include global stylesheets -->
+  <%= stylesheet_link_tag 'equipments/application', media: 'all' %>
+  <%= javascript_include_tag "application", defer: true %>
+  <%= javascript_include_tag "overlay", defer: true %>
+  <!-- Include page-specific stylesheets -->
+  <%= yield :stylesheets %>
+</head>
+<body>
+<%= yield %>
+</body>
+</html>

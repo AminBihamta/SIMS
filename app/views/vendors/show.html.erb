@@ -3,10 +3,18 @@
 <p>Address: <%= @vendor.Address %></p>
 
 <ul>
-  <li><%= link_to "Edit", edit_vendor_path(@vendor) %></li>
-  <li><%= link_to "Delete", vendor_path(@vendor), data: {
-    turbo_method: :delete,
-    turbo_confirm: "Are you sure?"
-  } %></li>
+  <li><%= link_to "Edit", edit_vendor_path(@vendor), id: "open-overlay" %></li>
+  <li><%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %></li>
   <li><%= link_to "Back", vendors_path %></li>
 </ul>
+
+<div class="overlay" id="overlay" style="display: none;">
+  <div class="overlay-content">
+    <h1>Edit Vendor</h1>
+    <!-- Dynamic content (the form) will be loaded here -->
+    <div id="overlay-form-content">
+      <!-- Placeholder for form -->
+    </div>
+    <button id="close-overlay">Cancel</button>
+  </div>
+</div>

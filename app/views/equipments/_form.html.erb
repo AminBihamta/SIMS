@@ -1,23 +1,33 @@
 <%= form_with model: equipment, url: equipments_path do |form| %>
   <div>
     <%= form.text_field :Equipment_Name, placeholder: "Equipment Name" %>
+    <% equipment.errors.full_messages_for(:Equipment_Name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>
-    <%= form.text_field :Financial_Record_Id, placeholder: "Financial Record" %>
+    <%= form.select :Financial_Record_Id, options_for_select(FinancialRecord.all.collect { |f| [f.Title, f.Financial_Record_ID] }), prompt: "Financial Record" %>
+    <% equipment.errors.full_messages_for(:Financial_Record_Id).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>
     <%= form.select :Club_ID, options_for_select(Club.all.collect { |c| [c.Club_Name, c.Club_ID] }), prompt: "Club" %>
+    <% equipment.errors.full_messages_for(:Club_ID).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
 
   <div>
     <%= form.select :Vendor_ID, options_for_select(Vendor.all.collect { |v| [v.Name, v.Vendor_ID] }), prompt: "Vendor (Optional)" %>
+    <% equipment.errors.full_messages_for(:Vendor_ID).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
   </div>
 
-  <div class>
-    <%= form.submit "Add Equipment", class: "button" %>
+  <div>
+    <%= form.submit "Save Equipment", class: "button" %>
   </div>
 <% end %>
-
-<button onclick="history.back()">Cancel</button>

@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Equipments</title>
-  <%= stylesheet_link_tag 'application', media: 'all', data: { turbolinks: false } %>
+  <%= stylesheet_link_tag 'equipments/application', media: 'all', data: { turbolinks: false } %>
 </head>
 <body>
 
 <header>
-  <%= image_tag 'back-icon.png', alt: 'Back', style: 'width: 20px; cursor: pointer;' %>
+  <%= link_to "Back", equipments_path %>
   <div class="search-bar">
     <%= form_with url: group_items_path(@equipment_name), method: :get, local: true, class: "search-form" do %>
       <%= text_field_tag :query, params[:query], placeholder: "Search equipment...", class: "search-input" %>

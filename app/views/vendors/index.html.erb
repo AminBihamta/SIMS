@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vendors</title>
-  <%= stylesheet_link_tag 'application', media: 'all', data: { turbolinks: false } %>
-</head>
-<body>
-
 <header>
   <%= image_tag 'back-icon.png', alt: 'Back', style: 'width: 20px; cursor: pointer;' %>
   <div class="search-bar">
@@ -38,8 +28,19 @@
     <% end %>
     <!-- "+" card to open the modal -->
     <div class="card add-card">
-      <%= link_to "+", new_vendor_path, class: "add-link" %>
+      <%= link_to "+", new_vendor_path, id: "open-overlay", class: "add-link" %>
     </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" style="display: none;">
+  <div class="overlay-content">
+    <h1>Add New Vendor</h1>
+    <!-- Dynamic content (the form) will be loaded here -->
+    <div id="overlay-form-content">
+      <!-- Placeholder for form -->
+    </div>
+    <button id="close-overlay">Cancel</button>
   </div>
 </div>
 
@@ -54,6 +55,3 @@
     <%= link_to "Vendor", vendors_path, class: "move-link active" %>
   </div>
 </div>
-
-</body>
-</html>

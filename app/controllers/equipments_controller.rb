@@ -1,4 +1,6 @@
 class EquipmentsController < ApplicationController
+  layout "equipments"
+  before_action :set_equipment, only: %i[ show edit update destroy ]
   def index
     @equipments = Equipment.all
     @equipment = Equipment
@@ -25,11 +27,11 @@ class EquipmentsController < ApplicationController
   end
 
   def show
-    @equipment = Equipment.find(params[:id])
   end
 
   def new
     @equipment = Equipment.new
+    render partial: "form", locals: { equipment: @equipment }
   end
 
   def create
@@ -38,33 +40,33 @@ class EquipmentsController < ApplicationController
     if @equipment.save
       redirect_to @equipment, notice: "Equipment added successfully!"
     else
-      render :new, status: :unprocessable_entity
+      render partial: "form", locals: { equipment: @equipment }
     end
   end
 
   def edit
-    @equipment = Equipment.find(params[:id])
+    render partial: "form", locals: { equipment: @equipment }
   end
 
   def update
-    @equipment = Equipment.find(params[:id])
-
     if @equipment.update(equipment_params)
       redirect_to @equipment, notice: "Equipment updated successfully!"
     else
-      render :edit, status: :unprocessable_entity
+      render partial: "form", locals: { equipment: @equipment }
     end
   end
 
   def destroy
-    @equipment = Equipment.find(params[:id])
     @equipment.destroy
-
     redirect_to root_path, status: :see_other
   end
 
   private
-    def equipment_params
-      params.require(:equipment).permit(:Equipment_Name, :Financial_Record_Id, :Club_ID, :Vendor_ID)
-    end
+  def set_equipment
+    @equipment = Equipment.find(params[:id])
+  end
+
+  def equipment_params
+    params.require(:equipment).permit(:Equipment_Name, :Financial_Record_Id, :Club_ID, :Vendor_ID)
+  end
 end

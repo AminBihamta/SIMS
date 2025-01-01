@@ -1,0 +1,26 @@
+<%= form_with model: vendor do |form| %>
+  <div>
+    <%= form.text_field :Name, placeholder: "Vendor Name" %>
+    <% vendor.errors.full_messages_for(:Name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.text_field :Phone_Number, placeholder: "Phone Number" %>
+    <% vendor.errors.full_messages_for(:Phone_Number).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.text_field :Address, placeholder: "Address" %>
+    <% vendor.errors.full_messages_for(:Address).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Equipment", class: "submit-button" %>
+  </div>
+<% end %>

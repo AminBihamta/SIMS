@@ -1,4 +1,7 @@
 class VendorsController < ApplicationController
+  layout "vendors"
+  before_action :set_vendor, only: %i[ show edit update destroy ]
+
   def index
     if params[:query].present?
       query = params[:query].downcase
@@ -9,11 +12,11 @@ class VendorsController < ApplicationController
   end
 
   def show
-    @vendor = Vendor.find(params[:id])
   end
 
   def new
     @vendor = Vendor.new
+    render partial: "form", locals: { vendor: @vendor }
   end
 
   def create
@@ -22,32 +25,32 @@ class VendorsController < ApplicationController
     if @vendor.save
       redirect_to @vendor, notice: "Vendor added successfully!"
     else
-      render :new, status: :unprocessable_entity
+      render partial: "form", locals: { vendor: @vendor }
     end
   end
 
   def edit
-    @vendor = Vendor.find(params[:id])
+    render partial: "form", locals: { vendor: @vendor }
   end
 
   def update
-    @vendor = Vendor.find(params[:id])
-
     if @vendor.update(vendor_params)
       redirect_to @vendor, notice: "Vendor updated successfully!"
     else
-      render :edit, status: :unprocessable_entity
+      render partial: "form", locals: { vendor: @vendor }
     end
   end
 
   def destroy
-    @vendor = Vendor.find(params[:id])
     @vendor.destroy
-
-    redirect_to root_path, status: :see_other
+    redirect_to vendors_path
   end
 
   private
+  def set_vendor
+    @vendor = Vendor.find(params[:id])
+  end
+
   def vendor_params
     params.require(:vendor).permit(:Name, :Address, :Phone_Number)
   end
