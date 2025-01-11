@@ -1,0 +1,58 @@
+<!-- app/views/auth/PIC/borrowed_items.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Borrowed Items - PIC</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+</head>
+
+<body>
+  <%= render 'auth/PIC/sidebar' %>
+
+  <!-- Page Title -->
+  <h1>Borrowed Items</h1>
+
+  <div class="main-content">
+    <!-- Borrowed Items Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Equipment Name</th>
+          <th>Borrowed Date</th>
+          <th>Due Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @borrowed_items.each do |borrowing| %>
+          <tr>
+            <td><%= borrowing.equipment.Equipment_Name %></td>
+            <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
+            <td><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
+            <td>
+              <% case borrowing.status %>
+              <% when :returned %>
+                Returned
+              <% when :overdue %>
+                <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days overdue
+              <% else %>
+                Due in <%= (borrowing.due_date.to_date - Date.current).to_i %> days
+              <% end %>
+            </td>
+            <td>
+              <% if borrowing.status == 'overdue' %>
+                <%= button_to "Return", return_borrowing_path(borrowing), method: :patch, class: "return-button", data: { confirm: "Are you sure you want to mark this borrowing as returned?" } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if @borrowed_items.empty? %>
+      <p>No borrowed items found for this club.</p>
+    <% end %>
+  </div>
+</body>
+</html>

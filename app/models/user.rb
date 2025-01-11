@@ -13,6 +13,11 @@ class User
     fetch_additional_data if id.present?
   end
 
+  # Move this method BEFORE the private keyword
+  def is_supervisor?
+    is_supervisor == true
+  end
+
   private
 
   def password_match

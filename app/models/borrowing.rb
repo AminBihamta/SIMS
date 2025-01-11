@@ -1,3 +1,4 @@
+# app/models/borrowing.rb
 class Borrowing < ApplicationRecord
   belongs_to :equipment, foreign_key: "equipment_id", class_name: "Equipment"
   belongs_to :club, foreign_key: "club_id", class_name: "Club"

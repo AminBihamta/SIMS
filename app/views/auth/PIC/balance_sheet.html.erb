@@ -1,0 +1,46 @@
+<!-- app/views/auth/PIC/balance_sheet.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Balance Sheet - PIC</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+</head>
+
+<body>
+  <%= render 'auth/PIC/sidebar' %>
+
+  <!-- Page Title -->
+  <h1>Balance Sheet</h1>
+
+  <div class="main-content">
+    <!-- Financial Records Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name of Expense</th>
+          <th>Equipment</th>
+          <th>Quantity</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @financial_records.each do |record| %>
+          <tr>
+            <td><%= record.Title %></td>
+             <td><%= record.equipment&.Equipment_Name || "N/A" %></td>
+            <td><%= record.Quantity %></td>
+            <td><%= number_to_currency(record.Amount, unit: "RM") %></td>
+            <td><%= record.Created_At.strftime("%d/%m/%Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if @financial_records.empty? %>
+      <p>No financial records found for this club.</p>
+    <% end %>
+  </div>
+</body>
+</html>

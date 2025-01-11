@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
-  # Borrowings routes
+    # Auth routes
+    get "/signup", to: "auth#new"
+    post "/signup", to: "auth#sign_up"
+    get "/signin", to: "auth#signin_new"
+    post "/signin", to: "auth#sign_in"
+    delete "/signout", to: "auth#sign_out"
+    get "/signed_in", to: "auth#signed_in"
+  
+    # Dashboard routes
+    get "supervisor/dashboard", to: "supervisor#dashboard", as: :supervisor_dashboard
+    get "PIC/dashboard", to: "pic#dashboard", as: :pic_dashboard
+    get "PIC/borrowed_items", to: "pic#borrowed_items", as: :pic_borrowed_items
+    get "PIC/balance_sheet", to: "pic#balance_sheet", as: :pic_balance_sheetresources :borrowings do
+    
+    # Borrowings routes
   resources :borrowings, except: [:show] do
     collection do
       get :super_club_borrowings
@@ -13,6 +27,7 @@ Rails.application.routes.draw do
 
   # Equipments stock route
   get "/equipments/:id/stock", to: "equipments#stock"
+
   
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -65,7 +80,12 @@ Rails.application.routes.draw do
       post :resend
     end
   end
-  
+
+  resources :borrowings, only: [] do
+    member do
+      patch :return
+    end
+  end
 
   # Set the root route to the sign-in page
   root to: "auth#signin_new"
