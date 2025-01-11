@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>SIMS</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <head>
+    <title>YourApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-  <!-- Include global stylesheets -->
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= javascript_include_tag "application", defer: true %>
-  <!-- Include page-specific stylesheets -->
-  <%= yield :stylesheets %>
-</head>
-<body>
-  <%= yield %>
-</body>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+
+  </body>
 </html>

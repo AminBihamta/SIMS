@@ -16,10 +16,6 @@
     <%= form.collection_select :vendor_id, Vendor.all, :id, :Name, { selected: @financial_record.Vendor_ID } %>
   </div>
 
-  <div>
-    <%= form.label :equipment_id, "Equipment" %>
-    <%= form.collection_select :equipment_id, Equipment.all, :id, :Equipment_Name, { selected: @financial_record.Equipment_ID } %>
-  </div>
 
   <div>
     <%= form.label :Quantity %>

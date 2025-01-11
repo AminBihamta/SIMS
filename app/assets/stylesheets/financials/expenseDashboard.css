@@ -1,0 +1,230 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0F1D24;
+    color: #F7F7F7;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+  
+ .expenseDashboard{
+    padding: 0px 70px 0px 70px;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;  
+ }
+
+  #button-container {
+    display: flex;           /* Enables flexbox */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;     /* Centers content vertically (if needed) */
+    margin: 20px auto;       /* Adds space around the div */
+    height: 100px;           /* Optional: Adjust the height as needed */
+    
+  }
+  
+  #add-expense-button {
+    background-color: #F7F250;
+    color: var(--Background, #072326); /* Text color */
+    font-family: 'Cabin', sans-serif;  /* Font family */
+    font-size: 20px;                   /* Font size */
+    font-style: normal;                /* Font style */
+    font-weight: 700;                  /* Font weight */
+    line-height: normal; 
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .expenses-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .btn-super-club, .btn-sub-club {
+    display: flex;
+    width: 600px;
+    border: none;
+    padding: 80px 25px 30px 25px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    border-radius: 25px;
+    /* Ensuring text inherits the properties defined for the button text */
+    font-family: Cabin, sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    color: var(--Background, #072326);
+    text-align: center; /* Optional: Align text inside the button */
+} 
+
+.btn-super-club{
+    background: var(--Main-Color, #EEF26B);
+}
+
+.btn-sub-club{
+    background: var(--Main-Color, #CCF2C2);
+}
+
+button:hover {
+    transform: scale(1.05); /* Slight zoom-in effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Add shadow to make it pop */
+  }
+
+button {
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.recent-expenses-container {
+    display: flex;
+    justify-content: space-between; /* Align items to the left and right edges */
+    align-items: center;
+    width: 100wh; /* Stretch the container to match table width */
+    padding: 50px 200px 20px 0px;
+  }
+  
+  /* Recent Expenses Header */
+  .recent-expenses-header h2 {
+    font-family: Cabin, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400; /* Adjusted weight as per requirements */
+    line-height: normal;
+    color: var(--Text-Color, #F5F5F5);
+    margin: 0;
+  }
+  
+  /* Descending Text */
+  .recent-expenses-header p {
+    font-family: Cabin, sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--Highlight-Color, #CCF2C2); /* Matches the table style */
+    margin: 0;
+  }
+  
+  /* Sort By Links */
+.sort-by-links {
+    font-family: Cabin, sans-serif;
+    font-size: 16px;
+    color: var(--Text-Color, #F5F5F5);
+    text-align: right;
+  }
+  
+  .sort-by-links a {
+    text-decoration: none;
+    color: var(--Highlight-Color, #CCF2C2);
+    margin: 0 5px;
+    display: inline-flex; /* Align content inline */
+    align-items: center; /* Vertically align icons */
+  }
+  
+  .sort-by-links a span {
+    font-size: 12px; /* Adjust icon size if needed */
+    line-height: 1;
+    margin-left: 2px; /* Adjust spacing between the text and icon */
+    vertical-align: middle; /* Ensures proper alignment with text */
+  }
+  
+  .sort-by-links a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  /* Ensure alignment with the table */
+  .recent-expenses-container {
+    padding-left: 20px; /* Match the table's left margin/padding */
+    padding-right: 20px; /* Match the table's right margin/padding */
+  }
+  
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: separate; /* For rounded corners */
+    border-spacing: 0; /* Remove spacing between cells */
+    background-color: #001a1a; /* Match the background color */
+    color: #FFF; /* Apply the text color */
+    border: 1px solid #CCF2C2; /* Border color for the table */
+    border-radius: 20px; /* Rounded corners for the table */
+    overflow: hidden; /* Hide overflow for rounded corners */
+}
+
+/* Text style for all table text */
+th, td {
+    font-family: Cabin, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    line-height: normal;
+    color: #FFF; /* Ensure text is white */
+    padding: 15px;
+    border: 1px solid #CCF2C2; /* Cell border color */
+    text-align: center; /* Center align text */
+}
+
+/* Header styling */
+thead th {
+    background-color: #003333; /* Dark header background */
+    color: #FFF; /* White text for headers */
+    font-weight: 700; /* Ensure bold text */
+}
+
+/* Body styling */
+tbody td {
+    background-color: transparent; /* No background for cells */
+    color: #FFF; /* Ensure text is white */
+    font-weight: 100;
+}
+
+/* Rounded corners for the table */
+thead th:first-child {
+    border-radius: 20px 0 0 0; /* Top-left corner */
+}
+
+thead th:last-child {
+    border-radius: 0 20px 0 0; /* Top-right corner */
+}
+
+tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 20px; /* Bottom-left corner */
+}
+
+tbody tr:last-child td:last-child {
+    border-radius: 0 0 20px 0; /* Bottom-right corner */
+}
+
+/* Hover effect */
+tr:hover {
+    background-color: #004d4d; /* Slightly lighter shade */
+    color: #FFF; /* Keep text readable */
+}
+
+.expense-link {
+    color: #FFF;
+    text-decoration: none;
+  }
+  
+  .expense-link:hover {
+    color: #CCF2C2;
+    text-decoration: underline;
+  }
+  
+ 
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .card {
+      width: 90%;
+    }
+  
+    table th, table td {
+      font-size: 14px;
+      padding: 10px;
+    }
+}

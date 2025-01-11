@@ -1,0 +1,91 @@
+/* Global Styling */
+body {
+    background-color: #072326;
+    color: #F5F5F5;
+    font-family: 'Cabin', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .total-expenses {
+    text-align: center;
+    margin: 30px 0;
+  }
+  
+  .badge {
+    display: inline-block;
+    background-color: #CCF2C2;
+    color: #072326;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .total-amount {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0 0;
+  }
+  
+  .super-club-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .club-card {
+    background-color: #CCF2C2;
+    color: #072326;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  
+  .club-info .club-name {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .club-info .club-amount {
+    font-size: 16px;
+    margin: 5px 0 0;
+  }
+  
+  .view-link {
+    transform: scale(1.05);
+    background-color: transparent;
+    color: #072326;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid #072326;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-top: 15px;
+  }
+  
+  .view-link:hover {
+    background-color: #072326;
+    color: #CCF2C2;
+  }
+  
+  .no-expenses {
+    text-align: center;
+    color: #F5F5F5;
+    font-size: 18px;
+    margin-top: 50px;
+  }
+  

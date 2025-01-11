@@ -1,20 +1,25 @@
+<%= stylesheet_link_tag 'financials/super_club_expenses', media: 'all', 'data-turbo-track': 'reload' %>
 <!-- Total Expenses Section -->
-<div>
-  <h2>Total Expenses</h2>
-  <p><%= number_to_currency(@total_super_club_expenses, unit: "RM") %></p>
+<div class="total-expenses">
+  <span class="badge">Total Expenses</span>
+  <h1 class="total-amount"><%= number_to_currency(@total_super_club_expenses, unit: "RM") %></h1>
 </div>
 
 <% if @super_club_expenses.any? %>
   <!-- Super Club Cards Section -->
-  <div>
+  <div class="super-club-cards">
     <% @super_club_expenses.each do |club_name, total_expenses| %>
-      <div>
-      <h3><%= club_name %></h3>
-      <p><%= number_to_currency(total_expenses, unit: "RM") %></p>
-      <%= link_to "View Expenses", all_super_expenses_financial_record_path(Club.find_by(Club_Name: club_name)), class: "btn btn-primary" %>
+      <div class="club-card">
+        <div class="club-info">
+          <h3 class="club-name"><%= club_name %></h3>
+          <p class="club-amount"><%= number_to_currency(total_expenses, unit: "RM") %></p>
+        </div>
+        <div class="club-action">
+          <%= link_to "View Expenses", all_super_expenses_financial_record_path(Club.find_by(Club_Name: club_name)), class: "view-link" %>
+        </div>
       </div>
-   <% end %>
+    <% end %>
   </div>
 <% else %>
-  <p>No super club expenses to display.</p>
+  <p class="no-expenses">No super club expenses to display.</p>
 <% end %>

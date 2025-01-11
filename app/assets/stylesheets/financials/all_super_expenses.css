@@ -1,0 +1,162 @@
+/* General Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0F1D24;
+  color: #F7F7F7;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.superClubExpenses {
+  padding: 30px;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Cabin', sans-serif;
+  color: #EEF26B;
+}
+
+/* Summary Cards Container */
+.summary-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+/* Individual Summary Card Base Styles */
+.summary-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #0f2225; /* Text color for all cards */
+}
+
+/* Specific Background Colors */
+.summary-card.total-budget {
+  background-color: #eff27f;
+}
+
+.summary-card.total-spent {
+  background-color: #d3f1c6;
+}
+
+.summary-card.remaining-budget {
+  background-color: #eff27f;
+}
+
+/* Text Sizes Inside the Card */
+.summary-card small {
+  font-size: 16px;
+}
+
+.summary-card strong {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Hover Effect */
+.summary-card:hover {
+  transform: scale(1.05); /* Slightly enlarge */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Enhance shadow */
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #001a1a;
+  color: #FFF;
+  border: 1px solid #CCF2C2;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+th, td {
+  font-family: 'Cabin', sans-serif;
+  font-size: 20px;
+  line-height: normal;
+  color: #FFF;
+  padding: 15px;
+  border: 1px solid #CCF2C2;
+  text-align: center;
+}
+
+thead th {
+  background-color: #003333;
+  color: #FFF;
+  font-weight: 700;
+}
+
+tbody td {
+  background-color: transparent;
+  color: #FFF;
+  font-weight: 100;
+}
+
+thead th:first-child {
+  border-radius: 20px 0 0 0;
+}
+
+thead th:last-child {
+  border-radius: 0 20px 0 0;
+}
+
+tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 20px;
+}
+
+tbody tr:last-child td:last-child {
+  border-radius: 0 0 20px 0;
+}
+
+/* Table Hover Effect */
+tr:hover {
+  background-color: #004d4d;
+  color: #FFF;
+}
+
+.expense-link {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.expense-link:hover {
+  color: #CCF2C2;
+  text-decoration: underline;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  th, td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .summary-cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .summary-card {
+    padding: 15px;
+  }
+
+  .summary-card small {
+    font-size: 14px;
+  }
+
+  .summary-card strong {
+    font-size: 28px;
+  }
+}
