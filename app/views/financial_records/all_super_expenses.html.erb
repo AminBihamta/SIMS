@@ -1,25 +1,48 @@
-<h2>All Expenses for <%= @club.Club_Name %></h2>
+<%= stylesheet_link_tag 'financials/all_super_expenses', media: 'all' %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name of Expense</th>
-      <th>Quantity</th>
-      <th>Vendor</th>
-      <th>Sub-club</th>
-      <th>Amount</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @expenses.each do |expense| %>
+<<div class="superClubExpenses">
+  <!-- Header Section -->
+  <h2>All Expenses for <%= @club.Club_Name %></h2>
+
+  <!-- Summary Section -->
+  <div class="summary-cards">
+  <div class="summary-card total-budget">
+    <small><b>Total Budget</b></small>
+    <strong><%= number_to_currency(@total_budget, unit: "RM") %></strong>
+  </div>
+  <div class="summary-card total-spent">
+    <small><b>Total Spent</b></small>
+    <strong><%= number_to_currency(@total_spent, unit: "RM") %></strong>
+  </div>
+  <div class="summary-card remaining-budget">
+    <small><b>Remaining Budget</b></small>
+    <strong><%= number_to_currency(@remaining_budget, unit: "RM") %></strong>
+  </div>
+</div>
+
+  <!-- Expenses Table -->
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to expense.Title, expense_details_financial_record_path(expense) %></td>
-        <td><%= expense.Quantity %></td>
-        <td><%= expense.vendor&.Name || "N/A" %></td> <!-- Display Vendor Name -->
-        <td><%= expense.club&.Club_Name || "N/A" %></td>  <!-- Display Sub-club or Super Club Name -->
-        <td><%= number_to_currency(expense.Amount, unit: "RM") %></td>
-        <td><%= expense.Created_At.strftime("%d/%m/%Y") %></td>
+        <th>Name of Expense</th>
+        <th>Quantity</th>
+        <th>Vendor</th>
+        <th>Sub-Club</th>
+        <th>Amount</th>
+        <th>Date</th>
       </tr>
-    <% end %>
-</table>
+    </thead>
+    <tbody>
+      <% @expenses.each do |expense| %>
+        <tr>
+          <td><%= link_to expense.Title, expense_details_financial_record_path(expense), class: 'expense-link' %></td>
+          <td><%= expense.Quantity %></td>
+          <td><%= expense.vendor&.Name || "N/A" %></td>
+          <td><%= expense.club&.Club_Name || "N/A" %></td>
+          <td><%= number_to_currency(expense.Amount, unit: "RM") %></td>
+          <td><%= expense.created_at.strftime("%d/%m/%Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

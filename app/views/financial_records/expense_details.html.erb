@@ -1,17 +1,12 @@
+<div>
+  <p><strong>Item:</strong> <%= @financial_record.Title %></p>
+  <p><strong>Date Bought:</strong> <%= @financial_record.Created_At.strftime("%d/%m/%Y") %></p>
+  <p><strong>Vendor:</strong> <%= @financial_record.vendor.Name %></p>
+  <p><strong>Amount:</strong> <%= number_to_currency(@financial_record.Amount, unit: "RM") %></p>
+  <p><strong>Quantity:</strong> <%= @financial_record.Quantity %></p>
 
-  <!-- Details Section -->
-  <div>
-    <p><strong>Item:</strong> <%= @financial_record.Title %></p>
-    <p><strong>Date Bought:</strong> <%= @financial_record.Created_At.strftime("%d/%m/%Y") %></p>
-    <p><strong>Vendor:</strong> <%= @financial_record.vendor.Name %></p>
-    <p><strong>Amount:</strong> <%= @financial_record.Amount %></p>
-    <p><strong>Quantity:</strong> <%= @financial_record.Quantity %></p>
-  </div>
-
-  <!-- Buttons -->
-  <div>
-    <%= button_to 'Update', edit_financial_record_path, method: :get %>
+  <div class="expense-buttons">
+    <%= button_to 'Update', edit_financial_record_path(@financial_record), method: :get %>
     <%= button_to 'Delete', delete_confirmation_financial_record_path(@financial_record), method: :get %>
-    <%= button_to 'Dashboard', expenseDashboard_financial_records_path(@financial_record), method: :get %>
   </div>
 </div>

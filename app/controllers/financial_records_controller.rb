@@ -7,23 +7,29 @@ class FinancialRecordsController < ApplicationController
     sort_column = case params[:sort]
     when "amount_asc" then '"Amount" ASC'
     when "amount_desc" then '"Amount" DESC'
-    when "date_asc" then '"Created_At" ASC'
-    when "date_desc" then '"Created_At" DESC'
-    else '"Created_At" DESC' # Default sorting
+    when "date_asc" then '"created_at" ASC'
+    when "date_desc" then '"created_at" DESC'
+    else '"created_at" DESC' # Default sorting
     end
 
-    @financial_records = FinancialRecord.includes(:equipment, :club).order(Arel.sql(sort_column))
+    @financial_records = FinancialRecord.includes(:club).order(Arel.sql(sort_column))
   end
 
   def expense_details
-    @financial_record = FinancialRecord.includes(:club, :equipment, :vendor).find(params[:id])
+    @financial_record = FinancialRecord.includes(:club, :vendor).find(params[:id])
+
+    respond_to do |format|
+      format.html # Default behavior for HTML requests
+      format.js { render partial: "financial_records/expense_details", locals: { financial_record: @financial_record } }
+    end
   end
+
 
   def create
     @financial_record = FinancialRecord.new(financial_record_params)
 
     if @financial_record.save
-      redirect_to root_path
+      redirect_to expenseDashboard_financial_records_path
     else
       render :expenseForm
     end
@@ -51,8 +57,6 @@ class FinancialRecordsController < ApplicationController
     end
   end
 
-
-
   def super_club_expenses
     # Fetch all super clubs
     @super_clubs = Club.where(Is_Super_Club: true)
@@ -76,10 +80,23 @@ class FinancialRecordsController < ApplicationController
 
   def all_super_expenses
     @club = Club.find(params[:id]) # Find the super club using the passed ID
-    sub_club_ids = Club.where(Parent_Club: @club.Club_ID).pluck(:Club_ID) # Fetch IDs of sub-clubs
+
+    # Fetch IDs of sub-clubs
+    sub_club_ids = Club.where(Parent_Club: @club.Club_ID).pluck(:Club_ID)
+
     # Fetch financial records tied to those sub-clubs
     @expenses = FinancialRecord.where(Club_ID: sub_club_ids)
+
+    # Total budget of the super club
+    @total_budget = @club.Budget
+
+    # Total spent for the super club (sum of amounts in financial records)
+    @total_spent = @expenses.sum(:Amount)
+
+    # Remaining budget
+    @remaining_budget = @total_budget - @total_spent
   end
+
 
   def sub_club_expenses
     # Fetch all sub-clubs (those with Parent_Club not null and Is_Super_Club is false)
@@ -100,9 +117,19 @@ class FinancialRecordsController < ApplicationController
   end
 
   def all_sub_expenses
-    @club = Club.find(params[:id])  # Find the sub-club using the passed ID
-    @expenses = FinancialRecord.joins(:club, :vendor)  # Ensure we join with both club and vendor
-                               .where('"financial_records"."Club_ID" = ?', @club.Club_ID)  # Match the Club_ID
+    @club = Club.find(params[:id]) # Find the sub-club using the passed ID
+
+    # Fetch financial records tied to this sub-club
+    @expenses = FinancialRecord.joins(:club, :vendor).where('"financial_records"."Club_ID" = ?', @club.Club_ID)
+
+    # Total budget for the sub-club
+    @total_budget = @club.Budget
+
+    # Total spent by the sub-club
+    @total_spent = @expenses.sum(:Amount)
+
+    # Remaining budget for the sub-club
+    @remaining_budget = @total_budget - @total_spent
   end
 
 
@@ -111,6 +138,6 @@ class FinancialRecordsController < ApplicationController
   end
 
   def financial_record_params
-    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Equipment_ID, :Quantity, :Club_ID)
+    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Quantity, :Club_ID)
   end
 end
