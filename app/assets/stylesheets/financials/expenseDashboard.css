@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: Cabin;
   background-color: #0f1d24;
   color: #f7f7f7;
   margin: 0;
@@ -14,7 +14,6 @@ body {
 }
 
 .expenseDashboard {
-  padding: 0px 70px 0px 70px;
   justify-content: center; /* Centers content horizontally */
   align-items: center;
 }
@@ -25,22 +24,6 @@ body {
   align-items: center; /* Centers content vertically (if needed) */
   margin: 20px auto; /* Adds space around the div */
   height: 100px; /* Optional: Adjust the height as needed */
-}
-
-#add-expense-button {
-  background-color: #f7f250;
-  color: var(--Background, #072326); /* Text color */
-  font-family: "Cabin", sans-serif; /* Font family */
-  font-size: 20px; /* Font size */
-  font-style: normal; /* Font style */
-  font-weight: 700; /* Font weight */
-  line-height: normal;
-  font-size: 16px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .expenses-card {
@@ -266,6 +249,7 @@ tr:hover {
 
 .footer .btn:hover a {
   color: var(--Third-Color);
+  color: var(--Background);
 }
 .footer .btn:hover {
   transform: scale(1.05);

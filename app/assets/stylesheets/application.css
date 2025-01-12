@@ -4,9 +4,15 @@
   --Third-Color: #eef26b;
 }
 
+html {
+  display: grid;
+  place-items: center;
+}
+
 body {
   font-family: Cabin;
-  padding: 0px 80px;
+  max-width: 1180px;
+  width: 100%;
   background-color: var(--Background);
   color: white;
 }
@@ -754,7 +760,7 @@ h2 {
 }
 .borrowingsParent {
   display: flex;
-  justify-content: start;
+  justify-content: center;
   gap: 15px;
   flex-direction: row;
   flex-wrap: wrap;
@@ -897,11 +903,11 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-right: 100px;
 }
 .regularButtonYellow {
   border: 1px solid var(--Third-Color);
   text-align: center;
+  background-color: var(--Background);
   color: var(--Third-Color);
   transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s;
   display: flex;
@@ -929,6 +935,7 @@ nav a:hover {
   border-radius: 12px;
   text-decoration: none;
   text-align: center;
+  background-color: var(--Background);
 }
 
 .regularButtonGreen:hover {
@@ -948,6 +955,7 @@ nav a:hover {
   border-radius: 12px;
   text-decoration: none;
   text-align: center;
+  background-color: var(--Background);
 }
 
 .regularButtonWhite:hover {
