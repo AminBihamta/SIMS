@@ -4,11 +4,8 @@ class Notification < ApplicationRecord
 
   validates :message, presence: true
   validates :status, inclusion: { in: %w[pending delivered resent] }
-  validates :triggered_at, presence: true
+  validates :borrowing_id, uniqueness: true
   validates :notification_type, presence: true # Add this validation
-
-  after_create_commit :enqueue_delivery_job_and_log_history
-  after_update :log_history
 
   private
 
