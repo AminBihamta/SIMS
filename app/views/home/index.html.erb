@@ -1,0 +1,7 @@
+<% if current_user.nil? %>
+  <p>You are not signed in. Redirecting to sign in...</p>
+<% elsif session[:user_type] %>
+  <p>Welcome Supervisor. Redirecting to dashboard...</p>
+<% else %>
+  <p>Welcome PIC. Redirecting to dashboard...</p>
+<% end %>

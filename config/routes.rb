@@ -84,7 +84,8 @@ Rails.application.routes.draw do
   get "club_created", to: "clubs#club_created", as: :club_created
 
   # Set the root route to the sign-in page
-  root to: "auth#signin_new"
+  root to: "home#index"
+
 
     resources :financial_records, only: [ :create, :edit, :update, :index, :show, :destroy ] do
     collection do
