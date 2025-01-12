@@ -12,10 +12,14 @@ class Borrowing < ApplicationRecord
   scope :borrowed, -> { where(status: 'borrowed') }
   scope :returned, -> { where(status: 'returned') }
   scope :overdue, -> { where(status: 'overdue') }
-  scope :needs_overdue_update, -> { 
-    where(status: 'borrowed')
-    .where('due_date < ?', Date.current) 
+  scope :needs_overdue_update, -> {
+    where("due_date < ? AND status = ?", Time.current, 'borrowed')
   }
+  scope :needs_notification, -> {
+    where(status: 'overdue')
+      .where.not(id: Notification.select(:borrowing_id))
+  }
+
 
   belongs_to :equipment, foreign_key: "equipment_id", class_name: "Equipment"
   belongs_to :club, foreign_key: "club_id", class_name: "Club"
