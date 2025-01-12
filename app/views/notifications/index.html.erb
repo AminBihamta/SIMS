@@ -123,20 +123,35 @@
     <thead>
         <tr>
             <th>Message</th>
+            <% if supervisor? %>
+
             <th>Status</th>
+            <% end %>
+
             <th>Sent At</th>
+            <% if supervisor? %>
+
             <th>Actions</th>
+            <% end %>
+
         </tr>
     </thead>
     <tbody>
         <% @notifications.each do |notification| %>
         <tr>
             <td><%= notification.message %></td>
+            <% if supervisor? %>
             <td><%= notification.status %></td>
+            <% end %>
+
             <td><%= notification.triggered_at.strftime('%d/%m/%Y %H:%M') %></td>
+            <% if supervisor? %>
+
             <td>
                 <%= button_to "Resend", resend_notification_path(notification), method: :post, class: "action-button" %>
             </td>
+            <% end %>
+
         </tr>
         <% end %>
     </tbody>
