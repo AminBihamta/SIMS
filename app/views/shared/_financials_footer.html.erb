@@ -9,6 +9,6 @@
             <%= link_to "Clubs", clubs_path, class: "move-link #{'active' if active_tab == :club}" %>
         </div>
         <div class="btn <%= active_tab == :reports ? 'active' : '' %>">
-            <%= link_to "Reports", expenseDashboard_financial_records_path, class: "move-link #{'active' if active_tab == :reports}" %>
+            <%= link_to "Reports", reports_path, class: "move-link #{'active' if active_tab == :reports}" %>
         </div>
     </div>
