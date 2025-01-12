@@ -1,54 +1,58 @@
-<div class="container mx-auto p-4">
-  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-    <!-- Welcome Text -->
-    <h1 class="text-2xl font-bold mb-4">System Dashboard</h1>
-    <div class="mb-4">
-      <p>Welcome, <%= current_user&.email %></p>
-      <p>
-        <% if current_user&.is_supervisor == true %>
-          You are a supervisor
-        <% else %>
-          You are a <%= current_user&.role %>
-        <% end %>
-      </p>
+<!-- filepath: /Users/aminbihamta/Software Engineering/SIMS/app/views/reports/index.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%= render 'shared/header', search_url: equipments_path %>
+
+    <div class="introDiv">
+        <div>
+            <h1 class="welcome">Welcome</h1>
+            <p class="email"><%= current_user&.email %></p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="buttonsDiv">
+            <%= link_to "Send a Notification", notifications_path, class: "regularButtonYellow" %>
+            <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "regularButtonYellow" %>
+            <%= link_to "Generate a Report", reports_path, class: "regularButtonYellow" %>
+
+        </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="quick-actions mb-4">
-      <button class="btn btn-primary">Send a Notification</button>
-      <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "btn btn-secondary" %>
-      <button class="btn btn-primary">Generate a Report</button>
-    </div>
-
-    <!-- Latest Borrowings Section -->
-    <div class="latest-borrowings">
-      <h2 class="text-xl font-bold mb-4">Latest Borrowings</h2>
-      <% if @borrowings.any? %>
-        <table class="table-auto w-full">
-          <thead>
-            <tr>
-              <th class="px-4 py-2">Equipment Name</th>
-              <th class="px-4 py-2">Borrower</th>
-              <th class="px-4 py-2">Borrow Date</th>
-              <th class="px-4 py-2">Due Date</th>
-              <th class="px-4 py-2">Status</th>
-            </tr>
-          </thead>
-          <tbody>
+    <div class="latestBorrowingsParent">
+        <h2 class="headline">Latest Borrowings</h2>
+        <div class="borrowingsParent">
+            <% if @borrowings.any? %>
             <% @borrowings.each do |borrowing| %>
-              <tr>
-                <td class="border px-4 py-2"><%= borrowing.equipment.Equipment_Name %></td>
-                <td class="border px-4 py-2"><%= borrowing.club.Club_Name %></td>
-                <td class="border px-4 py-2"><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
-                <td class="border px-4 py-2"><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
-                <td class="border px-4 py-2"><%= borrowing.status.capitalize %></td>
-              </tr>
+            <div class="club borrowings">
+                <div class="column">
+                    <h2 class="border px-4 py-2"><%= borrowing.equipment.Equipment_Name %></h2>
+                    <span class="border px-4 py-2"><%= borrowing.club.Club_Name %></span>
+                </div>
+                <div class="column">
+                    <span class="border px-4 py-2"><%= borrowing.borrow_date.strftime('%d/%m/%Y') %> - <%= borrowing.due_date.strftime('%d/%m/%Y') %></span>
+                    <span class="border px-4 py-2 status"><%= borrowing.status.capitalize %></span>
+                </div>
+            </div>
             <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <p>No borrowings found.</p>
-      <% end %>
+            <% else %>
+            <p>No borrowings found.</p>
+            <% end %>
+        </div>
     </div>
-  </div>
-</div>
+</body>
+
+</html>

@@ -1,90 +1,92 @@
 <%# app/views/auth/PIC/dashboard.html.erb %>
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Dashboard - PIC</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+    <title>Dashboard - PIC</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 </head>
 
 <body>
-  <%= render 'auth/PIC/sidebar' %>
-  
-  <!-- Top Navigation -->
-  <div>
-    <button>
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-      </svg>
-    </button>
+    <%= render 'auth/PIC/sidebar' %>
+
+    <!-- Top Navigation -->
     <div>
-      <input type="search" placeholder="Search">
-    </div>
-    <button>
-      <div></div>
-    </button>
-  </div>
-
-  <!-- Welcome Message -->
-  <h1>
-    Welcome, <%= current_user.email.split('@').first %>
-  </h1>
-
-  <!-- Notifications Section -->
-  <div>
-    <% @notifications.each do |notification| %>
-      <% borrowing = notification.borrowing %>
-      <% if borrowing && borrowing.equipment %>
+        <button>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </button>
         <div>
-          <strong>Reminder!</strong>
-          <% case borrowing.status %>
-          <% when "returned" %>
+            <input type="search" placeholder="Search">
+        </div>
+        <button>
+            <div></div>
+        </button>
+    </div>
+
+    <!-- Welcome Message -->
+    <h1>
+        Welcome, <%= current_user.email.split('@').first %>
+    </h1>
+
+    <!-- Notifications Section -->
+    <div>
+        <% @notifications.each do |notification| %>
+        <% borrowing = notification.borrowing %>
+        <% if borrowing && borrowing.equipment %>
+        <div>
+            <strong>Reminder!</strong>
+            <% case borrowing.status %>
+            <% when "returned" %>
             <p>Equipment has been returned</p>
-          <% when "overdue" %>
+            <% when "overdue" %>
             <p>
-              <%= borrowing.equipment.Equipment_Name %> is overdue by 
-              <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days
+                <%= borrowing.equipment.Equipment_Name %> is overdue by
+                <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days
             </p>
             <%= button_to "Return", return_borrowing_path(borrowing), 
                 method: :patch, 
                 class: "return-button", 
                 data: { confirm: "Are you sure you want to mark this borrowing as returned?" } %>
-          <% when "borrowed" %>
+            <% when "borrowed" %>
             <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
-          <% end %>
+            <% end %>
         </div>
-      <% else %>
+        <% else %>
         <div>No associated equipment found for this borrowing.</div>
-      <% end %>
-    <% end %>
-  </div>
-
-  <!-- Latest Borrowed Section -->
-  <div>
-    <h2>Latest Borrowed</h2>
-    <div>
-      <% @borrowings.each do |borrowing| %>
-        <div>
-          <div>
-            <div>
-              <h3><%= borrowing.equipment.Equipment_Name %></h3>
-              <% case borrowing.status %>
-              <% when "returned" %>
-                <p>Equipment has been returned</p>
-              <% when "overdue" %>
-                <p>Overdue by: <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days</p>
-              <% when "borrowed" %>
-                <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
-              <% end %>
-            </div>
-            <div>
-              <p>Due on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
-              <%= link_to "View More", borrowing_path(borrowing) %>
-            </div>
-          </div>
-        </div>
-      <% end %>
+        <% end %>
+        <% end %>
     </div>
-  </div>
+
+    <!-- Latest Borrowed Section -->
+    <div>
+        <h2>Latest Borrowed</h2>
+        <div>
+            <% @borrowings.each do |borrowing| %>
+            <div>
+                <div>
+                    <div>
+                        <h3><%= borrowing.equipment.Equipment_Name %></h3>
+                        <% case borrowing.status %>
+                        <% when "returned" %>
+                        <p>Equipment has been returned</p>
+                        <% when "overdue" %>
+                        <p>Overdue by: <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days</p>
+                        <% when "borrowed" %>
+                        <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
+                        <% end %>
+                    </div>
+                    <div>
+                        <p>Due on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
+                        <%= link_to "View More", borrowing_path(borrowing) %>
+                    </div>
+                </div>
+            </div>
+            <% end %>
+        </div>
+    </div>
 </body>
+
 </html>

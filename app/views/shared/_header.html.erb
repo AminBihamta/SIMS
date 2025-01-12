@@ -1,13 +1,30 @@
 <header>
-  <%= stylesheet_link_tag 'equipments/application', media: 'all' %>
-  <a href="<%= request.referer || root_path %>" onclick="history.back(); return false;" class="back-link">
-    <%= image_tag 'back-icon.svg', alt: 'Back' %>
-  </a>
-  <div class="search-bar">
-    <%= form_with url: search_url, method: :get, local: true, class: "search-form" do %>
-      <%= text_field_tag :query, params[:query], placeholder: "Search...", class: "search-input" %>
-  </div>
-      <%= submit_tag "Search", class: "search-button" %>
+    <a href="<%= request.referer || root_path %>" onclick="history.back(); return false;" class="back-link">
+        <svg width="24" height="21" viewBox="0 0 24 21" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5.3385V1.5C12 1.116 11.853 0.732 11.5605 0.438C11.268 0.1455 10.884 0 10.5 0C10.116 0 9.732 0.1455 9.4395 0.438L0 9.75L9.4395 19.0605C9.732 19.353 10.116 19.5 10.5 19.5C10.884 19.5 11.268 19.353 11.5605 19.0605C11.853 18.768 12 18.3825 12 18V14.2665C16.125 14.3685 20.6325 15.1155 24 20.25V18.75C24 11.8005 18.75 6.0855 12 5.3385Z" fill="#F5F5F5" />
+        </svg>
+
+    </a>
+    <div class="burgerMenu">
+        <svg width="56" height="44" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.25 22H43.75" stroke="#F5F5F5" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12.25 34.375H43.75" stroke="#F5F5F5" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12.25 9.625H43.75" stroke="#F5F5F5" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <nav class="nav-links">
+            <%= link_to 'Clubs Dashboard', clubs_path, class: 'regularButtonWhite' %>
+            <%= link_to 'Equipments Dashboard', equipments_path, class: 'regularButtonWhite' %>
+            <%= link_to 'Financials Dashboard', expenseDashboard_financial_records_path, class: 'regularButtonWhite' %>
+        </nav>
+    </div>
+    <!--
+    <div class="search-bar">
+        <%= form_with url: search_url, method: :get, local: true, class: "search-form" do %>
+        <%= text_field_tag :query, params[:query], placeholder: "Search...", class: "search-input" %>
+    </div>
+    
+    <%= submit_tag "Search", class: "search-button" %>
     <% end %>
-  <%= image_tag 'user-icon.svg', alt: 'User' %>
+    <%= image_tag 'user-icon.svg', alt: 'User', class: "user-image" %>-->
 </header>
