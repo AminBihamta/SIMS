@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     get "supervisor/dashboard", to: "supervisor#dashboard", as: :supervisor_dashboard
     get "PIC/dashboard", to: "pic#dashboard", as: :pic_dashboard
     get "PIC/borrowed_items", to: "pic#borrowed_items", as: :pic_borrowed_items
-    get "PIC/balance_sheet", to: "pic#balance_sheet", as: :pic_balance_sheetresources :borrowings do
+    get "PIC/balance_sheet", to: "pic#balance_sheet", as: :pic_balance_sheet
     
     # Borrowings routes
   resources :borrowings, except: [:show] do
