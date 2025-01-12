@@ -4,51 +4,56 @@
 <div class="expenseDashboard">
     <!-- Add Expense Button -->
     <div id="button-container">
-      <%= button_to "Add Expense", expense_form_financial_records_path, method: :get, id: 'add-expense-button' %>
+        <%= button_to "Add Expense", expense_form_financial_records_path, method: :get, id: 'add-expense-button' %>
     </div>
 
     <!-- Expense Buttons -->
     <div class="expenses-card">
-      <%= button_to "Super Club Expenses", super_club_expenses_financial_records_path, method: :get, class: 'btn-super-club' %>
-      <%= button_to "Sub-Club Expenses", sub_club_expenses_financial_records_path, method: :get, class: 'btn-sub-club' %>
+        <%= button_to "Super Club Expenses", super_club_expenses_financial_records_path, method: :get, class: 'btn-super-club' %>
+        <%= button_to "Sub-Club Expenses", sub_club_expenses_financial_records_path, method: :get, class: 'btn-sub-club' %>
     </div>
 
-  <div class="recent-expenses-container">
-  <div class="recent-expenses-header">
-    <h2>Recent Expenses</h2>
-  </div>
-  <div class="sort-by-links">
-    <strong>Sort By:</strong>
-    <%= link_to 'Amount ▲', expenseDashboard_financial_records_path(sort: 'amount_asc') %>
-    <%= link_to '▼', expenseDashboard_financial_records_path(sort: 'amount_desc') %> |
-    <%= link_to 'Date ▲', expenseDashboard_financial_records_path(sort: 'date_asc') %>
-    <%= link_to '▼', expenseDashboard_financial_records_path(sort: 'date_desc') %>
-  </div>
-  </div>
+    <div class="recent-expenses-container">
+        <div class="recent-expenses-header">
+            <h2>Recent Expenses</h2>
+        </div>
+        <div class="sort-by-links">
+            <strong>Sort By:</strong>
+            <div class="sort-links">
+                <span>Amount</span>
+                <%= link_to '▲', expenseDashboard_financial_records_path(sort: 'amount_asc') %>
+                <%= link_to '▼', expenseDashboard_financial_records_path(sort: 'amount_desc') %> |
+            </div>
+            <div class="sort-links">
+                <span>Date</span>
+                <%= link_to '▲', expenseDashboard_financial_records_path(sort: 'date_asc') %>
+                <%= link_to '▼', expenseDashboard_financial_records_path(sort: 'date_desc') %>
+            </div>
+        </div>
+    </div>
 
     <!-- Expenses Table -->
     <table>
-      <thead>
-        <tr>
-          <th>Name of Expense</th>
-          <th>Quantity</th>
-          <th>Sub-Club</th>
-          <th>Amount</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @financial_records.each do |record| %>
-          <tr>
-            <td><%= link_to record.Title, expense_details_financial_record_path(record), class: 'expense-link', data: { id: record.id }, remote: true %></td>
-            <td><%= record.Quantity %></td>
-            <td><%= record.club&.Club_Name || "N/A" %></td>
-            <td><%= number_to_currency(record.Amount, unit: "RM") %></td>
-            <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
-          </tr>
-        <% end %>
-      </tbody>
+        <thead>
+            <tr>
+                <th>Name of Expense</th>
+                <th>Quantity</th>
+                <th>Sub-Club</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @financial_records.each do |record| %>
+            <tr>
+                <td><%= link_to record.Title, expense_details_financial_record_path(record), class: 'expense-link', data: { id: record.id }, remote: true %></td>
+                <td><%= record.Quantity %></td>
+                <td><%= record.club&.Club_Name || "N/A" %></td>
+                <td><%= number_to_currency(record.Amount, unit: "RM") %></td>
+                <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
+            </tr>
+            <% end %>
+        </tbody>
     </table>
 </div>
 <%= render 'shared/financials_footer', active_tab: :expenseDashboard %>
-

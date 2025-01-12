@@ -1,11 +1,11 @@
 <div class="footer">
-  <div class="btn <%= active_tab == :expenseDashboard ? 'active' : '' %>">
-    <%= link_to "Expenses", expenseDashboard_financial_records_path, class: "move-link #{'active' if active_tab == :expenseDashboard}" %>
-  </div>
-  <div class="btn <%= active_tab == :club ? 'active' : '' %>">
-    <%= link_to "Clubs", clubs_path, class: "move-link #{'active' if active_tab == :club}" %>
-  </div>
-  <div class="btn <%= active_tab == :reports ? 'active' : '' %>">
-    <%= link_to "Reports", expenseDashboard_financial_records_path, class: "move-link #{'active' if active_tab == :reports}" %>
-  </div>
+    <div class="btn <%= active_tab == :expenseDashboard ? 'active' : '' %>">
+        <%= link_to "Expenses", expenseDashboard_financial_records_path, class: "move-link #{'active' if active_tab == :expenseDashboard}" %>
+    </div>
+    <div class="btn <%= active_tab == :club ? 'active' : '' %>">
+        <%= link_to "Clubs", clubs_path, class: "move-link #{'active' if active_tab == :club}" %>
+    </div>
+    <div class="btn <%= active_tab == :reports ? 'active' : '' %>">
+        <%= link_to "Reports", expenseDashboard_financial_records_path, class: "move-link #{'active' if active_tab == :reports}" %>
+    </div>
 </div>
