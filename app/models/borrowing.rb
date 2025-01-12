@@ -25,8 +25,16 @@ class Borrowing < ApplicationRecord
   before_create :reduce_stock_on_borrow
   before_destroy :restore_stock_on_destroy
   after_update :handle_overdue_status
+  before_save :check_and_update_status
+
 
   private
+
+  def check_and_update_status
+    if due_date < Date.today && status == "borrowed"
+      self.status = "overdue"
+    end
+  end
 
   def reduce_stock_on_borrow
     if equipment
