@@ -784,6 +784,8 @@ h2 {
 
 .page-title {
   font-size: 60px;
+  padding: 0px;
+  margin: 0px 0px 20px 0px;
 }
 
 .email {
@@ -1024,9 +1026,13 @@ nav a:hover {
   color-scheme: dark;
 }
 
-.parametersForm select {
-  /* styling */
+.parametersForm input[type="date"] {
   width: 180px;
+}
+
+.parametersForm select {
+  width: 220px;
+  /* styling */
   /* reset */
   background-image: linear-gradient(45deg, transparent 50%, white 50%),
     linear-gradient(135deg, white 50%, transparent 50%),
@@ -1041,6 +1047,10 @@ nav a:hover {
 
 .parametersForm .actions {
   padding-top: 0px;
+}
+
+.parametersForm .actions input {
+  width: 220px;
 }
 
 .chart-container {
@@ -1115,9 +1125,40 @@ tr:hover {
   color: #fff; /* Keep text readable */
 }
 
+.reportData span {
+  margin: 0px;
+  padding: 0px;
+}
+
+.reportData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.clean {
+  margin: 40px 0px 20px 0px;
+  padding: 0px;
+}
+
 @media only screen and (max-width: 700px) {
   .desktop-only {
     display: none;
+  }
+
+  .reportData {
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  table {
+    padding: 0px 20px;
+    border: none;
+    background-color: transparent;
   }
 
   .mobile-only {
@@ -1182,5 +1223,10 @@ tr:hover {
   .parametersForm form {
     align-items: center;
     justify-content: center;
+  }
+
+  .page-title {
+    font-size: 40px;
+    text-align: center;
   }
 }

@@ -1,55 +1,58 @@
-<!-- filepath: /Users/aminbihamta/Software Engineering/SIMS/app/views/reports/generated.html.erb -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generated Report</title>
+    <title>Document</title>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-    <%= javascript_include_tag 'application', type: "module" %>
-
-
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Generated Report</h1>
-        <p>Super Club: <%= @super_club.Club_Name %></p>
-        <p>Sub Club: <%= @sub_club.Club_Name %></p>
-        <p>Start Date: <%= @start_date %></p>
-        <p>End Date: <%= @end_date %></p>
-        <button onclick="window.print()">Print Report</button>
-
-        <h2>Expenses</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% @expenses.each do |expense| %>
-                <tr>
-                    <td><%= expense.Title %></td>
-                    <td><%= number_to_currency(expense.Amount, unit: "RM") %></td>
-                    <td><%= expense.created_at.strftime("%d/%m/%Y") %></td>
-                </tr>
-                <% end %>
-            </tbody>
-        </table>
-
-        <h2>Expenses Over Time</h2>
-        <%= line_chart @chart_data %>
-
-        <%= javascript_include_tag 'application' %>
+    <h1 class="page-title ">Generated Report</h1>
+    <div class="reportData">
+        <span>Super Club: <%= @super_club.Club_Name %></span>
+        <span>Sub Club: <%= @sub_club.Club_Name %></span>
+        <span>Start Date: <%= @start_date %></span>
+        <span>End Date: <%= @end_date %></span>
+        <button onclick=" window.print()" class="regularButtonYellow">Print Report</button>
     </div>
+
+    <h2 class="clean">All Expenses</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @expenses.each do |expense| %>
+            <tr>
+                <td><%= expense.Title %></td>
+                <td><%= number_to_currency(expense.Amount, unit: "RM") %></td>
+                <td><%= expense.created_at.strftime("%d/%m/%Y") %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <h2 class="clean">Expenses Over Time</h2>
+    <div class="desktop-only">
+        <%= line_chart @chart_data %>
+    </div>
+    <div class="mobile-only">
+        <%= line_chart @chart_data, width: "300px" %>
+    </div>
+    <%= javascript_include_tag 'application' %>
+
 
 </body>
 
