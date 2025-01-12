@@ -455,10 +455,6 @@ body.overlay-active .overlay {
   font-weight: 100;
 }
 
-.budgetDiv {
-  margin-bottom: 100px;
-}
-
 @media only screen and (max-width: 600px) {
   .clubsContainer {
     justify-content: center;
@@ -466,10 +462,6 @@ body.overlay-active .overlay {
 
   body {
     padding-top: 40px;
-  }
-
-  .budgetDiv {
-    margin-bottom: 60px;
   }
 }
 
@@ -595,7 +587,7 @@ button:hover {
 }
 
 .budgetDiv {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -605,10 +597,6 @@ button:hover {
 
   body {
     padding-top: 40px;
-  }
-
-  .budgetDiv {
-    margin-bottom: 60px;
   }
 }
 

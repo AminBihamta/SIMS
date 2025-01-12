@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 </head>
 
 <body>
@@ -24,12 +26,12 @@
     </div>
 
     <div class="buttonsContainer">
-        <%= link_to "Edit Club", edit_club_path(@parent_club), class: "btn btn-primary", data: { toggle: "modal", target: "#editClubModal" } %>
+        <%= link_to "Edit Club", edit_club_path(@parent_club), class: "regularButtonYellow", data: { toggle: "modal", target: "#editClubModal" } %>
     </div>
 
     <% if @parent_club.Is_Super_Club %>
     <div class="clubsContainerParent">
-        <h1>Sub Clubs</h1>
+        <h2 class="clean">Sub Clubs</h2>
         <div class="clubsContainer">
             <% @child_clubs.each do |club| %>
             <div class="club" data-club-id="<%= club.id %>" style="cursor: pointer;">
