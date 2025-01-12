@@ -1,81 +1,81 @@
  <%= render 'auth/PIC/sidebar' %>
-  
-  <!-- Top Navigation -->
-  <div>
-    <button>
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-      </svg>
-    </button>
-    <div>
-      <input type="search" placeholder="Search">
-    </div>
-    <button>
-      <div></div>
-    </button>
-  </div>
 
-  <!-- Welcome Message -->
-  <h1>
-    Welcome, <%= current_user.email.split('@').first %>
-  </h1>
+ <!-- Top Navigation -->
+ <div>
+     <button>
+         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+         </svg>
+     </button>
+     <div>
+         <input type="search" placeholder="Search">
+     </div>
+     <button>
+         <div></div>
+     </button>
+ </div>
 
-<!-- Notification Section -->
-<div class="notifications-container">
-  <h2>Latest Notifications</h2>
-  
-  <% @notifications.each do |notification| %>
-    <div class="notification-card <%= notification.status %>">
-      <div class="notification-content">
-        <p class="notification-message"><%= notification.message %></p>
-        <p class="notification-time">
-          Received: <%= notification.updated_at.strftime("%B %d, %Y %H:%M") %>
-        </p>
-        
-        <% if notification.borrowing %>
-          <div class="borrowing-details">
-            <p>Equipment: <%= notification.borrowing.equipment.Equipment_Name %></p>
-            <p>Due Date: <%= notification.borrowing.due_date.strftime("%B %d, %Y") %></p>
-            <% if notification.borrowing.status == "overdue" %>
-              <p class="overdue-warning">
-                Overdue by: <%= ((Time.current - notification.borrowing.due_date) / 1.day).to_i %> days
-              </p>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+ <!-- Welcome Message -->
+ <h1>
+     Welcome, <%= current_user.email.split('@').first %>
+ </h1>
 
-  <% if @notifications.empty? %>
-    <p>No new notifications</p>
-  <% end %>
-</div>
+ <!-- Notification Section -->
+ <div class="notifications-container">
+     <h2>Latest Notifications</h2>
 
-<!-- Latest Borrowed Section -->
-<div>
-  <h2>Latest Borrowed</h2>
-  <div>
-    <% @borrowings.each do |borrowing| %>
-      <div>
-        <div>
-          <div>
-            <h3><%= borrowing.equipment.Equipment_Name %></h3>
-            <% case borrowing.status %>
-            <% when :returned %>
-              <p>Equipment has been returned</p>
-            <% when :overdue %>
-              <p>Overdue by: <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days</p>
-            <% when :borrowed %>
-              <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
-            <% end %>
-          </div>
-          <div>
-            <p>Due on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
-            <%= link_to "View More", borrowing_path(borrowing) %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
+     <% @notifications.each do |notification| %>
+     <div class="notification-card <%= notification.status %>">
+         <div class="notification-content">
+             <p class="notification-message"><%= notification.message %></p>
+             <p class="notification-time">
+                 Received: <%= notification.updated_at.strftime("%B %d, %Y %H:%M") %>
+             </p>
+
+             <% if notification.borrowing %>
+             <div class="borrowing-details">
+                 <p>Equipment: <%= notification.borrowing.equipment.Equipment_Name %></p>
+                 <p>Due Date: <%= notification.borrowing.due_date.strftime("%B %d, %Y") %></p>
+                 <% if notification.borrowing.status == "overdue" %>
+                 <p class="overdue-warning">
+                     Overdue by: <%= ((Time.current - notification.borrowing.due_date) / 1.day).to_i %> days
+                 </p>
+                 <% end %>
+             </div>
+             <% end %>
+         </div>
+     </div>
+     <% end %>
+
+     <% if @notifications.empty? %>
+     <p>No new notifications</p>
+     <% end %>
+ </div>
+
+ <!-- Latest Borrowed Section -->
+ <div>
+     <h2>Latest Borrowed</h2>
+     <div>
+         <% @borrowings.each do |borrowing| %>
+         <div>
+             <div>
+                 <div>
+                     <h3><%= borrowing.equipment.Equipment_Name %></h3>
+                     <% case borrowing.status %>
+                     <% when :returned %>
+                     <p>Equipment has been returned</p>
+                     <% when :overdue %>
+                     <p>Overdue by: <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days</p>
+                     <% when :borrowed %>
+                     <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
+                     <% end %>
+                 </div>
+                 <div>
+                     <p>Due on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
+                     <%= link_to "View More", borrowing_path(borrowing) %>
+                 </div>
+             </div>
+         </div>
+         <% end %>
+     </div>
+ </div>

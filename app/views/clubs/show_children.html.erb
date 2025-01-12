@@ -18,7 +18,8 @@
             <h2><%= @parent_club.Club_Name %> Budget</h2>
         </div>
         <div class="budgetNumber">
-            <p>RM <%= number_to_currency(@total_budget, unit: "", delimiter: ",", precision: 2) %></p>
+            <p>RM <%= number_to_currency(@parent_club.Budget, unit: "", delimiter: ",", precision: 2) %></p>
+
         </div>
     </div>
 

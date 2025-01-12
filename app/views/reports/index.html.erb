@@ -1,53 +1,66 @@
-<!-- filepath: /Users/aminbihamta/Software Engineering/SIMS/app/views/reports/index.html.erb -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
-    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <title>Document</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Reports</h1>
-        <p>Welcome to the reports page.</p>
+    <h1 class="page-title">Reports</h1>
 
-        <%= form_with url: generate_reports_path, method: :get, local: true do |form| %>
-        <div class="field">
-            <%= form.label :super_club_id, "Super Club" %>
-            <%= form.collection_select :super_club_id, Club.where(Is_Super_Club: true), :id, :Club_Name, prompt: "Select Super Club" %>
+    <div class="chart-container">
+
+        <div class="desktop-only">
+            <%= pie_chart @allExpenses, width: "500px", height: "500px", legend: "bottom", prefix: "RM" %>
         </div>
 
-        <div class="field">
-            <%= form.label :sub_club_id, "Sub Club" %>
-            <%= form.collection_select :sub_club_id, [], :id, :Club_Name, prompt: "Select Sub Club" %>
+        <div class="mobile-only">
+            <%= pie_chart @allExpenses, width: "300px", height: "300px", legend: "bottom", prefix: "RM" %>
         </div>
 
-        <div class="field">
-            <%= form.label :start_date, "Start Date" %>
-            <%= form.date_field :start_date %>
+        <div class="parametersForm">
+            <h2>Generate Report</h2>
+            <%= form_with url: generate_reports_path, method: :get, local: true do |form|%>
+
+            <div class="field">
+                <%= form.label :super_club_id, "Super Club" %>
+                <%= form.collection_select :super_club_id, Club.where(Is_Super_Club: true), :id, :Club_Name, prompt: "Select Super Club" %>
+            </div>
+
+            <div class="field">
+                <%= form.label :sub_club_id, "Sub Club" %>
+                <%= form.collection_select :sub_club_id, [], :id, :Club_Name, prompt: "Select Sub Club" %>
+            </div>
+
+            <div class="field">
+                <%= form.label :start_date, "Start Date" %>
+                <%= form.date_field :start_date %>
+            </div>
+
+            <div class="field">
+                <%= form.label :end_date, "End Date" %>
+                <%= form.date_field :end_date %>
+            </div>
+
+            <div class="actions">
+                <%= form.submit "Generate Report", class: "regularButtonYellow" %>
+            </div>
+            <% end %>
         </div>
 
-        <div class="field">
-            <%= form.label :end_date, "End Date" %>
-            <%= form.date_field :end_date %>
-        </div>
+    </div>
+    <%= javascript_include_tag 'reports' %>
 
-        <div class="actions">
-            <%= form.submit "Generate Report" %>
-        </div>
-        <% end %>
-        <%= pie_chart @allExpenses, width: "1200px", height: "500px" %>
-
-        <%= javascript_include_tag 'reports' %>
-        <%= javascript_include_tag 'application' %>
-
+    <%= javascript_include_tag 'application' %>
 </body>
 
 </html>

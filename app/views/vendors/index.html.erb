@@ -1,42 +1,42 @@
 <%= render 'shared/header', search_url: vendors_path %>
 
 <div class="container">
-  <div class="sort">
-    <span>Sorted by Availability</span>
-    <span>
-      <%= image_tag 'filter-icon.svg', alt: 'Filter', style: 'width: 20px;' %>
-    </span>
-  </div>
-  <div class="cards">
-    <!-- Loop through equipment items -->
-    <% @vendors.each do |vendor| %>
-      <div class="card">
-        <div class="card-content">
-          <div class="card-title"><%= vendor.Name %></div>
-          <div class="details">
-            <!-- Add additional item details here if needed -->
-            <p>PIC: TBA</p>
-          </div>
-        </div>
-        <%= link_to image_tag('arrow-icon.svg'), vendor, class: "more-link" %>
-      </div>
-    <% end %>
-    <!-- "+" card to open the modal -->
-    <div class="card add-card">
-      <%= link_to image_tag('plus-icon.svg'), new_vendor_path, id: "open-overlay", class: "add-link" %>
+    <div class="sort">
+        <span>Sorted by Availability</span>
+        <span>
+            <%= image_tag 'filter-icon.svg', alt: 'Filter', style: 'width: 20px;' %>
+        </span>
     </div>
-  </div>
+    <div class="cards">
+        <!-- Loop through equipment items -->
+        <% @vendors.each do |vendor| %>
+        <div class="card">
+            <div class="card-content">
+                <div class="card-title"><%= vendor.Name %></div>
+                <div class="details">
+                    <!-- Add additional item details here if needed -->
+                    <p>PIC: TBA</p>
+                </div>
+            </div>
+            <%= link_to image_tag('arrow-icon.svg'), vendor, class: "more-link" %>
+        </div>
+        <% end %>
+        <!-- "+" card to open the modal -->
+        <div class="card add-card">
+            <%= link_to image_tag('plus-icon.svg'), new_vendor_path, id: "open-overlay", class: "add-link" %>
+        </div>
+    </div>
 </div>
 
 <div class="overlay" id="overlay" style="display: none;">
-  <div class="overlay-content">
-    <h1>Add New Vendor</h1>
-    <!-- Dynamic content (the form) will be loaded here -->
-    <div id="overlay-form-content">
-      <!-- Placeholder for form -->
+    <div class="overlay-content">
+        <h1>Add New Vendor</h1>
+        <!-- Dynamic content (the form) will be loaded here -->
+        <div id="overlay-form-content">
+            <!-- Placeholder for form -->
+        </div>
+        <button id="close-overlay">Cancel</button>
     </div>
-    <button id="close-overlay">Cancel</button>
-  </div>
 </div>
 
 <%= render 'shared/equipment_footer', active_tab: :vendor %>
