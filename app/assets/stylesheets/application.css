@@ -1229,4 +1229,8 @@ tr:hover {
     font-size: 40px;
     text-align: center;
   }
+
+  .clubsContainerParent h2 {
+    text-align: center;
+  }
 }

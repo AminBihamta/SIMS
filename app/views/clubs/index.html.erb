@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 </head>
 
 <body>
@@ -24,7 +27,7 @@
 
 
     <div class="clubsContainerParent">
-        <h1>Super Clubs</h1>
+        <h2 class="clean">Super Clubs</h2>
         <div class="clubsContainer">
             <% @clubs.each do |club| %>
             <div class="club" onclick="window.location='<%= show_children_club_path(club) %>'" style="cursor: pointer;">
