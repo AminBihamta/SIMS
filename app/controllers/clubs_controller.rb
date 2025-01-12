@@ -37,25 +37,26 @@ class ClubsController < ApplicationController
   end
 
 def update
-  @club = Club.find(params[:id])
-  @parent_club = @club.parent_club
+    @club = Club.find(params[:id])
+    @parent_club = @club.parent_club
 
-  if @club.update(club_params)
-    if @parent_club
-      total_budget = Club.where(Parent_Club: @parent_club.Club_ID).sum(:Budget)
+    if @club.update(club_params)
+      if @parent_club
+        total_budget = Club.where(Parent_Club: @parent_club.Club_ID).sum(:Budget)
 
-      unless @parent_club.update(Budget: total_budget)
-        Rails.logger.error "Failed to update parent club budget: #{@parent_club.errors.full_messages}"
+        unless @parent_club.update(Budget: total_budget)
+          Rails.logger.error "Failed to update parent club budget: #{@parent_club.errors.full_messages}"
+        end
+
+        redirect_to show_children_club_path(@parent_club.Club_ID)
+      else
+        redirect_to show_children_club_path(@club.Club_ID)
       end
+    else
+      @super_clubs = Club.where(Is_Super_Club: true)
+      render :edit, status: :unprocessable_entity
     end
-
-    redirect_to show_children_club_path(params[:club][:Parent_Club])
-  else
-    @super_clubs = Club.where(Is_Super_Club: true)
-    render :edit, status: :unprocessable_entity
   end
-end
-
 
 
   def destroy

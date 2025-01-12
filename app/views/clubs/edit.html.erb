@@ -7,8 +7,11 @@
     <title>Document</title>
     <%= stylesheet_link_tag 'formStyles', media: 'all', 'data-turbo-track': 'reload' %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+
 </head>
 
 <div class="container">
@@ -36,12 +39,12 @@
         <%= form.label :Parent_Club %>
         <%= form.collection_select :Parent_Club, @super_clubs, :id, :Club_Name, include_blank: true %>
     </div>
-    <% end %>
 
     <div class="field">
         <%= form.label :Budget %>
         <%= form.number_field :Budget %>
     </div>
+    <% end %>
 
     <div class="actions">
         <%= form.submit "Update Club" %>
@@ -55,3 +58,4 @@
 </body>
 
 </html>
+</div>

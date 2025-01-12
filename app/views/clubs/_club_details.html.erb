@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +18,7 @@
         <p>Parent Club: <%= club.parent_club&.Club_Name || "N/A" %></p>
 
         <div class="actions">
-            <%= link_to "Edit Club", edit_club_path(club), class: "btn btn-primary" %>
+            <%= link_to "Edit Club", edit_club_path(club), class: "regularButtonYellow" %>
         </div>
     </div>
 </body>
