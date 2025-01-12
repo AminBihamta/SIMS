@@ -36,12 +36,14 @@ class AuthController < ApplicationController
   end
 
   def sign_out
-    session.delete(:token)
-    session.delete(:email)
-    session.delete(:user_type)
-    session.delete(:club_id)
+    # Clear all session data
+    session.clear
+    
+    # Flash message for user feedback
     flash[:notice] = "Successfully signed out"
-    redirect_to signin_path
+    
+    # Redirect to root (home#index)
+    redirect_to root_path
   end
 
   private
