@@ -6,6 +6,15 @@
       "use": "@vercel/ruby"
     }
   ],
+  "env": {
+    "BUNDLE_WITHOUT": "development:test"
+  },
+  "build": {
+    "env": {
+      "BUNDLE_WITHOUT": "development:test"
+    },
+    "command": "./build.sh"
+  },
   "routes": [
     {
       "src": "/(.*)",
