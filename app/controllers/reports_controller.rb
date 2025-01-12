@@ -1,7 +1,7 @@
 # filepath: /Users/aminbihamta/Software Engineering/SIMS/app/controllers/reports_controller.rb
 class ReportsController < ApplicationController
   def index
-  @allExpenses = FinancialRecord.joins(club: :parent_club)
+    @allExpenses = FinancialRecord.joins(club: :parent_club)
                                   .group("parent_clubs_clubs.Club_Name")
                                   .sum(:Amount)
   end
