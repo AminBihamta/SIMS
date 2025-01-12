@@ -1054,6 +1054,67 @@ nav a:hover {
   display: none;
 }
 
+table {
+  width: 100%;
+  border-collapse: separate; /* For rounded corners */
+  border-spacing: 0; /* Remove spacing between cells */
+  background-color: #001a1a; /* Match the background color */
+  color: #fff; /* Apply the text color */
+  border: 1px solid #ccf2c2; /* Border color for the table */
+  border-radius: 20px; /* Rounded corners for the table */
+  overflow: hidden; /* Hide overflow for rounded corners */
+}
+
+/* Text style for all table text */
+th,
+td {
+  font-family: Cabin, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  line-height: normal;
+  color: #fff; /* Ensure text is white */
+  padding: 15px;
+  border: 1px solid #ccf2c2; /* Cell border color */
+  text-align: center; /* Center align text */
+}
+
+/* Header styling */
+thead th {
+  background-color: #003333; /* Dark header background */
+  color: #fff; /* White text for headers */
+  font-weight: 700; /* Ensure bold text */
+}
+
+/* Body styling */
+tbody td {
+  background-color: transparent; /* No background for cells */
+  color: #fff; /* Ensure text is white */
+  font-weight: 100;
+}
+
+/* Rounded corners for the table */
+thead th:first-child {
+  border-radius: 20px 0 0 0; /* Top-left corner */
+}
+
+thead th:last-child {
+  border-radius: 0 20px 0 0; /* Top-right corner */
+}
+
+tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 20px; /* Bottom-left corner */
+}
+
+tbody tr:last-child td:last-child {
+  border-radius: 0 0 20px 0; /* Bottom-right corner */
+}
+
+/* Hover effect */
+tr:hover {
+  background-color: #004d4d; /* Slightly lighter shade */
+  color: #fff; /* Keep text readable */
+}
+
 @media only screen and (max-width: 700px) {
   .desktop-only {
     display: none;
