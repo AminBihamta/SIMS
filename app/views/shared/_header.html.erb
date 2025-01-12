@@ -1,4 +1,5 @@
 <header>
+  <%= stylesheet_link_tag 'equipments/application', media: 'all' %>
   <a href="<%= request.referer || root_path %>" onclick="history.back(); return false;" class="back-link">
     <%= image_tag 'back-icon.svg', alt: 'Back' %>
   </a>

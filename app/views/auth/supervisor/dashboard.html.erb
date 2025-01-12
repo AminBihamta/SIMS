@@ -1,17 +1,54 @@
 <div class="container mx-auto p-4">
   <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <!-- Welcome Text -->
     <h1 class="text-2xl font-bold mb-4">System Dashboard</h1>
-    
     <div class="mb-4">
       <p>Welcome, <%= current_user&.email %></p>
       <p>
-  <% if current_user&.is_supervisor == true %>
-    You are a supervisor
-  <% else %>
-    You are a <%= current_user&.role %>
-  <% end %>
-</p>
+        <% if current_user&.is_supervisor == true %>
+          You are a supervisor
+        <% else %>
+          You are a <%= current_user&.role %>
+        <% end %>
+      </p>
     </div>
 
-    
+    <!-- Quick Actions -->
+    <div class="quick-actions mb-4">
+      <button class="btn btn-primary">Send a Notification</button>
+      <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "btn btn-secondary" %>
+      <button class="btn btn-primary">Generate a Report</button>
+    </div>
+
+    <!-- Latest Borrowings Section -->
+    <div class="latest-borrowings">
+      <h2 class="text-xl font-bold mb-4">Latest Borrowings</h2>
+      <% if @borrowings.any? %>
+        <table class="table-auto w-full">
+          <thead>
+            <tr>
+              <th class="px-4 py-2">Equipment Name</th>
+              <th class="px-4 py-2">Borrower</th>
+              <th class="px-4 py-2">Borrow Date</th>
+              <th class="px-4 py-2">Due Date</th>
+              <th class="px-4 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @borrowings.each do |borrowing| %>
+              <tr>
+                <td class="border px-4 py-2"><%= borrowing.equipment.Equipment_Name %></td>
+                <td class="border px-4 py-2"><%= borrowing.club.Club_Name %></td>
+                <td class="border px-4 py-2"><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
+                <td class="border px-4 py-2"><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
+                <td class="border px-4 py-2"><%= borrowing.status.capitalize %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>No borrowings found.</p>
+      <% end %>
+    </div>
+  </div>
 </div>
