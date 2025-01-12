@@ -36,11 +36,28 @@ class PicController < ApplicationController
 
   def balance_sheet
     @club_id = session[:club_id]
+    
+    # Date range filter
+    range = params[:date_range] || '1-month'
+    start_date = case range
+      when '1-month'
+        1.month.ago
+      when '6-months'
+        6.months.ago
+      when '1-year'
+        1.year.ago
+      else
+        100.years.ago # effectively all records
+      end
 
     @financial_records = FinancialRecord
       .where(Club_ID: @club_id)
+      .where('Created_At >= ?', start_date)
       .includes(:equipment)
-      .order(Created_At: :desc)
+      .order(created_at: :desc)
+
+    # Calculate total expenses for the selected period
+    @total_expenses = @financial_records.sum(:Amount)
 
     render "auth/PIC/balance_sheet"
   end

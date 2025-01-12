@@ -10,6 +10,31 @@
 <body>
   <%= render 'auth/PIC/sidebar' %>
 
+  <!-- Total Expenses Section -->
+  <div class="expenses-header">
+    <div class="total-expenses">
+      <h2>Total Club Expenses:</h2>
+      <h1>
+        <%= number_to_currency(@total_expenses, unit: "MYR ", precision: 2) %>
+      </h1>
+    </div>
+
+    <!-- Date Range Selector -->
+    <div class="date-range-selector">
+      <%= form_with url: pic_balance_sheet_path, method: :get, local: true, class: "date-form" do |f| %>
+        <%= f.select :date_range,
+          options_for_select([
+            ['Past Month', '1-month'],
+            ['Past 6 Months', '6-months'],
+            ['Past Year', '1-year'],
+            ['All Time', 'all']
+          ], selected: params[:date_range] || '1-month'),
+          {}, { onchange: 'this.form.submit()' }
+        %>
+      <% end %>
+    </div>
+  </div>
+
   <!-- Page Title -->
   <h1>Balance Sheet</h1>
 
@@ -29,10 +54,10 @@
         <% @financial_records.each do |record| %>
           <tr>
             <td><%= record.Title %></td>
-             <td><%= record.equipment&.Equipment_Name || "N/A" %></td>
+            <td><%= record.equipment&.Equipment_Name || "N/A" %></td>
             <td><%= record.Quantity %></td>
-            <td><%= number_to_currency(record.Amount, unit: "RM") %></td>
-            <td><%= record.Created_At.strftime("%d/%m/%Y") %></td>
+            <td><%= number_to_currency(record.Amount, unit: "RM ") %></td>
+            <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
           </tr>
         <% end %>
       </tbody>
@@ -42,5 +67,6 @@
       <p>No financial records found for this club.</p>
     <% end %>
   </div>
+
 </body>
 </html>
