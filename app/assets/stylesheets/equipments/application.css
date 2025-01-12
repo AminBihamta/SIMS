@@ -223,7 +223,7 @@ h2 {
 }
 
 .footer {
-    position: absolute;
+    position: sticky;
     bottom: 0;
     display: flex;
     justify-content: center;
