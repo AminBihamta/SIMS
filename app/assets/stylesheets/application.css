@@ -778,6 +778,12 @@ h2 {
 
 .welcome {
   font-size: 80px;
+  padding: 0px;
+  margin: 0px 0px 40px 0px;
+}
+
+.page-title {
+  font-size: 60px;
 }
 
 .email {
@@ -905,63 +911,69 @@ nav a:hover {
   gap: 10px;
 }
 .regularButtonYellow {
-  border: 1px solid var(--Third-Color);
-  text-align: center;
-  background-color: var(--Background);
-  color: var(--Third-Color);
-  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  text-decoration: none;
-  text-align: center;
+  border: 1px solid var(--Third-Color) !important;
+  text-align: center !important;
+  background-color: var(--Background) !important;
+  color: var(--Third-Color) !important;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  padding: 10px 20px !important;
 }
 
 .regularButtonYellow:hover {
-  background-color: var(--Third-Color);
-  color: var(--Background);
-  transform: scale(1.05);
+  background-color: var(--Third-Color) !important;
+  color: var(--Background) !important;
+  cursor: pointer;
+  transform: scale(1.05) !important;
 }
 
 .regularButtonGreen {
-  border: 1px solid var(--Highlight-Color);
-  text-align: center;
-  color: var(--Highlight-Color);
-  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  text-decoration: none;
-  text-align: center;
-  background-color: var(--Background);
+  border: 1px solid var(--Highlight-Color) !important;
+  text-align: center !important;
+  color: var(--Highlight-Color) !important;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  background-color: var(--Background) !important;
+  padding: 10px 20px !important;
 }
 
 .regularButtonGreen:hover {
-  background-color: var(--Highlight-Color);
-  color: var(--Background);
-  transform: scale(1.05);
+  background-color: var(--Highlight-Color) !important;
+  color: var(--Background) !important;
+  transform: scale(1.05) !important;
+  cursor: pointer;
 }
 
 .regularButtonWhite {
-  border: 1px solid white;
-  text-align: center;
-  color: white;
-  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  text-decoration: none;
-  text-align: center;
-  background-color: var(--Background);
+  border: 1px solid white !important;
+  text-align: center !important;
+  color: white !important;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  background-color: var(--Background) !important;
+  padding: 10px 20px !important;
 }
 
 .regularButtonWhite:hover {
-  background-color: white;
-  color: var(--Background);
-  transform: scale(1.05);
+  background-color: white !important;
+  color: var(--Background) !important;
+  transform: scale(1.05) !important;
+  cursor: pointer;
 }
 
 .burgerMenu {
@@ -976,7 +988,83 @@ nav a:hover {
   display: none;
 }
 
+.parametersForm {
+  display: flex;
+  flex-direction: column;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.parametersForm h2 {
+  margin: 0px 0px 20px 0px;
+  padding: 0px;
+}
+
+.parametersForm form {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 20px;
+  align-items: start;
+}
+
+.parametersForm .field {
+  display: flex;
+  flex-direction: column;
+}
+
+.parametersForm select,
+.parametersForm input {
+  padding: 10px 20px;
+  border: 1px solid white;
+  border-radius: 12px;
+  background-color: var(--Background);
+  color: white;
+  margin-top: 10px;
+  color-scheme: dark;
+}
+
+.parametersForm select {
+  /* styling */
+  width: 180px;
+  /* reset */
+  background-image: linear-gradient(45deg, transparent 50%, white 50%),
+    linear-gradient(135deg, white 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.parametersForm .actions {
+  padding-top: 0px;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  vertical-align: middle;
+}
+
+.mobile-only {
+  display: none;
+}
+
 @media only screen and (max-width: 700px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+  .chart-container {
+    flex-direction: column-reverse;
+  }
   .auth-containerr > div {
     width: 80%;
   }
@@ -1021,5 +1109,17 @@ nav a:hover {
 
   .burgerMenu svg {
     display: block;
+  }
+
+  .parametersForm .field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .parametersForm form {
+    align-items: center;
+    justify-content: center;
   }
 }
