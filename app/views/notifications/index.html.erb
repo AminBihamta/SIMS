@@ -123,6 +123,7 @@
     <thead>
         <tr>
             <th>Message</th>
+            <th>Equipment</th>
             <% if supervisor? %>
 
             <th>Status</th>
@@ -136,10 +137,6 @@
             <th>Received At</th>
             <% end %>
 
-            <% if supervisor? %>
-
-            <th>Actions</th>
-            <% end %>
 
         </tr>
     </thead>
@@ -147,16 +144,13 @@
         <% @notifications.each do |notification| %>
         <tr>
             <td><%= notification.message %></td>
+            <td><%= notification.borrowing.equipment.Equipment_Name %></td>
             <% if supervisor? %>
             <td><%= notification.status %></td>
             <% end %>
 
             <td><%= notification.triggered_at.strftime('%d/%m/%Y %H:%M') %></td>
             <% if supervisor? %>
-
-            <td>
-                <%= button_to "Resend", resend_notification_path(notification), method: :post, class: "action-button" %>
-            </td>
             <% end %>
 
         </tr>
