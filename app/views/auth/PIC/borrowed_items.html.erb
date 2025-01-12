@@ -1,14 +1,4 @@
-<!-- app/views/auth/PIC/borrowed_items.html.erb -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Borrowed Items - PIC</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-</head>
-
-<body>
-  <%= render 'auth/PIC/sidebar' %>
+<%= render 'auth/PIC/sidebar' %>
 
   <!-- Page Title -->
   <h1>Borrowed Items</h1>
@@ -32,11 +22,11 @@
             <td><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
             <td>
               <% case borrowing.status %>
-              <% when "returned" %>
+              <% when :returned %>
                 Returned
-              <% when "overdue" %>
+              <% when :overdue %>
                 <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days overdue
-              <% when "borrowed" %>
+              <% when :borrowed %>
                 Due in <%= (borrowing.due_date.to_date - Date.current).to_i %> days
               <% end %>
             </td>
@@ -49,5 +39,3 @@
       <p>No borrowed items found for this club.</p>
     <% end %>
   </div>
-</body>
-</html>
