@@ -1,30 +1,53 @@
-<div>
-    <h2>Total Budget: RM<%= @total_budget %></h2>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<table>
-    <tbody>
-        <% @clubs.each do |club| %>
-        <tr>
-            <td><%= club.Club_Name %></td>
-            <td>RM<%= club.Budget %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%= stylesheet_link_tag 'clubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="budgetDiv">
+        <div class="budget">
+            <h2>Total Budget</h2>
+        </div>
+        <div class="budgetNumber">
+            <p>RM <%= number_to_currency(@total_budget, unit: "", delimiter: ",", precision: 2) %></p>
+        </div>
+    </div>
 
 
+    <div class="clubsContainerParent">
+        <h1>Super Clubs</h1>
+        <div class="clubsContainer">
+            <% @clubs.each do |club| %>
+            <div class="club" onclick="window.location='<%= show_children_club_path(club) %>'" style="cursor: pointer;">
+                <div class="clubDetails">
+                    <h2><%= club.Club_Name %></h2>
+                    <p>RM <%= number_to_currency(club.Budget, unit: "", delimiter: ",", precision: 2) %></p>
 
-<h1>Super Clubs</h1>
-<table>
-    <tbody>
-        <% @clubs.each do |club| %>
-        <tr onclick="window.location='<%= show_children_club_path(club) %>'" style="cursor: pointer;">
-            <td><%= club.Club_Name %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-<div>
-    <%= button_to "Add a Super Club", new_super_club_clubs_path, method: :get, class: "btn btn-primary" %>
-</div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28" fill="none">
+                    <path d="M0 3.23375L2.69167 0.5L16 14L2.69167 27.5L0 24.7663L10.6083 14L0 3.23375Z" fill="#CCF2C2" />
+                </svg>
+            </div>
+            <% end %>
+            <a class="club" href="<%= new_super_club_clubs_path %>" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M25.7687 11.6667H16.3333V2.23125C16.3333 0.998958 15.2906 0 14 0C12.7094 0 11.6667 0.998958 11.6667 2.23125V11.6667H2.23125C0.998958 11.6667 0 12.7094 0 14C0 15.2906 0.998958 16.3333 2.23125 16.3333H11.6667V25.7687C11.6667 27.001 12.7094 28 14 28C15.2906 28 16.3333 27.001 16.3333 25.7687V16.3333H25.7687C27.001 16.3333 28 15.2906 28 14C28 12.7094 27.001 11.6667 25.7687 11.6667Z" fill="#072326" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

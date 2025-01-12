@@ -18,15 +18,16 @@
         <%= form.text_field :Club_Name %>
     </div>
 
-    <div class="field">
-        <%= form.label :Parent_Club %>
-        <%= form.collection_select :Parent_Club, @super_clubs, :id, :Club_Name, include_blank: true, selected: @club.Parent_Club %>
-    </div>
+    <%= form.hidden_field :Parent_Club, value: @club.Parent_Club %>
+
 
     <div class="field">
         <%= form.label :Budget %>
         <%= form.number_field :Budget %>
     </div>
+
+    <%= form.hidden_field :Is_Super_Club, value: false %>
+
 
     <div class="actions">
         <%= form.submit "Create Sub Club" %>

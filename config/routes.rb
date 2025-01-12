@@ -14,7 +14,9 @@ Rails.application.routes.draw do
     get "PIC/balance_sheet", to: "pic#balance_sheet", as: :pic_balance_sheet
     
     # Borrowings routes
-  resources :borrowings, except: [:show] do
+
+  get "reports/index"
+  resources :borrowings do
     collection do
       get :super_club_borrowings
       get :sub_club_borrowings
@@ -54,21 +56,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :financial_records, only: [ :create, :edit, :update, :index, :show, :destroy ] do
-    collection do
-      get :expenseForm, as: :expense_form
-      get :expenseDashboard
-      get :super_club_expenses
-      get :sub_club_expenses
-    end
+  get "/reports", to: "reports#index"
+  get "/reports/generate", to: "reports#generate", as: :generate_reports
+  get "/clubs/:id/sub_clubs", to: "clubs#sub_clubs"
 
-    member do
-      get :all_super_expenses
-      get :all_sub_expenses
-      get :expense_details
-      get :delete_confirmation
-    end
-  end
 
   # Equipment Routes
   resources :equipments do
@@ -89,6 +80,8 @@ Rails.application.routes.draw do
       patch :return
     end
   end
+  # Define the route for club_created
+  get "club_created", to: "clubs#club_created", as: :club_created
 
   # Set the root route to the sign-in page
   root to: "auth#signin_new"

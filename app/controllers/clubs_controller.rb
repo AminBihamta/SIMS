@@ -12,12 +12,23 @@ class ClubsController < ApplicationController
   def show_children
     @parent_club = Club.find(params[:id])
     @child_clubs = Club.where(Parent_Club: @parent_club.Club_ID)
+    @total_budget = @child_clubs.sum(:Budget)
+  end
+
+  def show
+    @club = Club.find(params[:id])
+    render partial: "club_details", locals: { club: @club }
   end
 
   def new_sub_club
-    @club = Club.new(Is_Super_Club: false, Parent_Club: params[:parent_club_id])
+    @club = Club.new(Is_Super_Club: false, Parent_Club: params[:super_club_id])
     @super_clubs = Club.where(Is_Super_Club: true)
     render :new_sub_club
+  end
+
+  def sub_clubs
+    @sub_clubs = Club.where(Parent_Club: params[:id])
+    render json: @sub_clubs
   end
 
   def edit
@@ -28,23 +39,31 @@ class ClubsController < ApplicationController
   def update
     @club = Club.find(params[:id])
     if @club.update(club_params)
-      redirect_to clubs_path, notice: "Club updated successfully."
+        redirect_to show_children_club_path(params[:id])
     else
       @super_clubs = Club.where(Is_Super_Club: true)
       render :edit, status: :unprocessable_entity
     end
   end
 
+  def destroy
+    @club = Club.find(params[:id])
+    @club.destroy
+    redirect_to clubs_path, notice: "Club deleted successfully."
+  end
+
+  def sub_clubs
+    @sub_clubs = Club.where(Parent_Club: params[:id])
+    render json: @sub_clubs
+  end
+
   def create
     @club = Club.new(club_params)
     if @club.save
-      redirect_to club_created_path
-    else
       if @club.Is_Super_Club
-        render :new_super_club, status: :unprocessable_entity
+        redirect_to clubs_path, notice: "Club created successfully."
       else
-        @super_clubs = Club.where(Is_Super_Club: true)
-        render :new_sub_club, status: :unprocessable_entity
+        redirect_to show_children_club_path(params[:club][:Parent_Club])
       end
     end
   end

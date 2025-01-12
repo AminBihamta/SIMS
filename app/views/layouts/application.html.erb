@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>YourApp</title>
+
+<head>
+    <title>SIMS</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
-  </head>
+    <!-- Include global stylesheets -->
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application", defer: true %>
+    <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+    <!-- Include page-specific stylesheets -->
+    <%= yield :stylesheets %>
+</head>
 
-  <body>
+<body>
     <%= yield %>
+</body>
 
-  </body>
 </html>

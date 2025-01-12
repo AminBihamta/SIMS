@@ -60,7 +60,9 @@ p {
   text-align: center;
 }
 
-input {
+input,
+select,
+button {
   padding: 15px;
   border-radius: 60px;
 }
@@ -70,7 +72,11 @@ h2 {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select,
+button {
   border-radius: 50;
   background-color: transparent;
   border: 1px solid var(--Highlight-Color);
@@ -82,7 +88,8 @@ input::placeholder {
   color: var(--Highlight-Color);
 }
 
-input[type="submit"] {
+input[type="submit"],
+button {
   background-color: #eef26b;
   color: var(--Background);
   border: none;
@@ -94,7 +101,8 @@ input[type="submit"] {
   transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+button:hover {
   background-color: var(--Highlight-Color);
 }
 
@@ -123,4 +131,35 @@ html {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.container {
+  width: 100%;
+  justify-self: center;
+}
+
+.field {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  width: 300px;
+}
+.field label {
+  margin-bottom: 10px;
+  color: white;
+}
+.actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.actions .danger {
+  background-color: #c50000;
+  color: white;
+}
+
+.actions .danger:hover {
+  background-color: #850000;
 }

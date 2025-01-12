@@ -1,0 +1,53 @@
+<!-- filepath: /Users/aminbihamta/Software Engineering/SIMS/app/views/reports/index.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Reports</h1>
+        <p>Welcome to the reports page.</p>
+
+        <%= form_with url: generate_reports_path, method: :get, local: true do |form| %>
+        <div class="field">
+            <%= form.label :super_club_id, "Super Club" %>
+            <%= form.collection_select :super_club_id, Club.where(Is_Super_Club: true), :id, :Club_Name, prompt: "Select Super Club" %>
+        </div>
+
+        <div class="field">
+            <%= form.label :sub_club_id, "Sub Club" %>
+            <%= form.collection_select :sub_club_id, [], :id, :Club_Name, prompt: "Select Sub Club" %>
+        </div>
+
+        <div class="field">
+            <%= form.label :start_date, "Start Date" %>
+            <%= form.date_field :start_date %>
+        </div>
+
+        <div class="field">
+            <%= form.label :end_date, "End Date" %>
+            <%= form.date_field :end_date %>
+        </div>
+
+        <div class="actions">
+            <%= form.submit "Generate Report" %>
+        </div>
+        <% end %>
+        <%= pie_chart @allExpenses, width: "1200px", height: "500px" %>
+
+        <%= javascript_include_tag 'reports' %>
+        <%= javascript_include_tag 'application' %>
+
+</body>
+
+</html>

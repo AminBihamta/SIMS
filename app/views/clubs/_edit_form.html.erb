@@ -1,0 +1,37 @@
+<div class="container">
+    <h1>Edit Club</h1>
+
+    <%= form_with(model: club, local: true) do |form| %>
+    <% if club.errors.any? %>
+    <div id="error_explanation">
+        <h2><%= pluralize(club.errors.count, "error") %> prohibited this club from being saved:</h2>
+        <ul>
+            <% club.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+    <% end %>
+
+    <div class="field">
+        <%= form.label :Club_Name %>
+        <%= form.text_field :Club_Name %>
+    </div>
+
+    <% unless club.Is_Super_Club %>
+    <div class="field">
+        <%= form.label :Parent_Club %>
+        <%= form.collection_select :Parent_Club, @super_clubs, :id, :Club_Name, include_blank: true %>
+    </div>
+    <% end %>
+
+    <div class="field">
+        <%= form.label :Budget %>
+        <%= form.number_field :Budget %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit "Update Club" %>
+    </div>
+    <% end %>
+</div>

@@ -13,15 +13,15 @@
     </div>
     <% end %>
 
+    <%= form.hidden_field :Is_Super_Club, value: true %>
+
     <div class="field">
         <%= form.label :Club_Name %>
         <%= form.text_field :Club_Name %>
     </div>
 
-    <div class="field">
-        <%= form.label :Budget %>
-        <%= form.number_field :Budget %>
-    </div>
+    <%= form.hidden_field :Budget, value: 0 %>
+
 
     <div class="actions">
         <%= form.submit "Create Super Club" %>

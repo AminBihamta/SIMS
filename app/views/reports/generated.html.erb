@@ -1,0 +1,56 @@
+<!-- filepath: /Users/aminbihamta/Software Engineering/SIMS/app/views/reports/generated.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Report</title>
+    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= javascript_include_tag 'application', type: "module" %>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Generated Report</h1>
+        <p>Super Club: <%= @super_club.Club_Name %></p>
+        <p>Sub Club: <%= @sub_club.Club_Name %></p>
+        <p>Start Date: <%= @start_date %></p>
+        <p>End Date: <%= @end_date %></p>
+        <button onclick="window.print()">Print Report</button>
+
+        <h2>Expenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @expenses.each do |expense| %>
+                <tr>
+                    <td><%= expense.Title %></td>
+                    <td><%= number_to_currency(expense.Amount, unit: "RM") %></td>
+                    <td><%= expense.created_at.strftime("%d/%m/%Y") %></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <h2>Expenses Over Time</h2>
+        <%= line_chart @chart_data %>
+
+        <%= javascript_include_tag 'application' %>
+    </div>
+
+</body>
+
+</html>

@@ -1,15 +1,72 @@
-<h1><%= @parent_club.Club_Name %> budget <%= @parent_club.Budget %></h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<%= button_to "Edit Club", edit_club_path(@parent_club), method: :get, class: "btn btn-primary" %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%= stylesheet_link_tag 'subClubsStyles', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
 
-<table>
-    <tbody>
-        <% @child_clubs.each do |club| %>
-        <tr onclick="window.location='<%= edit_club_path(club) %>'" style="cursor: pointer;">
-            <td><%= club.Club_Name %></td>
-            <td><%= club.Budget %></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-<%= button_to "Create new sub club", new_sub_club_clubs_path(parent_club_id: @parent_club.id), method: :get, class: "btn btn-secondary" %>
+<body>
+    <div class="budgetDiv">
+        <div class="budget">
+            <h2><%= @parent_club.Club_Name %> Budget</h2>
+        </div>
+        <div class="budgetNumber">
+            <p>RM <%= number_to_currency(@total_budget, unit: "", delimiter: ",", precision: 2) %></p>
+        </div>
+    </div>
+
+    <div class="buttonsContainer">
+        <%= link_to "Edit Club", edit_club_path(@parent_club), class: "btn btn-primary", data: { toggle: "modal", target: "#editClubModal" } %>
+    </div>
+
+    <% if @parent_club.Is_Super_Club %>
+    <div class="clubsContainerParent">
+        <h1>Sub Clubs</h1>
+        <div class="clubsContainer">
+            <% @child_clubs.each do |club| %>
+            <div class="club" data-club-id="<%= club.id %>" style="cursor: pointer;">
+                <div class="clubDetails">
+                    <h2><%= club.Club_Name %></h2>
+                    <p>RM <%= number_to_currency(club.Budget, unit: "", delimiter: ",", precision: 2) %></p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28" fill="none">
+                    <path d="M0 3.23375L2.69167 0.5L16 14L2.69167 27.5L0 24.7663L10.6083 14L0 3.23375Z" fill="#CCF2C2" />
+                </svg>
+            </div>
+            <% end %>
+            <a class="club" href="<%= new_sub_club_clubs_path(super_club_id: @parent_club.id) %>" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M25.7687 11.6667H16.3333V2.23125C16.3333 0.998958 15.2906 0 14 0C12.7094 0 11.6667 0.998958 11.6667 2.23125V11.6667H2.23125C0.998958 11.6667 0 12.7094 0 14C0 15.2906 0.998958 16.3333 2.23125 16.3333H11.6667V25.7687C11.6667 27.001 12.7094 28 14 28C15.2906 28 16.3333 27.001 16.3333 25.7687V16.3333H25.7687C27.001 16.3333 28 15.2906 28 14C28 12.7094 27.001 11.6667 25.7687 11.6667Z" fill="#072326" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <% end %>
+
+    <!-- Modal Structure for Club Details -->
+    <div id="clubModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalClubDetails"></div>
+        </div>
+    </div>
+
+    <!-- Modal Structure for Edit Club -->
+    <div id="editClubModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalEditClub"></div>
+        </div>
+    </div>
+
+    <%= javascript_include_tag 'clubs' %>
+</body>
+
+</html>
