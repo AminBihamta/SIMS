@@ -75,6 +75,8 @@ Rails.application.routes.draw do
     end
   end
 
+    patch "/clubs/:id/update_budget", to: "clubs#update_parent_club_budget", as: :update_parent_club_budget
+
   resources :borrowings, only: [] do
     member do
       patch :return

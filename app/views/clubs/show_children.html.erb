@@ -20,6 +20,10 @@
         <div class="budgetNumber">
             <p>RM <%= number_to_currency(@total_budget, unit: "", delimiter: ",", precision: 2) %></p>
         </div>
+        <div class="budgetNumber">
+            <p>RM <%= number_to_currency(@parent_club.Budget, unit: "", delimiter: ",", precision: 2) %></p>
+
+        </div>
     </div>
 
     <div class="buttonsContainer">
