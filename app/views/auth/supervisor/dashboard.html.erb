@@ -15,7 +15,7 @@
 
     <!-- Quick Actions -->
     <div class="quick-actions mb-4">
-      <button class="btn btn-primary">Send a Notification</button>
+      <%= link_to "Send a Notification" , notifications_path, class: "btn btn-primary" %>
       <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "btn btn-secondary" %>
       <button class="btn btn-primary">Generate a Report</button>
     </div>

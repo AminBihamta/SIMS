@@ -1,123 +1,7 @@
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #072326;
-        color: #e6f2ef;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-    }
-
-    .container {
-        text-align: center;
-        width: 70%;
-        max-width: 700px;
-    }
-
-    .title {
-        font-size: 2em;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    table {
-        width: 70%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 0 auto;
-        background-color: #072326;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 2px solid #072326;
-        color: #FFFFFF;
-    }
-
-    th {
-        background-color: #b2e3b4;
-        color: #072326;
-        font-weight: bold;
-        padding: 10px;
-        text-align: left;
-        border-bottom: 2px solid #072326;
-    }
-
-    td {
-        padding: 15px;
-        text-align: left;
-        border: 2px solid #CCF2C2;
-    }
-
-    /* General Styling for Links and Buttons */
-    .action-link,
-    .action-button {
-        background: #F5F5F5;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 20px;
-        cursor: pointer;
-        display: inline-flex;
-        /* Ensure consistent alignment */
-        align-items: center;
-        /* Align text and icon */
-        justify-content: center;
-        /* Center text and icon */
-        margin: 5px;
-        /* Add spacing between buttons */
-        text-align: center;
-        text-decoration: none;
-        /* Remove underline for links */
-        color: #072326;
-        /* Default text color */
-        width: 120px;
-        /* Set a fixed width for uniform size */
-        box-sizing: border-box;
-        /* Ensure padding doesn't affect width */
-    }
-
-    .action-link:hover,
-    .action-button:hover {
-        background-color: #CCF2C2;
-        /* Light background on hover */
-        color: #072326;
-        /* Darker text on hover */
-    }
-
-    /* Back Button Styling */
-    .back-button {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 10px 20px;
-        background-color: #b2e3b4;
-        color: #072326;
-        border: 2px solid #CCF2C2;
-        border-radius: 8px;
-        text-decoration: none;
-        font-size: 1em;
-        font-weight: bold;
-        cursor: pointer;
-        text-align: center;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .back-button:hover {
-        background-color: #d8f6e1;
-        color: #072326;
-    }
-</style>
-
 <!-- Back Button -->
 <a href="/borrowings" class="back-button">← Back to Borrowing Page</a>
 
 <h1>Notifications History</h1>
-
-<!-- Back Button -->
-<div class="back-button">
-</div>
 
 <table>
   <thead>
@@ -129,40 +13,27 @@
     </tr>
   </thead>
   <tbody>
-    <div class="notifications-container">
-  <h1>Notifications</h1>
-
-  <% @notifications.each do |notification| %>
-    <div class="notification-item <%= notification.status %>" id="notification-<%= notification.id %>">
-      <div class="notification-header">
-        <span class="notification-type"><%= notification.notification_type %></span>
-        <span class="notification-status"><%= notification.status.titleize %></span>
-        <span class="notification-date"><%= notification.triggered_at.strftime("%B %d, %Y %H:%M") %></span>
-      </div>
-
-      <div class="notification-message">
-        <%= notification.message %>
-      </div>
-
-      <div class="notification-actions">
-        <%= link_to "View Details", notification_path(notification), class: "btn btn-info" %>
-        
-        <% if notification.status != "delivered" && notification.notification_type == "Overdue" %>
-          <%= button_to "Send to PIC", 
-                      send_to_pic_notification_path(notification), 
-                      method: :post, 
-                      class: "btn btn-warning",
-                      data: { confirm: "Are you sure you want to send this overdue notification?" } %>
-        <% end %>
-
-        <% if notification.status == "delivered" %>
-          <%= button_to "Resend", 
-                      resend_notification_path(notification), 
-                      method: :post, 
-                      class: "btn btn-secondary",
-                      data: { confirm: "Are you sure you want to resend this notification?" } %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-</div>
+    <% @notifications.each do |notification| %>
+      <tr class="<%= notification.status %>" id="notification-<%= notification.id %>">
+        <td>
+          <div class="notification-message">
+            <%= notification.message %>
+          </div>
+        </td>
+        <td>
+          <span class="notification-status"><%= notification.status.titleize %></span>
+        </td>
+        <td>
+          <span class="notification-date"><%= notification.triggered_at.strftime("%B %d, %Y %H:%M") %></span>
+        </td>
+        <td>
+          <% if notification.status != "delivered" && notification.notification_type == "Overdue" %>
+            <%= button_to "Send to PIC", send_to_pic_notification_path(notification), 
+                        method: :post, class: "btn btn-warning",
+                        data: { confirm: "Are you sure you want to send this overdue notification?" } %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

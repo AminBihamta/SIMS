@@ -4,11 +4,8 @@ class BorrowingsController < ApplicationController
 
   def index
     # Update the status of overdue borrowings
-    Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed")
-             .update_all(status: "overdue")
-  
-    # Retrieve collections for overdue, borrowed, and returned borrowings
-    @overdue = Borrowing.where(status: "overdue")
+    @overdue = Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed")
+    .update_all(status: "overdue")
     @borrowed = Borrowing.where(status: "borrowed")
     @returned = Borrowing.where(status: "returned")
   end
