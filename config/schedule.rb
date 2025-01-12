@@ -5,5 +5,5 @@ set :output, "/mnt/c/Users/MALIHA/SIMS/SIMS/log/cron.log"
 set :job_template, "bash -l -c ':job'"
 
 every 1.minute do
-  rake "borrowings:process_overdue"
+  rake "borrowings:update_overdue"  # Changed from process_overdue to update_overdue
 end

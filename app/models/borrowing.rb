@@ -15,6 +15,7 @@ class Borrowing < ApplicationRecord
   scope :needs_overdue_update, -> {
     where("due_date < ? AND status = ?", Time.current, 'borrowed')
   }
+
   scope :needs_notification, -> {
     where(status: 'overdue')
       .where.not(id: Notification.select(:borrowing_id))
@@ -34,11 +35,18 @@ class Borrowing < ApplicationRecord
   before_destroy :restore_stock_on_destroy
   after_update :handle_overdue_status
   before_save :check_and_update_status
+  after_save :check_and_generate_notification
 
   private
 
+  def check_and_generate_notification
+    if status.to_s == 'overdue' && !notifications.exists?
+      GenerateNotificationJob.perform_now(id)
+    end
+  end
+
   def check_and_update_status
-    if due_date < Date.current && status.to_s == 'borrowed'
+    if due_date < Time.current && status.to_s == 'borrowed'
       self.status = 'overdue'
     end
   end

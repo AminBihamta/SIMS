@@ -4,17 +4,13 @@ class PicController < ApplicationController
   def dashboard
     @club_id = session[:club_id]
 
-    # First get the club's borrowings that are overdue
-    overdue_borrowings = Borrowing.where(
-      club_id: @club_id,
-      status: "overdue"
-    )
 
-    # Then get notifications for these borrowings
-    @notifications = Notification.joins(:borrowing)
-                               .where(borrowing_id: overdue_borrowings.pluck(:id))
-                               .order(created_at: :desc)
-                               .limit(2)
+    # Fetch notifications for this PIC
+  @notifications = Notification.includes(:borrowing)
+  .where(status: "delivered")
+  .joins(:borrowing)
+  .where(borrowings: { club_id: @club_id })
+  .order(created_at: :desc)
 
     # Fetch latest borrowings
     @borrowings = Borrowing.includes(:equipment)

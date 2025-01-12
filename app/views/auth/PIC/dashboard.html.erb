@@ -20,32 +20,35 @@
     Welcome, <%= current_user.email.split('@').first %>
   </h1>
 
-  <!-- Notification Section -->
-<div>
+<!-- Notification Section -->
+<div class="notifications-container">
+  <h2>Latest Notifications</h2>
+  
   <% @notifications.each do |notification| %>
-    <% borrowing = notification.borrowing %>
-    <% if borrowing && borrowing.equipment %>
-      <div>
-        <strong>Reminder!</strong>
-        <% case borrowing.status %>
-        <% when :returned %>
-          <p>Equipment has been returned</p>
-        <% when :overdue %>
-          <p>
-            <%= borrowing.equipment.Equipment_Name %> is overdue by 
-            <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days
-          </p>
-          <%= button_to "Return", return_borrowing_path(borrowing), 
-              method: :patch, 
-              class: "return-button", 
-              data: { confirm: "Are you sure you want to mark this borrowing as returned?" } %>
-        <% when :borrowed %>
-          <p>Due in: <%= (borrowing.due_date.to_date - Date.current).to_i %> days</p>
+    <div class="notification-card <%= notification.status %>">
+      <div class="notification-content">
+        <p class="notification-message"><%= notification.message %></p>
+        <p class="notification-time">
+          Received: <%= notification.updated_at.strftime("%B %d, %Y %H:%M") %>
+        </p>
+        
+        <% if notification.borrowing %>
+          <div class="borrowing-details">
+            <p>Equipment: <%= notification.borrowing.equipment.Equipment_Name %></p>
+            <p>Due Date: <%= notification.borrowing.due_date.strftime("%B %d, %Y") %></p>
+            <% if notification.borrowing.status == "overdue" %>
+              <p class="overdue-warning">
+                Overdue by: <%= ((Time.current - notification.borrowing.due_date) / 1.day).to_i %> days
+              </p>
+            <% end %>
+          </div>
         <% end %>
       </div>
-    <% else %>
-      <div>No associated equipment found for this borrowing.</div>
-    <% end %>
+    </div>
+  <% end %>
+
+  <% if @notifications.empty? %>
+    <p>No new notifications</p>
   <% end %>
 </div>
 
