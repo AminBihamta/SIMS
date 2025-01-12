@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     post "/signup", to: "auth#sign_up"
     get "/signin", to: "auth#signin_new"
     post "/signin", to: "auth#sign_in"
-    delete "/signout", to: "auth#sign_out"
+    get "/signout", to: "auth#sign_out"
     get "/signed_in", to: "auth#signed_in"
 
     # Dashboard routes
@@ -42,9 +42,6 @@ Rails.application.routes.draw do
 
   resources :equipments
   resources :vendors
-  get "/signin", to: "auth#signin_new"
-  post "/signin", to: "auth#sign_in"
-  delete "/signout", to: "auth#sign_out"
 
   resources :clubs do
     member do
