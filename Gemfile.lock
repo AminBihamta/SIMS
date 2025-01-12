@@ -77,7 +77,6 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt_pbkdf (1.1.1)
-    bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
     bcrypt_pbkdf (1.1.1-x64-mingw-ucrt)
     benchmark (0.4.0)
@@ -141,7 +140,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.8.1)
-    jwt (2.9.3)
+    jwt (2.10.1)
       base64
     kamal (2.3.0)
       activesupport (>= 7.0)
