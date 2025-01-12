@@ -1,102 +1,103 @@
 <div class="frame">
-  <header class="header">
-    <button class="back-btn" onclick="history.back()">←</button>
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Search">
+    <header class="header">
+        <button class="back-btn" onclick="history.back()">←</button>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search">
+        </div>
+        <div class="user-icon">👤</div>
+    </header>
+
+    <div class="add-record">
+        <%= link_to "Add Borrowing Record", new_borrowing_path, class: "add-borrowing-record" %>
     </div>
-    <div class="user-icon">👤</div>
-  </header>
 
-  <div class="add-record">
-    <%= link_to "Add Borrowing Record", new_borrowing_path, class: "add-borrowing-record" %>
-  </div>
-
-  <section class="club-selections">
-    <div class="club-list">
-      <div class="club-card">
-        <p><strong>Super Club Borrowings</strong></p>
-        <%= link_to "→", super_club_borrowings_borrowings_path, class: "btn-view-more" %>
-      </div>
-      <div class="club-card">
-        <p><strong>Sub-club Borrowings</strong></p>
-        <%= link_to "→", sub_club_borrowings_borrowings_path, class: "btn-view-more" %>
-      </div>
-    </div>
-  </section>
-
-  <section class="overdue-items">
-    <h2>Overdue Items</h2>
-    <div class="overdue-list">
-      <% if @overdue.any? %>
-        <% @overdue.each do |item| %>
-          <div class="card overdue-card">
-            <div class="card-content">
-              <!-- Name of Item -->
-              <p class="item-name"><strong><%= item.equipment&.Equipment_Name || "N/A" %></strong></p>
-
-              <!-- Quantity -->
-              <p class="quantity">Quantity: <%= item.quantity || "N/A" %></p>
-
-              <!-- Borrowed By (PIC) -->
-              <p class="pic">
-                Borrowed by:
-                <% if item.person_in_charge.present? %>
-                  <%= item.person_in_charge&.id || "N/A" %>
-                <% else %>
-                  N/A
-                <% end %>
-              </p>
-
-              <!-- Overdue Info -->
-              <p class="overdue-time">
-                Overdue by: <%= (Date.today - item.due_date.to_date).to_i %> days
-              </p>
+    <section class="club-selections">
+        <div class="club-list">
+            <div class="club-card">
+                <p><strong>Super Club Borrowings</strong></p>
+                <%= link_to "→", super_club_borrowings_borrowings_path, class: "btn-view-more" %>
             </div>
-            <span class="bell-icon">🔔</span>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
-
-  <section class="borrowed-items">
-    <h2>Recent Borrowings</h2>
-    <div class="borrowed-list">
-      <% if @borrowed.any? %>
-        <% @borrowed.each do |item| %>
-          <div class="card">
-            <div class="card-content">
-              <!-- Name of Item -->
-              <p class="item-name"><strong><%= item.equipment&.Equipment_Name || "N/A" %></strong></p>
-
-              <!-- Quantity -->
-              <p class="quantity">Quantity: <%= item.quantity || "N/A" %></p>
-
-              <!-- Borrowed By (PIC) -->
-              <p class="pic">
-                Borrowed by:
-                <% if item.person_in_charge.present? %>
-                  <%= item.person_in_charge.id %> <!-- Assuming `id` is being shown -->
-                <% else %>
-                  N/A
-                <% end %>
-              </p>
-
-              <!-- Borrow Period -->
-              <p class="borrow-period">
-                <%= item.borrow_date.strftime('%d/%m/%Y') %> - <%= item.due_date.strftime('%d/%m/%Y') %>
-              </p>
+            <div class="club-card">
+                <p><strong>Sub-club Borrowings</strong></p>
+                <%= link_to "→", sub_club_borrowings_borrowings_path, class: "btn-view-more" %>
             </div>
-            <%= link_to "View More", edit_borrowing_path(item), class: "btn-view-more" %>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
+        </div>
+    </section>
 
-  <footer class="footer-nav">
-    <button class="footer-btn">Equipment</button>
-    <button class="footer-btn active">Borrow</button>
-    <button class="footer-btn">Vendors</button>
-  </footer>
+    <section class="overdue-items">
+        <h2>Overdue Items</h2>
+        <div class="overdue-list">
+            <% if @overdue.any? %>
+            <% @overdue.each do |item| %>
+            <div class="card overdue-card">
+                <div class="card-content">
+                    <!-- Name of Item -->
+                    <p class="item-name"><strong><%= item.equipment&.Equipment_Name || "N/A" %></strong></p>
+
+                    <!-- Quantity -->
+                    <p class="quantity">Quantity: <%= item.quantity || "N/A" %></p>
+
+                    <!-- Borrowed By (PIC) -->
+                    <p class="pic">
+                        Borrowed by:
+                        <% if item.person_in_charge.present? %>
+                        <%= item.person_in_charge&.id || "N/A" %>
+                        <% else %>
+                        N/A
+                        <% end %>
+                    </p>
+
+                    <!-- Overdue Info -->
+                    <p class="overdue-time">
+                        Overdue by: <%= (Date.today - item.due_date.to_date).to_i %> days
+                    </p>
+                </div>
+                <span class="bell-icon">🔔</span>
+            </div>
+            <% end %>
+            <% end %>
+        </div>
+    </section>
+
+    <section class="borrowed-items">
+        <h2>Recent Borrowings</h2>
+        <div class="borrowed-list">
+            <% if @borrowed.any? %>
+            <% @borrowed.each do |item| %>
+            <div class="card">
+                <div class="card-content">
+                    <!-- Name of Item -->
+                    <p class="item-name"><strong><%= item.equipment&.Equipment_Name || "N/A" %></strong></p>
+
+                    <!-- Quantity -->
+                    <p class="quantity">Quantity: <%= item.quantity || "N/A" %></p>
+
+                    <!-- Borrowed By (PIC) -->
+                    <p class="pic">
+                        Borrowed by:
+                        <% if item.person_in_charge.present? %>
+                        <%= item.person_in_charge.id %>
+                        <!-- Assuming `id` is being shown -->
+                        <% else %>
+                        N/A
+                        <% end %>
+                    </p>
+
+                    <!-- Borrow Period -->
+                    <p class="borrow-period">
+                        <%= item.borrow_date.strftime('%d/%m/%Y') %> - <%= item.due_date.strftime('%d/%m/%Y') %>
+                    </p>
+                </div>
+                <%= link_to "View More", edit_borrowing_path(item), class: "btn-view-more" %>
+            </div>
+            <% end %>
+            <% end %>
+        </div>
+    </section>
+
+    <footer class="footer-nav">
+        <button class="footer-btn">Equipment</button>
+        <button class="footer-btn active">Borrow</button>
+        <button class="footer-btn">Vendors</button>
+    </footer>
 </div>
