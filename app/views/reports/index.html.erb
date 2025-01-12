@@ -43,8 +43,11 @@
             <%= form.submit "Generate Report" %>
         </div>
         <% end %>
+        <%= pie_chart @allExpenses, width: "1200px", height: "500px" %>
 
         <%= javascript_include_tag 'reports' %>
+        <%= javascript_include_tag 'application' %>
+
 </body>
 
 </html>

@@ -1,6 +1,9 @@
 # filepath: /Users/aminbihamta/Software Engineering/SIMS/app/controllers/reports_controller.rb
 class ReportsController < ApplicationController
   def index
+        @allExpenses = FinancialRecord.joins(:club)
+                                  .group("clubs.Parent_Club")
+                                  .sum(:Amount)
   end
 
   def generate
@@ -14,7 +17,7 @@ class ReportsController < ApplicationController
                                .where("created_at >= ? AND created_at <= ?", @start_date, @end_date)
 
     # Prepare data for the chart
-    @chart_data = @expenses.group_by_day(:created_at).sum(:Amount)
+    @chart_data = @expenses.group(:created_at).sum(:Amount)
 
     render :generated
   end
