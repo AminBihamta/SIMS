@@ -944,6 +944,29 @@ nav a:hover {
   cursor: pointer;
 }
 
+.regularButtonRed {
+  border: 1px solid #c60000 !important;
+  text-align: center !important;
+  color: white !important;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.3s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  background-color: #c60000 !important;
+  padding: 10px 20px !important;
+}
+
+.regularButtonRed:hover {
+  background-color: white !important;
+  color: #c60000 !important;
+  transform: scale(1.05) !important;
+  cursor: pointer;
+  border: white !important;
+}
+
 .regularButtonWhite {
   border: 1px solid white !important;
   text-align: center !important;

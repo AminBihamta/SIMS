@@ -47,9 +47,9 @@
     <% end %>
 
     <div class="actions">
-        <%= form.submit "Update Club" %>
+        <%= form.submit "Update Club", class: "regularButtonYellow" %>
         <% end %>
-        <%= button_to "Delete Club", @club, method: :delete, data: { confirm: "Are you sure you want to delete this club?" }, class: "delete-button danger" %>
+        <%= button_to "Delete Club", @club, method: :delete, data: { confirm: "Are you sure you want to delete this club?" }, class: "delete-button danger", class: "regularButtonRed" %>
     </div>
 
 </div>

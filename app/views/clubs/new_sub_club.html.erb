@@ -1,36 +1,63 @@
-<div class="container">
-    <h1>Create a New Sub Club</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-    <%= form_with(model: @club, local: true) do |form| %>
-    <% if @club.errors.any? %>
-    <div id="error_explanation">
-        <h2><%= pluralize(@club.errors.count, "error") %> prohibited this club from being saved:</h2>
-        <ul>
-            <% @club.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-            <% end %>
-        </ul>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%= stylesheet_link_tag 'formStyles', media: 'all', 'data-turbo-track': 'reload' %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <style>
+        .actions .regularButtonYellow {
+            width: 200px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Create a New Sub Club</h1>
+
+        <%= form_with(model: @club, local: true) do |form| %>
+        <% if @club.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@club.errors.count, "error") %> prohibited this club from being saved:</h2>
+            <ul>
+                <% @club.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+        <% end %>
+
+        <div class="field">
+            <%= form.label :Club_Name %>
+            <%= form.text_field :Club_Name %>
+        </div>
+
+        <%= form.hidden_field :Parent_Club, value: @club.Parent_Club %>
+
+
+        <div class="field">
+            <%= form.label :Budget %>
+            <%= form.number_field :Budget %>
+        </div>
+
+        <%= form.hidden_field :Is_Super_Club, value: false %>
+
+
+        <div class="actions">
+            <%= form.submit "Create Sub Club", class: "regularButtonYellow" %>
+        </div>
+        <% end %>
     </div>
-    <% end %>
+</body>
 
-    <div class="field">
-        <%= form.label :Club_Name %>
-        <%= form.text_field :Club_Name %>
-    </div>
-
-    <%= form.hidden_field :Parent_Club, value: @club.Parent_Club %>
-
-
-    <div class="field">
-        <%= form.label :Budget %>
-        <%= form.number_field :Budget %>
-    </div>
-
-    <%= form.hidden_field :Is_Super_Club, value: false %>
-
-
-    <div class="actions">
-        <%= form.submit "Create Sub Club" %>
-    </div>
-    <% end %>
-</div>
+</html>
