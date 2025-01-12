@@ -78,7 +78,7 @@
               <% end %>
             </div>
             <div>
-              <p>Borrowed on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
+              <p>Due on <%= borrowing.borrow_date.strftime('%d/%m/%Y') %></p>
               <%= link_to "View More", borrowing_path(borrowing) %>
             </div>
           </div>

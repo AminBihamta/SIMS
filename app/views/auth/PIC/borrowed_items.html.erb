@@ -32,17 +32,12 @@
             <td><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
             <td>
               <% case borrowing.status %>
-              <% when :returned %>
+              <% when "returned" %>
                 Returned
-              <% when :overdue %>
+              <% when "overdue" %>
                 <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days overdue
-              <% else %>
+              <% when "borrowed" %>
                 Due in <%= (borrowing.due_date.to_date - Date.current).to_i %> days
-              <% end %>
-            </td>
-            <td>
-              <% if borrowing.status == 'overdue' %>
-                <%= button_to "Return", return_borrowing_path(borrowing), method: :patch, class: "return-button", data: { confirm: "Are you sure you want to mark this borrowing as returned?" } %>
               <% end %>
             </td>
           </tr>
