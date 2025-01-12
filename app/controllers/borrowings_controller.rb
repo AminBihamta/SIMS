@@ -3,10 +3,9 @@ class BorrowingsController < ApplicationController
   before_action :set_club, only: [ :balance_sheet ]
 
   def index
-    Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed").update_all(status: "overdue")
+    @overdue = Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed")
+    .update_all(status: "overdue")
 
-    # Fetch collections of borrowings
-    @overdue = Borrowing.where(status: "overdue")
     @borrowed = Borrowing.where(status: "borrowed")
     @returned = Borrowing.where(status: "returned")
   end

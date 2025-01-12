@@ -120,40 +120,49 @@
 </div>
 
 <table>
-    <thead>
-        <tr>
-            <th>Message</th>
-            <th>Equipment</th>
-            <% if supervisor? %>
+  <thead>
+    <tr>
+      <th>Message</th>
+      <th>Status</th>
+      <th>Triggered At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div class="notifications-container">
+  <h1>Notifications</h1>
 
-            <th>Status</th>
-            <% end %>
+  <% @notifications.each do |notification| %>
+    <div class="notification-item <%= notification.status %>" id="notification-<%= notification.id %>">
+      <div class="notification-header">
+        <span class="notification-type"><%= notification.notification_type %></span>
+        <span class="notification-status"><%= notification.status.titleize %></span>
+        <span class="notification-date"><%= notification.triggered_at.strftime("%B %d, %Y %H:%M") %></span>
+      </div>
 
-            <% if supervisor? %>
-            <th>Sent At</th>
-            <% end %>
+      <div class="notification-message">
+        <%= notification.message %>
+      </div>
 
-            <% if pic? %>
-            <th>Received At</th>
-            <% end %>
-
-
-        </tr>
-    </thead>
-    <tbody>
-        <% @notifications.each do |notification| %>
-        <tr>
-            <td><%= notification.message %></td>
-            <td><%= notification.borrowing.equipment.Equipment_Name %></td>
-            <% if supervisor? %>
-            <td><%= notification.status %></td>
-            <% end %>
-
-            <td><%= notification.triggered_at.strftime('%d/%m/%Y %H:%M') %></td>
-            <% if supervisor? %>
-            <% end %>
-
-        </tr>
+      <div class="notification-actions">
+        <%= link_to "View Details", notification_path(notification), class: "btn btn-info" %>
+        
+        <% if notification.status != "delivered" && notification.notification_type == "Overdue" %>
+          <%= button_to "Send to PIC", 
+                      send_to_pic_notification_path(notification), 
+                      method: :post, 
+                      class: "btn btn-warning",
+                      data: { confirm: "Are you sure you want to send this overdue notification?" } %>
         <% end %>
-    </tbody>
-</table>
+
+        <% if notification.status == "delivered" %>
+          <%= button_to "Resend", 
+                      resend_notification_path(notification), 
+                      method: :post, 
+                      class: "btn btn-secondary",
+                      data: { confirm: "Are you sure you want to resend this notification?" } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

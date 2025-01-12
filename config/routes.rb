@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
+  
+
   # Routes for balance sheet and notifications
   get "balance_sheet/:id", to: "borrowings#balance_sheet", as: "borrowing_balance_sheet"
   get "borrowings/notification", to: "borrowings#notification", as: "borrowing_notification"
@@ -77,6 +79,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index, :show] do
     member do
+      post :send_to_pic
       post :resend
     end
   end
