@@ -1,29 +1,92 @@
-<div class="equipment-details">
-  <div class="equipment-header">
-    <h1 class="equipment-name"><%= @equipment.Equipment_Name %></h1>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="equipment-info">
-    <p class="equipment-receipt">📜 Receipt: <%= @equipment.financial_record&.Title || "No record associated" %></p>
-    <p class="equipment-club">🏢 Club: <%= @equipment.club&.Club_Name || "No club associated" %></p>
-    <p class="equipment-vendor">🏷️ Vendor: <%= @equipment.vendor&.Name || "No vendor associated" %></p>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%= stylesheet_link_tag 'formStyles', media: 'all', 'data-turbo-track': 'reload' %>
 
-  <div class="equipment-actions">
-    <%= link_to "Edit", edit_equipment_path(@equipment), id: "open-overlay", class: "button edit-button" %>
-    <%= button_to "Delete", @equipment, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-    <%= link_to "Back", "#", onclick: "history.back(); return false;", class: "button back-button" %>
-  </div>
-</div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <style>
+        .actions .regularButtonYellow {
+            width: 200px;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .equipment-details p {
+            margin-top: 10px;
+        }
+
+        .equipment-details {
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .regularButtonRed {
+            width: 190px !important;
+            margin-top: 20px;
+
+        }
+
+        .regularButtonYellow {
+            width: 150px;
+            margin-top: 20px;
 
 
-<div class="overlay" id="overlay" style="display: none;">
-  <div class="overlay-content">
-    <h1>Edit Equipment</h1>
-    <!-- Dynamic content (the form) will be loaded here -->
-    <div id="overlay-form-content">
-      <!-- Placeholder for form -->
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="equipment-details">
+
+            <h1 class="equipment-name"><%= @equipment.Equipment_Name %></h1>
+
+
+
+            <p class="equipment-receipt">📜 Receipt: <%= @equipment.financial_record&.Title || "No record associated" %></p>
+            <p class="equipment-club">🏢 Club: <%= @equipment.club&.Club_Name || "No club associated" %></p>
+            <p class="equipment-vendor">🏷️ Vendor: <%= @equipment.vendor&.Name || "No vendor associated" %></p>
+
+
+
+            <%= link_to "Edit", edit_equipment_path(@equipment), id: "open-overlay", class: "regularButtonYellow" %>
+            <%= button_to "Delete", @equipment, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "regularButtonRed" %>
+
+
+        </div>
+
+
+        <div class="overlay" id="overlay" style="display: none;">
+            <div class="overlay-content">
+                <h1>Edit Equipment</h1>
+                <!-- Dynamic content (the form) will be loaded here -->
+                <div id="overlay-form-content">
+                    <!-- Placeholder for form -->
+                </div>
+                <button id="close-overlay">Cancel</button>
+            </div>
+        </div>
     </div>
-    <button id="close-overlay">Cancel</button>
-  </div>
-</div>
+</body>
+
+</html>

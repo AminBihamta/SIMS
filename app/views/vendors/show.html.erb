@@ -1,31 +1,33 @@
-<div class="vendor-details">
-  <div class="vendor-header">
-    <h1 class="vendor-name"><%= @vendor.Name %></h1>
-    <p class="vendor-phone">📞 <%= @vendor.Phone_Number %></p>
-    <p class="vendor-address"><%= @vendor.Address %></p>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="vendor-supplies">
-    <h1>Supplies</h1>
-    <ul class="supplies-list">
-      <li>No items found in this group.</li>
-    </ul>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <div class="vendor-actions">
-    <%= link_to "Back", "#", onclick: "history.back(); return false;", class: "button back-button" %>
-    <%= link_to "Update Vendor", edit_vendor_path(@vendor), id: "open-overlay", class: "button update-vendor" %>
-    <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "button delete-vendor" %>
-  </div>
-</div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 
-<div class="overlay" id="overlay" style="display: none;">
-  <div class="overlay-content">
-    <h1>Edit Vendor</h1>
-    <!-- Dynamic content (the form) will be loaded here -->
-    <div id="overlay-form-content">
-      <!-- Placeholder for form -->
-    </div>
-    <button id="close-overlay">Cancel</button>
-  </div>
-</div>
+    <style>
+        .regularButtonYellow,
+        .regularButtonRed {
+            width: 300px;
+        }
+
+        </head><body><div class="vendor-details"><div class="vendor-header"><h1 class="vendor-name"><%=@vendor.Name %></h1><p class="vendor-phone">📞 <%=@vendor.Phone_Number %></p><p class="vendor-address"><%=@vendor.Address %></p></div><div class="vendor-supplies"><h1>Supplies</h1><ul class="supplies-list"><li>No items found in this group.</li></ul></div><div class="vendor-actions"><%=link_to "Update Vendor",
+        edit_vendor_path(@vendor),
+        id: "open-overlay",
+        class: "regularButtonYellow"%><%=button_to "Delete Vendor",
+        vendor_path(@vendor),
+        method: :delete,
+        data: {
+            confirm: "Are you sure?"
+        }
+
+        ,
+        class: "regularButtonRed"%></div></div><div class="overlay"id="overlay"style="display: none;"><div class="overlay-content"><h1>Edit Vendor</h1>< !-- Dynamic content (the form) will be loaded here --><div id="overlay-form-content">< !-- Placeholder for form --></div><button id="close-overlay">Cancel</button></div></div></body></html>

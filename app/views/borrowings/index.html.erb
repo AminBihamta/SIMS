@@ -27,8 +27,9 @@
     <section class="overdue-items">
         <h2>Overdue Items</h2>
         <div class="overdue-list">
-            <% if @overdue.any? %>
-            <% @overdue.each do |item| %>
+            <% overdue_borrowings = Borrowing.where(status: 'overdue') %>
+            <% if overdue_borrowings.any? %>
+            <% overdue_borrowings.each do |item| %>
             <div class="card overdue-card">
                 <div class="card-content">
                     <!-- Name of Item -->
