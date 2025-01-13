@@ -1,11 +1,11 @@
 <div class="footer">
-  <div class="btn <%= active_tab == :equipment ? 'active' : '' %>">
-    <%= link_to "Equipment", equipments_path, class: "move-link #{'active' if active_tab == :equipment}" %>
-  </div>
-  <div class="btn <%= active_tab == :borrow ? 'active' : '' %>">
-    <%= link_to "Borrow", vendors_path, class: "move-link #{'active' if active_tab == :borrow}" %>
-  </div>
-  <div class="btn <%= active_tab == :vendor ? 'active' : '' %>">
-    <%= link_to "Vendor", vendors_path, class: "move-link #{'active' if active_tab == :vendor}" %>
-  </div>
+    <div class="btn <%= active_tab == :equipment ? 'active' : '' %>">
+        <%= link_to "Equipment", equipments_path, class: "move-link #{'active' if active_tab == :equipment}" %>
+    </div>
+    <div class="btn <%= active_tab == :borrow ? 'active' : '' %>">
+        <%= link_to "Borrow", borrowings_path, class: "move-link #{'active' if active_tab == :borrow}" %>
+    </div>
+    <div class="btn <%= active_tab == :vendor ? 'active' : '' %>">
+        <%= link_to "Vendor", vendors_path, class: "move-link #{'active' if active_tab == :vendor}" %>
+    </div>
 </div>

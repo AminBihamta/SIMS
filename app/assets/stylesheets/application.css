@@ -328,7 +328,8 @@ body.overlay-active .overlay {
 }
 
 .overlay-content input,
-.overlay-content select {
+.overlay-content select,
+.overlay-content textarea {
   width: 380px;
   height: 47px;
   padding: 10px;
@@ -341,6 +342,10 @@ body.overlay-active .overlay {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.overlay-content textarea {
+  height: 120px;
 }
 
 .overlay-content button {
@@ -1152,6 +1157,15 @@ tr:hover {
 .clean {
   margin: 40px 0px 20px 0px;
   padding: 0px;
+}
+
+.authParent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  vertical-align: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 700px) {

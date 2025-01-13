@@ -14,20 +14,49 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 
     <style>
-        .regularButtonYellow,
+        .regularButtonYellow {
+            width: 200px
+        }
+
         .regularButtonRed {
-            width: 300px;
+            width: 240px;
+            margin-top: 20px;
         }
+    </style>
+</head>
 
-        </head><body><div class="vendor-details"><div class="vendor-header"><h1 class="vendor-name"><%=@vendor.Name %></h1><p class="vendor-phone">📞 <%=@vendor.Phone_Number %></p><p class="vendor-address"><%=@vendor.Address %></p></div><div class="vendor-supplies"><h1>Supplies</h1><ul class="supplies-list"><li>No items found in this group.</li></ul></div><div class="vendor-actions"><%=link_to "Update Vendor",
-        edit_vendor_path(@vendor),
-        id: "open-overlay",
-        class: "regularButtonYellow"%><%=button_to "Delete Vendor",
-        vendor_path(@vendor),
-        method: :delete,
-        data: {
-            confirm: "Are you sure?"
-        }
+<body>
+    <div class="vendor-details">
+        <div class="vendor-header">
+            <h1 class="vendor-name"><%= @vendor.Name %></h1>
+            <p class="vendor-phone">📞 <%= @vendor.Phone_Number %></p>
+            <p class="vendor-address"><%= @vendor.Address %></p>
+        </div>
 
-        ,
-        class: "regularButtonRed"%></div></div><div class="overlay"id="overlay"style="display: none;"><div class="overlay-content"><h1>Edit Vendor</h1>< !-- Dynamic content (the form) will be loaded here --><div id="overlay-form-content">< !-- Placeholder for form --></div><button id="close-overlay">Cancel</button></div></div></body></html>
+        <div class="vendor-supplies">
+            <h1>Supplies</h1>
+            <ul class="supplies-list">
+                <li>No items found in this group.</li>
+            </ul>
+        </div>
+
+        <div class="vendor-actions">
+            <%= link_to "Update Vendor", edit_vendor_path(@vendor), id: "open-overlay", class: "regularButtonYellow" %>
+            <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" style="display: none;">
+        <div class="overlay-content">
+            <h1>Edit Vendor</h1>
+            <!-- Dynamic content (the form) will be loaded here -->
+            <div id="overlay-form-content">
+                <!-- Placeholder for form -->
+            </div>
+            <button id="close-overlay">Cancel</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
