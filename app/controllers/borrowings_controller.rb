@@ -6,7 +6,7 @@ class BorrowingsController < ApplicationController
     # Update the status of overdue borrowings
     @overdue = Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed")
     .update_all(status: "overdue")
-    @borrowed = Borrowing.where(status: "borrowed")
+    @borrowed = Borrowing.includes(:club, :equipment).where(status: "borrowed")
     @returned = Borrowing.where(status: "returned")
   end
 

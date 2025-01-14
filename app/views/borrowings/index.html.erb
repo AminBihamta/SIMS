@@ -40,12 +40,7 @@
 
                     <!-- Borrowed By (PIC) -->
                     <p class="pic">
-                        Borrowed by:
-                        <% if item.person_in_charge.present? %>
-                        <%= item.person_in_charge&.id || "N/A" %>
-                        <% else %>
-                        N/A
-                        <% end %>
+                     Borrowed by: <%= item.pic_info %>
                     </p>
 
                     <!-- Overdue Info -->
@@ -75,13 +70,7 @@
 
                     <!-- Borrowed By (PIC) -->
                     <p class="pic">
-                        Borrowed by:
-                        <% if item.person_in_charge.present? %>
-                        <%= item.person_in_charge.id %>
-                        <!-- Assuming `id` is being shown -->
-                        <% else %>
-                        N/A
-                        <% end %>
+                      Borrowed by: <%= item.pic_info %>
                     </p>
 
                     <!-- Borrow Period -->
