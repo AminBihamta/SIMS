@@ -9,9 +9,9 @@ class Borrowing < ApplicationRecord
   end
 
   # Scopes for easy querying
-  scope :borrowed, -> { where(status: 'borrowed') }
+  scope :borrowed, -> { where(status: 'borrowed').order(borrow_date: :desc) }
   scope :returned, -> { where(status: 'returned') }
-  scope :overdue, -> { where(status: 'overdue') }
+  scope :overdue, -> { where(status: 'overdue').order(due_date: :asc) }
   scope :needs_overdue_update, -> {
     where("due_date < ? AND status = ?", Time.current, 'borrowed')
   }
@@ -39,17 +39,52 @@ class Borrowing < ApplicationRecord
 
 
   def reduce_stock_on_borrow
-    if equipment
-      equipment.update!(Status: 'Unavailable', stock: 0)
-      update_equipment_group_stock
+    return unless equipment
+  
+    available_items = Equipment.where(
+      Equipment_Name: equipment.Equipment_Name,
+      Status: 'Available'
+    ).limit(quantity)
+  
+    if available_items.count < quantity
+      raise "Not enough available items"
+    end
+  
+    available_items.each do |item|
+      item.update!(Status: 'Unavailable', stock: 0)
     end
   end
   
   def restore_stock_on_destroy
-    if equipment
-      equipment.update!(Status: 'Available', stock: 1)
-      update_equipment_group_stock
+    return unless equipment
+  
+    borrowed_items = Equipment.where(
+      Equipment_Name: equipment.Equipment_Name,
+      Status: 'Unavailable'
+    ).limit(quantity)
+  
+    borrowed_items.each do |item|
+      item.update!(Status: 'Available', stock: 1)
     end
+  end
+  
+
+  def pic_info
+    user_data = UserData.find_by(club_id: self.club_id, is_supervisor: false)
+    club = Club.find_by(Club_ID: self.club_id)
+    
+    if user_data && club
+      if !user_data.is_supervisor
+        "PIC of #{club.Club_Name}"
+      else
+        "No PIC assigned for #{club.Club_Name}"
+      end
+    else
+      "Club info not found"
+    end
+  rescue => e
+    Rails.logger.error "Error in pic_info: #{e.message}"
+    "Error fetching club info"
   end
 
   private
@@ -61,22 +96,30 @@ class Borrowing < ApplicationRecord
   end
 
   def check_and_update_status
-    if due_date < Time.current && status.to_s == 'borrowed'
-      self.status = 'overdue'
+    if due_date_changed? || will_save_change_to_due_date?
+      Rails.logger.info "Due date changed from #{due_date_was} to #{due_date}"
+      Rails.logger.info "Current time: #{Time.current}"
+      Rails.logger.info "Current status: #{status}"
+      
+      # Force update status regardless of current status
+      if due_date.present? && due_date < Time.current
+        write_attribute(:status, 'overdue')
+      else
+        write_attribute(:status, 'borrowed')
+      end
+      
+      Rails.logger.info "New status set to: #{read_attribute(:status)}"
     end
   end
 
   def handle_overdue_status
-    if saved_change_to_status? && status.to_s == 'overdue'
-      generate_overdue_notification
+    if due_date_changed? || saved_change_to_status?
+      if due_date < Time.current
+        generate_overdue_notification unless notifications.exists?
+      end
     end
   end
 
-  def update_equipment_group_stock
-    total = Equipment.total_in_group(equipment.Equipment_Name)
-    available = Equipment.available_in_group(equipment.Equipment_Name)
-    Equipment.where(Equipment_Name: equipment.Equipment_Name).update_all(stock: available)
-  end
 
   def generate_overdue_notification
     days_overdue = (Date.current - due_date).to_i

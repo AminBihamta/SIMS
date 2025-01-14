@@ -6,8 +6,9 @@ class BorrowingsController < ApplicationController
     # Update the status of overdue borrowings
     @overdue = Borrowing.where("due_date < ? AND status = ?", Date.today, "borrowed")
     .update_all(status: "overdue")
-    @borrowed = Borrowing.where(status: "borrowed")
+    @borrowed = Borrowing.includes(:club, :equipment).where(status: "borrowed")
     @returned = Borrowing.where(status: "returned")
+    
   end
 
   def super_club_borrowings
@@ -38,7 +39,14 @@ class BorrowingsController < ApplicationController
   def new
     @borrowing = Borrowing.new
     @clubs = Club.all
-    @equipments = Equipment.all
+    @grouped_equipments = Equipment.grouped_for_selection  # Add this line
+    @equipments = Equipment.all  # Keep this if you still need it for other purposes
+  end
+
+  def show
+    @borrowing = Borrowing.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to borrowings_path, alert: "Borrowing record not found."
   end
 
   # In your existing BorrowingsController
@@ -64,42 +72,74 @@ def create
 end
 
   def edit
-    @borrowed = Borrowing.find_by(id: params[:id])
-    if @borrowed.nil?
+    @borrowing = Borrowing.find_by(id: params[:id])
+    if @borrowing.nil?
       redirect_to borrowings_path, alert: "Borrowing record not found."
     else
-      @equipments = Equipment.all
       @clubs = Club.all
+      @grouped_equipments = Equipment.grouped_for_selection
+      @equipments = Equipment.all
     end
+  rescue => e
+    Rails.logger.error("Error in edit: #{e.message}")
+    redirect_to borrowings_path, alert: "Error loading borrowing record."
   end
-
+  
   def update
-    old_quantity = @borrowing.quantity
-    old_equipment = @borrowing.equipment
-    new_quantity = borrowing_params[:quantity].to_i
-    new_equipment = Equipment.find_by(Equipment_ID: borrowing_params[:equipment_id])
-
-    if new_equipment.nil?
-      redirect_to borrowing_notification_path, alert: "Selected equipment does not exist."
-      return
-    end
-
-    available_stock = if old_equipment == new_equipment
-                        (new_equipment.stock || 0) + old_quantity
-    else
-                        new_equipment.stock || 0
-    end
-
-    if new_quantity > available_stock
-      redirect_to borrowing_notification_path, alert: "Not enough stock available for the selected item. Update failed."
-    else
-      if @borrowing.update(borrowing_params)
-        old_equipment.update(stock: (old_equipment.stock || 0) + old_quantity) if old_equipment && old_equipment != new_equipment
-        new_equipment.update(stock: (new_equipment.stock || 0) - new_quantity)
-        redirect_to borrowings_path, notice: "Borrowing record updated successfully."
-      else
-        redirect_to borrowing_notification_path, alert: "Failed to update borrowing record. Please try again."
+    begin
+      ActiveRecord::Base.transaction do
+        old_quantity = @borrowing.quantity
+        old_equipment = @borrowing.equipment
+        new_quantity = borrowing_params[:quantity].to_i
+        new_equipment = Equipment.find(borrowing_params[:equipment_id])
+        new_due_date = Date.parse(borrowing_params[:due_date])
+  
+        Rails.logger.info "Old due date: #{@borrowing.due_date}"
+        Rails.logger.info "New due date: #{new_due_date}"
+        Rails.logger.info "Current time: #{Time.current}"
+  
+        # Handle stock updates
+        if old_equipment
+          old_borrowed_items = Equipment.where(
+            Equipment_Name: old_equipment.Equipment_Name,
+            Status: 'Unavailable'
+          ).limit(old_quantity)
+          
+          old_borrowed_items.update_all(Status: 'Available', stock: 1)
+        end
+  
+        # Check availability
+        available_items = Equipment.where(
+          Equipment_Name: new_equipment.Equipment_Name,
+          Status: 'Available'
+        ).limit(new_quantity)
+  
+        if available_items.count < new_quantity
+          raise StandardError, "Not enough items available"
+        end
+  
+        # Determine new status
+        new_status = new_due_date < Time.current ? 'overdue' : 'borrowed'
+        Rails.logger.info "Setting new status to: #{new_status}"
+  
+        # Update borrowing record
+        update_successful = @borrowing.update(
+          borrowing_params.merge(status: new_status)
+        )
+  
+        if update_successful
+          available_items.update_all(Status: 'Unavailable', stock: 0)
+          redirect_to borrowings_path, notice: 'Borrowing updated successfully' and return
+        else
+          raise StandardError, "Failed to update borrowing"
+        end
       end
+    rescue => e
+      Rails.logger.error "Update failed: #{e.message}"
+      @clubs = Club.all
+      @grouped_equipments = Equipment.grouped_for_selection
+      flash.now[:alert] = e.message
+      render :edit
     end
   end
 

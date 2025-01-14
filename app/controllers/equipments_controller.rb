@@ -34,6 +34,9 @@ class EquipmentsController < ApplicationController
   end
 
   def new
+    @borrowing = Borrowing.new
+    @clubs = Club.all
+    @grouped_equipments = Equipment.grouped_for_selection
     @equipment = Equipment.new
     @form_url = equipments_path  # Set the form URL for the form submission
     @show_quantity_field = true # Set this flag to determine if the quantity field should be shown
@@ -43,9 +46,9 @@ class EquipmentsController < ApplicationController
   def create
     quantity = params[:equipment][:quantity].to_i
     quantity = 1 if quantity < 1
-  
+    
     equipment_params_without_quantity = equipment_params.except(:quantity)
-  
+    
     begin
       ActiveRecord::Base.transaction do
         @equipments = []
@@ -56,24 +59,16 @@ class EquipmentsController < ApplicationController
         end
       end
   
-      # Calculate and update group stock after creation
-      total_stock = Equipment.group_stock(@equipments.first.Equipment_Name)
-      @equipments.each do |equip|
-        equip.update_column(:stock, total_stock)
-      end
-  
       render json: { 
         success: true, 
         redirect_url: equipments_path, 
         notice: "#{quantity} Equipment record(s) created successfully!" 
       }
-    rescue ActiveRecord::RecordInvalid => e
-      @equipment = Equipment.new(equipment_params_without_quantity)
-      flash.now[:alert] = "Error creating equipment: #{e.message}"
-      render partial: "form", locals: { 
-        equipment: @equipment, 
-        form_url: equipments_path, 
-        show_quantity_field: true 
+    rescue => e
+      Rails.logger.error("Equipment creation failed: #{e.message}")
+      render json: { 
+        success: false, 
+        error: e.message 
       }, status: :unprocessable_entity
     end
   end
@@ -95,6 +90,12 @@ class EquipmentsController < ApplicationController
   def destroy
     @equipment.destroy
     redirect_to root_path, status: :see_other
+  end
+
+  def grouped_for_selection
+    Equipment.select('Equipment_Name, COUNT(*) as total_count, SUM(CASE WHEN Status = \'Available\' THEN stock ELSE 0 END) as available_stock')
+            .group(:Equipment_Name)
+            .order(:Equipment_Name)
   end
 
   private
