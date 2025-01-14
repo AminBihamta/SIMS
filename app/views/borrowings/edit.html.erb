@@ -16,17 +16,26 @@
     </div>
 
     <!-- Equipment Selection -->
-    <div class="form-row">
-      <%= form.label :equipment_id, "Name of Item", class: "form-label" %>
-      <select id="equipment-select" name="borrowing[equipment_id]" class="form-input">
-        <option value="">Select Equipment</option>
-        <% @equipments.each do |equipment| %>
-          <option value="<%= equipment.Equipment_ID %>" <%= "selected" if equipment.Equipment_ID == @borrowing.equipment_id %>>
-            <%= equipment.Equipment_Name %> (Stock: <%= equipment.stock || 0 %>)
-          </option>
-        <% end %>
-      </select>
-    </div>
+      <div class="form-row">
+        <%= form.label :equipment_id, "Name of Item", class: "form-label" %>
+        <%= form.select :equipment_id, 
+          options_for_select(
+            @grouped_equipments.map do |equipment|
+              [
+                "#{equipment.Equipment_Name} (Available: #{equipment.available_stock}, Total: #{equipment.total_count})",
+                Equipment.where(Equipment_Name: equipment.Equipment_Name, Status: 'Available').first&.Equipment_ID
+              ]
+            end,
+            selected: @borrowing.equipment_id
+          ),
+          { prompt: "Select Equipment" },
+          { class: "form-input", id: "equipment-select" }
+        %>
+      </div>
+      
+      <div id="stock-container" style="display: none;">
+        <p id="stock-available"></p>
+      </div>
 
     <!-- Quantity Input -->
     <div class="form-row">

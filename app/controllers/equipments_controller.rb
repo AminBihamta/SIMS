@@ -34,6 +34,9 @@ class EquipmentsController < ApplicationController
   end
 
   def new
+    @borrowing = Borrowing.new
+    @clubs = Club.all
+    @grouped_equipments = Equipment.grouped_for_selection
     @equipment = Equipment.new
     @form_url = equipments_path  # Set the form URL for the form submission
     @show_quantity_field = true # Set this flag to determine if the quantity field should be shown
@@ -87,6 +90,12 @@ class EquipmentsController < ApplicationController
   def destroy
     @equipment.destroy
     redirect_to root_path, status: :see_other
+  end
+
+  def grouped_for_selection
+    Equipment.select('Equipment_Name, COUNT(*) as total_count, SUM(CASE WHEN Status = \'Available\' THEN stock ELSE 0 END) as available_stock')
+            .group(:Equipment_Name)
+            .order(:Equipment_Name)
   end
 
   private

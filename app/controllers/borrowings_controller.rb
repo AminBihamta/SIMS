@@ -38,7 +38,8 @@ class BorrowingsController < ApplicationController
   def new
     @borrowing = Borrowing.new
     @clubs = Club.all
-    @equipments = Equipment.all
+    @grouped_equipments = Equipment.grouped_for_selection  # Add this line
+    @equipments = Equipment.all  # Keep this if you still need it for other purposes
   end
 
   def show
@@ -70,43 +71,58 @@ def create
 end
 
   def edit
-    @borrowed = Borrowing.find_by(id: params[:id])
-    if @borrowed.nil?
+    @borrowing = Borrowing.find_by(id: params[:id])
+    if @borrowing.nil?
       redirect_to borrowings_path, alert: "Borrowing record not found."
     else
-      @equipments = Equipment.all
       @clubs = Club.all
+      @grouped_equipments = Equipment.grouped_for_selection
+      @equipments = Equipment.all
     end
+  rescue => e
+    Rails.logger.error("Error in edit: #{e.message}")
+    redirect_to borrowings_path, alert: "Error loading borrowing record."
   end
-
+  
   def update
-    old_quantity = @borrowing.quantity
-    old_equipment = @borrowing.equipment
-    new_quantity = borrowing_params[:quantity].to_i
-    new_equipment = Equipment.find_by(Equipment_ID: borrowing_params[:equipment_id])
-
-    if new_equipment.nil?
-      redirect_to borrowing_notification_path, alert: "Selected equipment does not exist."
-      return
-    end
-
-    available_stock = if old_equipment == new_equipment
-                        (new_equipment.stock || 0) + old_quantity
-    else
-                        new_equipment.stock || 0
-    end
-
-    if new_quantity > available_stock
-      redirect_to borrowing_notification_path, alert: "Not enough stock available for the selected item. Update failed."
-    else
+    ActiveRecord::Base.transaction do
+      old_quantity = @borrowing.quantity
+      old_equipment = @borrowing.equipment
+      new_quantity = borrowing_params[:quantity].to_i
+      new_equipment = Equipment.find(borrowing_params[:equipment_id])
+  
+      # Restore stock for old equipment
+      if old_equipment
+        old_borrowed_items = Equipment.where(
+          Equipment_Name: old_equipment.Equipment_Name,
+          Status: 'Unavailable'
+        ).limit(old_quantity)
+        
+        old_borrowed_items.update_all(Status: 'Available', stock: 1)
+      end
+  
+      # Check availability for new equipment
+      available_items = Equipment.where(
+        Equipment_Name: new_equipment.Equipment_Name,
+        Status: 'Available'
+      ).limit(new_quantity)
+  
+      if available_items.count < new_quantity
+        raise ActiveRecord::Rollback, "Not enough items available"
+      end
+  
+      # Update borrowing record
       if @borrowing.update(borrowing_params)
-        old_equipment.update(stock: (old_equipment.stock || 0) + old_quantity) if old_equipment && old_equipment != new_equipment
-        new_equipment.update(stock: (new_equipment.stock || 0) - new_quantity)
+        # Update new equipment status
+        available_items.update_all(Status: 'Unavailable', stock: 0)
+        
         redirect_to borrowings_path, notice: "Borrowing record updated successfully."
       else
-        redirect_to borrowing_notification_path, alert: "Failed to update borrowing record. Please try again."
+        raise ActiveRecord::Rollback, "Failed to update borrowing"
       end
     end
+  rescue => e
+    redirect_to borrowing_notification_path, alert: e.message
   end
 
   def destroy
