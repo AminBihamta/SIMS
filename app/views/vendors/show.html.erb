@@ -22,6 +22,26 @@
             width: 240px;
             margin-top: 20px;
         }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          display: none;
+          z-index: 1000;
+        }
+
+         .overlay-content {
+           background: white;
+           padding: 20px;
+           border-radius: 8px;
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+         }
     </style>
 </head>
 
@@ -33,9 +53,9 @@
             <p class="vendor-address"><%= @vendor.Address %></p>
         </div>
          <div class="vendor-actions">
-            <%= link_to "Update Vendor", edit_vendor_path(@vendor), id: "open-overlay", class: "regularButtonYellow" %>
-            <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
-        </div>
+               <%= link_to "Update Vendor", edit_vendor_path(@vendor), data: { controller: "overlay", action: "overlay#show" }, class: "regularButtonYellow" %>
+               <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
+          </div>
 
         <div class="vendor-supplies">
            <h1>Supplies</h1>
