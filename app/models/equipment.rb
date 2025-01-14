@@ -5,12 +5,12 @@ class Equipment < ApplicationRecord
 
   belongs_to :financial_record, foreign_key: "Financial_Record_Id"
   belongs_to :club, foreign_key: "Club_ID"
-  belongs_to :vendor, foreign_key: "Vendor_ID"
+  belongs_to :vendor, foreign_key: "Vendor_ID", optional: true
 
   validates :Equipment_Name, presence: true
   validates :Financial_Record_Id, presence: true
   validates :Club_ID, presence: true
-  validates :Vendor_ID, presence: true
+
 
   def self.group_stock(equipment_name)
     where(Equipment_Name: equipment_name).count

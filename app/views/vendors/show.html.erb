@@ -32,30 +32,43 @@
             <p class="vendor-phone">📞 <%= @vendor.Phone_Number %></p>
             <p class="vendor-address"><%= @vendor.Address %></p>
         </div>
-
-        <div class="vendor-supplies">
-            <h1>Supplies</h1>
-            <ul class="supplies-list">
-                <li>No items found in this group.</li>
-            </ul>
-        </div>
-
-        <div class="vendor-actions">
+         <div class="vendor-actions">
             <%= link_to "Update Vendor", edit_vendor_path(@vendor), id: "open-overlay", class: "regularButtonYellow" %>
             <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
         </div>
+
+        <div class="vendor-supplies">
+           <h1>Supplies</h1>
+           <% if @equipments.any? %>
+             <table>
+               <thead>
+                 <tr>
+                   <th>Equipment Name</th>
+                   <th>ID</th>
+                   <th>Status</th>
+                   <th>Club</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <% @equipments.each do |equipment| %>
+                   <tr>
+                     <td><%= equipment.Equipment_Name %></td>
+                     <td><%= equipment.Equipment_ID %></td>
+                     <td><%= equipment.Status %></td>
+                     <td><%= equipment.club&.Club_Name %></td>
+                   </tr>
+                 <% end %>
+               </tbody>
+             </table>
+           <% else %>
+             <p>No equipment found for this vendor.</p>
+           <% end %>
+        </div>
+
+       
     </div>
 
-    <div class="overlay" id="overlay" style="display: none;">
-        <div class="overlay-content">
-            <h1>Edit Vendor</h1>
-            <!-- Dynamic content (the form) will be loaded here -->
-            <div id="overlay-form-content">
-                <!-- Placeholder for form -->
-            </div>
-            <button id="close-overlay">Cancel</button>
-        </div>
-    </div>
+    
 
 </body>
 

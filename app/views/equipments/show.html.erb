@@ -61,8 +61,7 @@
 
             <h1 class="equipment-name"><%= @equipment.Equipment_Name %></h1>
 
-
-
+            <p class="equipment-id">🔢 Equipment ID: <%= @equipment.Equipment_ID %></p>
             <p class="equipment-receipt">📜 Receipt: <%= @equipment.financial_record&.Title || "No record associated" %></p>
             <p class="equipment-club">🏢 Club: <%= @equipment.club&.Club_Name || "No club associated" %></p>
             <p class="equipment-vendor">🏷️ Vendor: <%= @equipment.vendor&.Name || "No vendor associated" %></p>

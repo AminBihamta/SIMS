@@ -12,6 +12,7 @@ class VendorsController < ApplicationController
   end
 
   def show
+    @equipments = @vendor.equipments
   end
 
   def new
