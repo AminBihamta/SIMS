@@ -460,16 +460,6 @@ body.overlay-active .overlay {
   font-weight: 100;
 }
 
-@media only screen and (max-width: 600px) {
-  .clubsContainer {
-    justify-content: center;
-  }
-
-  body {
-    padding-top: 40px;
-  }
-}
-
 .buttonsContainer {
   display: flex;
   flex-direction: row;
@@ -593,16 +583,6 @@ button:hover {
 
 .budgetDiv {
   margin-bottom: 20px;
-}
-
-@media only screen and (max-width: 600px) {
-  .clubsContainer {
-    justify-content: center;
-  }
-
-  body {
-    padding-top: 40px;
-  }
 }
 
 .buttonsContainer {
@@ -1168,7 +1148,51 @@ tr:hover {
   align-items: center;
 }
 
+.imageContainer {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageContainer h1 {
+  text-align: center;
+}
+
+.authParent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  vertical-align: center;
+  align-items: center;
+}
+
+.authParent {
+  margin-top: 200px;
+}
+
+form.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container > div {
+  width: 300px;
+}
+
 @media only screen and (max-width: 700px) {
+  .authParent {
+    flex-direction: column;
+  }
+  .clubsContainer {
+    justify-content: center;
+  }
+
+  body {
+    padding-top: 40px;
+  }
+
   .desktop-only {
     display: none;
   }
