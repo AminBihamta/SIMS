@@ -1225,6 +1225,45 @@ header .regularButtonWhite:hover svg {
   background-color: rgb(0, 79, 88) !important;
 }
 
+.equipment-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.equipment-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 200px;
+}
+
+.equipment-details a {
+  width: 100px;
+}
+
+.equipment-details button {
+  width: 140px;
+}
+
+.equipment-details p {
+  margin: 0px;
+  padding: 0px;
+}
+
+#close-overlay {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  cursor: pointer;
+  width: 45px;
+}
+
 @media only screen and (max-width: 700px) {
   nav.nav-links {
     flex-direction: row;

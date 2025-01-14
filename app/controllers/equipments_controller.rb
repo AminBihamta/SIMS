@@ -15,9 +15,9 @@ class EquipmentsController < ApplicationController
 
   def group_items
     @equipment_name = params[:equipment_name]
-    
+
     base_query = Equipment.where(Equipment_Name: @equipment_name)
-    
+
     if params[:query].present?
       @items = base_query.where('LOWER("Equipment_Name") LIKE ? OR "Equipment_ID" = ?',
                                "%#{params[:query].downcase}%",
@@ -25,7 +25,7 @@ class EquipmentsController < ApplicationController
     else
       @items = base_query
     end
-    
+
     @total_stock = Equipment.group_stock(@equipment_name)
     @available_stock = Equipment.available_stock(@equipment_name)
   end
@@ -46,9 +46,9 @@ class EquipmentsController < ApplicationController
   def create
     quantity = params[:equipment][:quantity].to_i
     quantity = 1 if quantity < 1
-    
+
     equipment_params_without_quantity = equipment_params.except(:quantity)
-    
+
     begin
       ActiveRecord::Base.transaction do
         @equipments = []
@@ -58,17 +58,17 @@ class EquipmentsController < ApplicationController
           @equipments << equipment
         end
       end
-  
-      render json: { 
-        success: true, 
-        redirect_url: equipments_path, 
-        notice: "#{quantity} Equipment record(s) created successfully!" 
+
+      render json: {
+        success: true,
+        redirect_url: equipments_path,
+        notice: "#{quantity} Equipment record(s) created successfully!"
       }
     rescue => e
       Rails.logger.error("Equipment creation failed: #{e.message}")
-      render json: { 
-        success: false, 
-        error: e.message 
+      render json: {
+        success: false,
+        error: e.message
       }, status: :unprocessable_entity
     end
   end
@@ -88,12 +88,13 @@ class EquipmentsController < ApplicationController
   end
 
   def destroy
+    @equipment2 = @equipment.Equipment_Name
     @equipment.destroy
-    redirect_to root_path, status: :see_other
+    redirect_to "/equipments/group/#{@equipment2}", status: :see_other
   end
 
   def grouped_for_selection
-    Equipment.select('Equipment_Name, COUNT(*) as total_count, SUM(CASE WHEN Status = \'Available\' THEN stock ELSE 0 END) as available_stock')
+    Equipment.select("Equipment_Name, COUNT(*) as total_count, SUM(CASE WHEN Status = 'Available' THEN stock ELSE 0 END) as available_stock")
             .group(:Equipment_Name)
             .order(:Equipment_Name)
   end
