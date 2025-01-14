@@ -8,6 +8,7 @@ class BorrowingsController < ApplicationController
     .update_all(status: "overdue")
     @borrowed = Borrowing.includes(:club, :equipment).where(status: "borrowed")
     @returned = Borrowing.where(status: "returned")
+    
   end
 
   def super_club_borrowings
@@ -85,44 +86,61 @@ end
   end
   
   def update
-    ActiveRecord::Base.transaction do
-      old_quantity = @borrowing.quantity
-      old_equipment = @borrowing.equipment
-      new_quantity = borrowing_params[:quantity].to_i
-      new_equipment = Equipment.find(borrowing_params[:equipment_id])
+    begin
+      ActiveRecord::Base.transaction do
+        old_quantity = @borrowing.quantity
+        old_equipment = @borrowing.equipment
+        new_quantity = borrowing_params[:quantity].to_i
+        new_equipment = Equipment.find(borrowing_params[:equipment_id])
+        new_due_date = Date.parse(borrowing_params[:due_date])
   
-      # Restore stock for old equipment
-      if old_equipment
-        old_borrowed_items = Equipment.where(
-          Equipment_Name: old_equipment.Equipment_Name,
-          Status: 'Unavailable'
-        ).limit(old_quantity)
-        
-        old_borrowed_items.update_all(Status: 'Available', stock: 1)
+        Rails.logger.info "Old due date: #{@borrowing.due_date}"
+        Rails.logger.info "New due date: #{new_due_date}"
+        Rails.logger.info "Current time: #{Time.current}"
+  
+        # Handle stock updates
+        if old_equipment
+          old_borrowed_items = Equipment.where(
+            Equipment_Name: old_equipment.Equipment_Name,
+            Status: 'Unavailable'
+          ).limit(old_quantity)
+          
+          old_borrowed_items.update_all(Status: 'Available', stock: 1)
+        end
+  
+        # Check availability
+        available_items = Equipment.where(
+          Equipment_Name: new_equipment.Equipment_Name,
+          Status: 'Available'
+        ).limit(new_quantity)
+  
+        if available_items.count < new_quantity
+          raise StandardError, "Not enough items available"
+        end
+  
+        # Determine new status
+        new_status = new_due_date < Time.current ? 'overdue' : 'borrowed'
+        Rails.logger.info "Setting new status to: #{new_status}"
+  
+        # Update borrowing record
+        update_successful = @borrowing.update(
+          borrowing_params.merge(status: new_status)
+        )
+  
+        if update_successful
+          available_items.update_all(Status: 'Unavailable', stock: 0)
+          redirect_to borrowings_path, notice: 'Borrowing updated successfully' and return
+        else
+          raise StandardError, "Failed to update borrowing"
+        end
       end
-  
-      # Check availability for new equipment
-      available_items = Equipment.where(
-        Equipment_Name: new_equipment.Equipment_Name,
-        Status: 'Available'
-      ).limit(new_quantity)
-  
-      if available_items.count < new_quantity
-        raise ActiveRecord::Rollback, "Not enough items available"
-      end
-  
-      # Update borrowing record
-      if @borrowing.update(borrowing_params)
-        # Update new equipment status
-        available_items.update_all(Status: 'Unavailable', stock: 0)
-        
-        redirect_to borrowings_path, notice: "Borrowing record updated successfully."
-      else
-        raise ActiveRecord::Rollback, "Failed to update borrowing"
-      end
+    rescue => e
+      Rails.logger.error "Update failed: #{e.message}"
+      @clubs = Club.all
+      @grouped_equipments = Equipment.grouped_for_selection
+      flash.now[:alert] = e.message
+      render :edit
     end
-  rescue => e
-    redirect_to borrowing_notification_path, alert: e.message
   end
 
   def destroy

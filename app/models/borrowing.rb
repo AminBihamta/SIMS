@@ -9,9 +9,9 @@ class Borrowing < ApplicationRecord
   end
 
   # Scopes for easy querying
-  scope :borrowed, -> { where(status: 'borrowed') }
+  scope :borrowed, -> { where(status: 'borrowed').order(borrow_date: :desc) }
   scope :returned, -> { where(status: 'returned') }
-  scope :overdue, -> { where(status: 'overdue') }
+  scope :overdue, -> { where(status: 'overdue').order(due_date: :asc) }
   scope :needs_overdue_update, -> {
     where("due_date < ? AND status = ?", Time.current, 'borrowed')
   }
@@ -96,14 +96,27 @@ class Borrowing < ApplicationRecord
   end
 
   def check_and_update_status
-    if due_date < Time.current && status.to_s == 'borrowed'
-      self.status = 'overdue'
+    if due_date_changed? || will_save_change_to_due_date?
+      Rails.logger.info "Due date changed from #{due_date_was} to #{due_date}"
+      Rails.logger.info "Current time: #{Time.current}"
+      Rails.logger.info "Current status: #{status}"
+      
+      # Force update status regardless of current status
+      if due_date.present? && due_date < Time.current
+        write_attribute(:status, 'overdue')
+      else
+        write_attribute(:status, 'borrowed')
+      end
+      
+      Rails.logger.info "New status set to: #{read_attribute(:status)}"
     end
   end
 
   def handle_overdue_status
-    if saved_change_to_status? && status.to_s == 'overdue'
-      generate_overdue_notification
+    if due_date_changed? || saved_change_to_status?
+      if due_date < Time.current
+        generate_overdue_notification unless notifications.exists?
+      end
     end
   end
 
