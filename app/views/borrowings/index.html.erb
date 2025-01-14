@@ -34,6 +34,7 @@
                         <p>Borrowed by: <%= item.pic_info %></p>
                         <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
                         <p>Quantity: <%= item.quantity %></p>
+                        <p>Status: <%= item.status.capitalize %></p>
                     </div>
                     <%= link_to "View Details", edit_borrowing_path(item), class: "card-link" %>
                 </div>
@@ -44,13 +45,14 @@
     <section class="borrowed-items">
         <h2>Borrowed Items</h2>
         <div class="borrowed-list">
-            <% Borrowing.where(status: "borrowed").each do |item| %>
+            <% Borrowing.where(status: ["borrowed", "returned"]).each do |item| %>
                 <div class="card">
                     <div class="card-content">
                         <h3><%= item.equipment.Equipment_Name %></h3>
                         <p>Borrowed by: <%= item.pic_info %></p>
                         <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
                         <p>Quantity: <%= item.quantity %></p>
+                        <p>Status: <%= item.status.capitalize %></p>
                     </div>
                     <%= link_to "View Details", edit_borrowing_path(item), class: "card-link" %>
                 </div>

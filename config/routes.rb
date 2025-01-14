@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     member do
       post :send_to_pic
       post :resend
+      post :return_equipment
     end
   end
 

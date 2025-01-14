@@ -35,16 +35,18 @@ class FinancialRecordsController < ApplicationController
     end
   end
 
+  before_action :set_financial_record, only: [:edit, :update, :destroy]
+
   def edit
-    @financial_record = FinancialRecord.find(params[:id])
+    @form_url = financial_record_path(@financial_record)
   end
 
   def update
-    @financial_record = FinancialRecord.find(params[:id])
     if @financial_record.update(financial_record_params)
-      redirect_to expense_details_financial_record_path(@financial_record)
+      redirect_to expenseDashboard_financial_records_path, notice: 'Financial record was successfully updated.'
     else
-      render :editExpense
+      flash.now[:alert] = 'Failed to update financial record.'
+      render :edit
     end
   end
 
@@ -137,7 +139,14 @@ class FinancialRecordsController < ApplicationController
     @financial_record = FinancialRecord.find(params[:id])
   end
 
+  private
+
+  def set_financial_record
+    @financial_record = FinancialRecord.find(params[:id])
+  end
+
   def financial_record_params
-    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Quantity, :Club_ID)
+    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Club_ID, :Quantity)
   end
 end
+

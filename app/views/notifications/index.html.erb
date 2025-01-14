@@ -25,9 +25,10 @@
                   method: :post,
                   class: "btn btn-primary hover:bg-blue-700" %>
             <% elsif notification.status == "delivered" %>
-              <button class="btn btn-secondary cursor-not-allowed opacity-50" disabled>
-                Notification Sent
-              </button>
+              <%= button_to "Equipment returned", 
+                  return_equipment_notification_path(notification), 
+                  method: :post,
+                  class: "btn btn-success hover:bg-green-700" %>
             <% end %>
           </td>
         </tr>
