@@ -41,6 +41,12 @@ class BorrowingsController < ApplicationController
     @equipments = Equipment.all
   end
 
+  def show
+    @borrowing = Borrowing.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to borrowings_path, alert: "Borrowing record not found."
+  end
+
   # In your existing BorrowingsController
 def create
   @borrowing = Borrowing.new(borrowing_params)

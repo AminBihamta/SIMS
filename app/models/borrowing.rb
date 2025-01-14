@@ -57,21 +57,17 @@ class Borrowing < ApplicationRecord
     club = Club.find_by(Club_ID: self.club_id)
     
     if user_data && club
-      user = User.new(id: user_data.id)
-      if user && !user.is_supervisor?
-        email = ActiveRecord::Base.connection.select_value(
-          "SELECT email FROM auth.users WHERE id = '#{user_data.id}'"
-        )
-        "PIC of #{club.Club_Name} (#{email})"
+      if !user_data.is_supervisor
+        "PIC of #{club.Club_Name}"
       else
         "No PIC assigned for #{club.Club_Name}"
       end
     else
-      "Club or PIC info not found"
+      "Club info not found"
     end
   rescue => e
     Rails.logger.error "Error in pic_info: #{e.message}"
-    "Error fetching PIC info"
+    "Error fetching club info"
   end
 
   private
