@@ -1,21 +1,11 @@
-/* General Styles */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0F1D24;
-  color: #F7F7F7;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-}
-
 .superClubExpenses {
   padding: 30px;
 }
 
 h2 {
   text-align: center;
-  font-family: 'Cabin', sans-serif;
-  color: #EEF26B;
+  font-family: "Cabin", sans-serif;
+  color: #eef26b;
 }
 
 /* Summary Cards Container */
@@ -76,31 +66,32 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   background-color: #001a1a;
-  color: #FFF;
-  border: 1px solid #CCF2C2;
+  color: #fff;
+  border: 1px solid #ccf2c2;
   border-radius: 20px;
   overflow: hidden;
 }
 
-th, td {
-  font-family: 'Cabin', sans-serif;
+th,
+td {
+  font-family: "Cabin", sans-serif;
   font-size: 20px;
   line-height: normal;
-  color: #FFF;
+  color: #fff;
   padding: 15px;
-  border: 1px solid #CCF2C2;
+  border: 1px solid #ccf2c2;
   text-align: center;
 }
 
 thead th {
   background-color: #003333;
-  color: #FFF;
+  color: #fff;
   font-weight: 700;
 }
 
 tbody td {
   background-color: transparent;
-  color: #FFF;
+  color: #fff;
   font-weight: 100;
 }
 
@@ -123,22 +114,23 @@ tbody tr:last-child td:last-child {
 /* Table Hover Effect */
 tr:hover {
   background-color: #004d4d;
-  color: #FFF;
+  color: #fff;
 }
 
 .expense-link {
-  color: #FFF;
+  color: #fff;
   text-decoration: none;
 }
 
 .expense-link:hover {
-  color: #CCF2C2;
+  color: #ccf2c2;
   text-decoration: underline;
 }
 
 /* Media Queries */
 @media (max-width: 768px) {
-  th, td {
+  th,
+  td {
     font-size: 14px;
     padding: 8px;
   }
