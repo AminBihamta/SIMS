@@ -982,10 +982,6 @@ nav a:hover {
   align-items: center;
 }
 
-.burgerMenu svg {
-  display: none;
-}
-
 .parametersForm {
   display: flex;
   flex-direction: column;
@@ -1185,7 +1181,48 @@ form.auth-form {
   justify-content: start;
 }
 
+.nav-links .regularButtonWhite {
+  cursor: pointer !important;
+}
+
+.nav-links .regularButtonWhite,
+.nav-links .regularButtonRed {
+  width: 30px;
+}
+
+.nav-links .regularButtonWhite svg,
+.nav-links .regularButtonRed svg {
+  fill: white;
+}
+
+.nav-links .regularButtonRed:hover svg {
+  fill: #c60000;
+}
+
+.nav-links .regularButtonWhite:hover svg {
+  fill: var(--Background);
+}
+
+.error-message {
+  display: flex !important;
+  width: 100% !important;
+  justify-self: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
 @media only screen and (max-width: 700px) {
+  nav.nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 300px;
+    justify-content: end;
+    gap: 10px;
+  }
+
+  header {
+    width: 90%;
+  }
   .borrowingsParent {
     justify-content: center;
   }
@@ -1194,10 +1231,6 @@ form.auth-form {
   }
   .clubsContainer {
     justify-content: center;
-  }
-
-  body {
-    padding-top: 40px;
   }
 
   .desktop-only {
@@ -1231,7 +1264,7 @@ form.auth-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 10px;
+    padding: 20px 10px;
     margin: 0px;
   }
 
