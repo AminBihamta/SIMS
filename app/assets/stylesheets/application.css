@@ -1323,7 +1323,24 @@ header .regularButtonWhite:hover svg {
   margin: 20px 0px;
 }
 
+.borrowingsContainer .club {
+  width: 44% !important;
+}
+
+.borrowingsContainer .clubsContainer {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.overdue-items .club {
+  background-color: #484f46 !important;
+}
+
 @media only screen and (max-width: 700px) {
+  .borrowingsContainer .club {
+    width: 100% !important;
+  }
   .budgetDiv {
     display: flex;
     justify-content: center;
