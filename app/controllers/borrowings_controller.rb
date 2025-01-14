@@ -41,27 +41,27 @@ class BorrowingsController < ApplicationController
     @equipments = Equipment.all
   end
 
-  def create
-    @borrowing = Borrowing.new(borrowing_params)
-    equipment = Equipment.find_by(Equipment_ID: @borrowing.equipment_id)
+  # In your existing BorrowingsController
+def create
+  @borrowing = Borrowing.new(borrowing_params)
+  equipment = Equipment.find_by(Equipment_ID: @borrowing.equipment_id)
 
-    if equipment.nil?
-      redirect_to new_borrowing_path, alert: "Selected equipment does not exist."
-      return
-    end
-
-    if equipment.stock.nil? || equipment.stock < @borrowing.quantity
-      redirect_to borrowing_notification_path, alert: "Not enough stock available for the selected item."
-      return
-    end
-
-    if @borrowing.save
-      equipment.update(stock: equipment.stock - @borrowing.quantity)
-      redirect_to borrowings_path, notice: "Borrowing record created successfully."
-    else
-      redirect_to borrowing_notification_path, alert: "Failed to create borrowing record. Please try again."
-    end
+  if equipment.nil?
+    redirect_to new_borrowing_path, alert: "Selected equipment does not exist."
+    return
   end
+
+  if equipment.Status != 'Available'
+    redirect_to borrowing_notification_path, alert: "Equipment is not available for borrowing."
+    return
+  end
+
+  if @borrowing.save
+    redirect_to borrowings_path, notice: "Borrowing record created successfully."
+  else
+    redirect_to borrowing_notification_path, alert: "Failed to create borrowing record. Please try again."
+  end
+end
 
   def edit
     @borrowed = Borrowing.find_by(id: params[:id])
@@ -111,12 +111,14 @@ class BorrowingsController < ApplicationController
   def return
     borrowing = Borrowing.find(params[:id])
     if borrowing.update(status: "returned")
-      Notification.where(borrowing_id: borrowing.id).destroy_all # Remove associated notifications
+      borrowing.equipment.update(Status: 'Available', stock: 1)
+      borrowing.update_equipment_group_stock
+      Notification.where(borrowing_id: borrowing.id).destroy_all
       flash[:success] = "Borrowing status updated to returned."
     else
       flash[:error] = "Failed to update borrowing status."
     end
-    redirect_to pic_dashboard_path # Adjust to your dashboard route
+    redirect_to pic_dashboard_path
   end
 
   def equipment_by_club
@@ -146,9 +148,6 @@ class BorrowingsController < ApplicationController
   end
 
   # before_action :require_pic! # Ensure only PIC users can access this action
-
-
-
   def borrowing_params
     params.require(:borrowing).permit(:equipment_id, :club_id, :borrow_date, :due_date, :quantity, :status)
   end

@@ -37,6 +37,21 @@ class Borrowing < ApplicationRecord
   before_save :check_and_update_status
   after_save :check_and_generate_notification
 
+
+  def reduce_stock_on_borrow
+    if equipment
+      equipment.update!(Status: 'Unavailable', stock: 0)
+      update_equipment_group_stock
+    end
+  end
+  
+  def restore_stock_on_destroy
+    if equipment
+      equipment.update!(Status: 'Available', stock: 1)
+      update_equipment_group_stock
+    end
+  end
+
   private
 
   def check_and_generate_notification
@@ -51,23 +66,16 @@ class Borrowing < ApplicationRecord
     end
   end
 
-  def reduce_stock_on_borrow
-    if equipment
-      new_stock = equipment.stock - quantity
-      raise ActiveRecord::RecordInvalid, "Insufficient stock for borrowing" if new_stock.negative?
-
-      equipment.update!(stock: new_stock)
-    end
-  end
-
-  def restore_stock_on_destroy
-    equipment.update!(stock: equipment.stock + quantity) if equipment
-  end
-
   def handle_overdue_status
     if saved_change_to_status? && status.to_s == 'overdue'
       generate_overdue_notification
     end
+  end
+
+  def update_equipment_group_stock
+    total = Equipment.total_in_group(equipment.Equipment_Name)
+    available = Equipment.available_in_group(equipment.Equipment_Name)
+    Equipment.where(Equipment_Name: equipment.Equipment_Name).update_all(stock: available)
   end
 
   def generate_overdue_notification

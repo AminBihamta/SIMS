@@ -15,15 +15,19 @@ class EquipmentsController < ApplicationController
 
   def group_items
     @equipment_name = params[:equipment_name]
-
+    
+    base_query = Equipment.where(Equipment_Name: @equipment_name)
+    
     if params[:query].present?
-      # Perform case-insensitive search for Equipment_Name using ILIKE (PostgreSQL)
-      @items = Equipment.where(Equipment_Name: @equipment_name).where('LOWER("Equipment_Name") LIKE ? OR "Equipment_ID" = ?',
-                                                                      "%#{params[:query].downcase}%",
-                                                                      params[:query].to_i)
+      @items = base_query.where('LOWER("Equipment_Name") LIKE ? OR "Equipment_ID" = ?',
+                               "%#{params[:query].downcase}%",
+                               params[:query].to_i)
     else
-      @items = Equipment.where(Equipment_Name: @equipment_name)
+      @items = base_query
     end
+    
+    @total_stock = Equipment.group_stock(@equipment_name)
+    @available_stock = Equipment.available_stock(@equipment_name)
   end
 
   def show
@@ -38,23 +42,39 @@ class EquipmentsController < ApplicationController
 
   def create
     quantity = params[:equipment][:quantity].to_i
-    quantity = 1 if quantity < 1 # Default to at least one record
-
-    equipment_params_without_quantity = equipment_params.except(:quantity) # Remove quantity from strong parameters
-
+    quantity = 1 if quantity < 1
+  
+    equipment_params_without_quantity = equipment_params.except(:quantity)
+  
     begin
       ActiveRecord::Base.transaction do
         @equipments = []
         quantity.times do
-          @equipments << Equipment.create!(equipment_params_without_quantity)
+          equipment = Equipment.new(equipment_params_without_quantity)
+          equipment.save!
+          @equipments << equipment
         end
       end
-
-      render json: { success: true, redirect_url: equipments_path, notice: "#{quantity} Equipment record(s) created successfully!" }
+  
+      # Calculate and update group stock after creation
+      total_stock = Equipment.group_stock(@equipments.first.Equipment_Name)
+      @equipments.each do |equip|
+        equip.update_column(:stock, total_stock)
+      end
+  
+      render json: { 
+        success: true, 
+        redirect_url: equipments_path, 
+        notice: "#{quantity} Equipment record(s) created successfully!" 
+      }
     rescue ActiveRecord::RecordInvalid => e
       @equipment = Equipment.new(equipment_params_without_quantity)
       flash.now[:alert] = "Error creating equipment: #{e.message}"
-      render partial: "form", locals: { equipment: @equipment, form_url: equipments_path, show_quantity_field: true }, status: :unprocessable_entity
+      render partial: "form", locals: { 
+        equipment: @equipment, 
+        form_url: equipments_path, 
+        show_quantity_field: true 
+      }, status: :unprocessable_entity
     end
   end
 
