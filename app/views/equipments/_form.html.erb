@@ -23,7 +23,7 @@
     </div>
 
     <div>
-        <%= form.select :Financial_Record_Id, options_for_select(FinancialRecord.all.collect { |f| [f.Title, f.Financial_Record_ID] }, equipment.Financial_Record_Id), prompt: "Financial Record", required: true %>
+        <%= form.select :Financial_Record_Id, options_for_select(FinancialRecord.all.collect { |f| [f.Title, f.Financial_Record_ID] }, equipment.Financial_Record_Id), prompt: "Financial Record (Optional)"%>
         <% equipment.errors.full_messages_for(:Financial_Record_Id).each do |message| %>
         <div class="error-message"><%= message %></div>
         <% end %>
