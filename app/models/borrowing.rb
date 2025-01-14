@@ -39,18 +39,35 @@ class Borrowing < ApplicationRecord
 
 
   def reduce_stock_on_borrow
-    if equipment
-      equipment.update!(Status: 'Unavailable', stock: 0)
-      update_equipment_group_stock
+    return unless equipment
+  
+    available_items = Equipment.where(
+      Equipment_Name: equipment.Equipment_Name,
+      Status: 'Available'
+    ).limit(quantity)
+  
+    if available_items.count < quantity
+      raise "Not enough available items"
+    end
+  
+    available_items.each do |item|
+      item.update!(Status: 'Unavailable', stock: 0)
     end
   end
   
   def restore_stock_on_destroy
-    if equipment
-      equipment.update!(Status: 'Available', stock: 1)
-      update_equipment_group_stock
+    return unless equipment
+  
+    borrowed_items = Equipment.where(
+      Equipment_Name: equipment.Equipment_Name,
+      Status: 'Unavailable'
+    ).limit(quantity)
+  
+    borrowed_items.each do |item|
+      item.update!(Status: 'Available', stock: 1)
     end
   end
+  
 
   def pic_info
     user_data = UserData.find_by(club_id: self.club_id, is_supervisor: false)
@@ -90,11 +107,6 @@ class Borrowing < ApplicationRecord
     end
   end
 
-  def update_equipment_group_stock
-    total = Equipment.total_in_group(equipment.Equipment_Name)
-    available = Equipment.available_in_group(equipment.Equipment_Name)
-    Equipment.where(Equipment_Name: equipment.Equipment_Name).update_all(stock: available)
-  end
 
   def generate_overdue_notification
     days_overdue = (Date.current - due_date).to_i

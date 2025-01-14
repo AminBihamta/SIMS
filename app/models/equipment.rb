@@ -1,6 +1,5 @@
 class Equipment < ApplicationRecord
   before_create :set_initial_status_and_stock
-  after_save :update_group_stock
 
   self.table_name = "equipments"
 
@@ -24,21 +23,16 @@ class Equipment < ApplicationRecord
   def self.total_in_group(equipment_name)
     where(Equipment_Name: equipment_name).count
   end
-  
+
   def self.available_in_group(equipment_name)
     where(Equipment_Name: equipment_name, Status: 'Available').count
   end
 
+
   private
 
   def set_initial_status_and_stock
-    self.Status = 'Available'
-    self.stock = 1
-  end
-
-  def update_group_stock
-    total = Equipment.total_in_group(self.Equipment_Name)
-    available = Equipment.available_in_group(self.Equipment_Name)
-    Equipment.where(Equipment_Name: self.Equipment_Name).update_all(stock: available)
+    self.Status ||= 'Available'
+    self.stock ||= 1
   end
 end

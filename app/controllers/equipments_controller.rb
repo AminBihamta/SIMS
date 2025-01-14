@@ -43,9 +43,9 @@ class EquipmentsController < ApplicationController
   def create
     quantity = params[:equipment][:quantity].to_i
     quantity = 1 if quantity < 1
-  
+    
     equipment_params_without_quantity = equipment_params.except(:quantity)
-  
+    
     begin
       ActiveRecord::Base.transaction do
         @equipments = []
@@ -56,24 +56,16 @@ class EquipmentsController < ApplicationController
         end
       end
   
-      # Calculate and update group stock after creation
-      total_stock = Equipment.group_stock(@equipments.first.Equipment_Name)
-      @equipments.each do |equip|
-        equip.update_column(:stock, total_stock)
-      end
-  
       render json: { 
         success: true, 
         redirect_url: equipments_path, 
         notice: "#{quantity} Equipment record(s) created successfully!" 
       }
-    rescue ActiveRecord::RecordInvalid => e
-      @equipment = Equipment.new(equipment_params_without_quantity)
-      flash.now[:alert] = "Error creating equipment: #{e.message}"
-      render partial: "form", locals: { 
-        equipment: @equipment, 
-        form_url: equipments_path, 
-        show_quantity_field: true 
+    rescue => e
+      Rails.logger.error("Equipment creation failed: #{e.message}")
+      render json: { 
+        success: false, 
+        error: e.message 
       }, status: :unprocessable_entity
     end
   end
