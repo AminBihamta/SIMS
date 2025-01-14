@@ -1264,7 +1264,27 @@ header .regularButtonWhite:hover svg {
   width: 45px;
 }
 
+.expenses-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.expenses-card button {
+  width: 580px;
+}
+
 @media only screen and (max-width: 700px) {
+  .expenses-card {
+    flex-direction: column;
+    padding: 0px 20px;
+  }
+
+  .expenses-card button {
+    max-width: 350px;
+  }
   nav.nav-links {
     flex-direction: row;
     flex-wrap: wrap;

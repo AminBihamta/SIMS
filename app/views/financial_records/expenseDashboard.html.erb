@@ -9,9 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-    <%= render 'shared/header', search_url: equipments_path %>
     <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= render 'shared/header', search_url: equipments_path %>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Expenses Table -->
+
         <table>
             <thead>
                 <tr>
@@ -70,7 +70,6 @@
             </tbody>
         </table>
     </div>
-    <%= render 'shared/financials_footer', active_tab: :expenseDashboard %>
 </body>
 
 </html>
