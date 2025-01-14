@@ -1181,7 +1181,14 @@ form.auth-form {
   width: 300px;
 }
 
+.borrowingsParent {
+  justify-content: start;
+}
+
 @media only screen and (max-width: 700px) {
+  .borrowingsParent {
+    justify-content: center;
+  }
   .authParent {
     flex-direction: column;
   }
