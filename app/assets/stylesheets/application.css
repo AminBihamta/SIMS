@@ -326,6 +326,23 @@ body.overlay-active .overlay {
   color: #e5e5e5;
 }
 
+input,
+select,
+textarea {
+  width: 320px;
+  height: 47px;
+  padding: 10px;
+  margin: 5px auto;
+  background-color: #072326;
+  border: 1px solid #ccf2c2;
+  color: #e5e5e5;
+  border-radius: 20px;
+  font-size: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .overlay-content input,
 .overlay-content select,
 .overlay-content textarea {
@@ -1274,6 +1291,19 @@ header .regularButtonWhite:hover svg {
 
 .expenses-card button {
   width: 580px;
+}
+
+.expenseDashboard,
+.expenseDashboard .form-container,
+.expenseDashboard .form-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.expenseDashboard .form-container {
+  gap: 20px;
 }
 
 @media only screen and (max-width: 700px) {
