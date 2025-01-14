@@ -1186,12 +1186,14 @@ form.auth-form {
 }
 
 .nav-links .regularButtonWhite,
-.nav-links .regularButtonRed {
+.nav-links .regularButtonRed,
+header .regularButtonRed {
   width: 30px;
 }
 
 .nav-links .regularButtonWhite svg,
-.nav-links .regularButtonRed svg {
+.nav-links .regularButtonRed svg,
+header .regularButtonWhite svg {
   fill: white;
 }
 
@@ -1199,7 +1201,8 @@ form.auth-form {
   fill: #c60000;
 }
 
-.nav-links .regularButtonWhite:hover svg {
+.nav-links .regularButtonWhite:hover svg,
+header .regularButtonWhite:hover svg {
   fill: var(--Background);
 }
 
