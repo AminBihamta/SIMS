@@ -88,15 +88,8 @@ class EquipmentsController < ApplicationController
   end
 
   def destroy
-    @equipment2 = @equipment.Equipment_Name
-    @available_stock = Equipment.available_stock(@equipment_name)
-    if @available_stock > 0
-      @equipment.destroy
-      redirect_to "/equipments/group/#{@equipment2}", status: :see_other
-    else
       @equipment.destroy
       redirect_to equipments_path, status: :see_other
-    end
   end
 
   def grouped_for_selection
