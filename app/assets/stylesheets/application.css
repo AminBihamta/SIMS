@@ -1338,6 +1338,10 @@ header .regularButtonWhite:hover svg {
   background-color: #484f46 !important;
 }
 
+.parametersForm input[type="date"] {
+  width: 220px;
+}
+
 @media only screen and (max-width: 700px) {
   .borrowingsContainer .club {
     width: 100% !important;
