@@ -1218,13 +1218,19 @@ header .regularButtonWhite:hover svg {
   nav.nav-links {
     flex-direction: row;
     flex-wrap: wrap;
-    width: 300px;
-    justify-content: end;
+    width: 350px;
+    justify-content: center;
     gap: 10px;
   }
 
   header {
-    width: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 0px;
+    padding-top: 0px;
   }
   .borrowingsParent {
     justify-content: center;
