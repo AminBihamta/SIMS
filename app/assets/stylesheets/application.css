@@ -1145,6 +1145,11 @@ tr:hover {
   padding: 0px;
 }
 
+.pure {
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
 .authParent {
   display: flex;
   flex-direction: row;
@@ -1236,6 +1241,7 @@ header .regularButtonWhite:hover svg {
 .last-disabled .club {
   background-color: var(--Background) !important;
   color: white !important;
+  justify-content: space-between !important;
 }
 
 .last-disabled .club:hover {
@@ -1307,6 +1313,12 @@ header .regularButtonWhite:hover svg {
 }
 
 @media only screen and (max-width: 700px) {
+  .budgetDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   .expenses-card {
     flex-direction: column;
     padding: 0px 20px;
