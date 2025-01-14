@@ -1216,6 +1216,15 @@ header .regularButtonWhite:hover svg {
   color: rgb(195, 195, 195);
 }
 
+.last-disabled .club {
+  background-color: var(--Background) !important;
+  color: white !important;
+}
+
+.last-disabled .club:hover {
+  background-color: rgb(0, 79, 88) !important;
+}
+
 @media only screen and (max-width: 700px) {
   nav.nav-links {
     flex-direction: row;
