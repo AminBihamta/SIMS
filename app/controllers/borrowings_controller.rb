@@ -13,8 +13,15 @@ class BorrowingsController < ApplicationController
 
   def super_club_borrowings
     @super_clubs = Club.where(Is_Super_Club: true)
+    
+    # Get all sub-club IDs for super clubs
+    sub_club_ids = Club.where(Parent_Club: @super_clubs.pluck(:Club_ID)).pluck(:Club_ID)
+    
+    # Combine super club IDs and their sub-club IDs
+    all_related_club_ids = @super_clubs.pluck(:Club_ID) + sub_club_ids
+    
     @super_club_borrowings = Borrowing.includes(:equipment, :club)
-                                       .where(club_id: @super_clubs.pluck(:Club_ID))
+                                     .where(club_id: all_related_club_ids)
   end
 
   def sub_club_borrowings
@@ -25,8 +32,19 @@ class BorrowingsController < ApplicationController
 
   def balance_sheet
     @club = Club.find(params[:id])
-    @borrowings = Borrowing.includes(:equipment).where(club_id: @club.id)
-
+    
+    if @club.Is_Super_Club
+      # Get all sub-club IDs for this super club
+      sub_club_ids = Club.where(Parent_Club: @club.Club_ID).pluck(:Club_ID)
+      # Include both super club and its sub-clubs
+      club_ids = [@club.Club_ID] + sub_club_ids
+      @borrowings = Borrowing.includes(:equipment, :club)
+                            .where(club_id: club_ids)
+    else
+      @borrowings = Borrowing.includes(:equipment)
+                            .where(club_id: @club.id)
+    end
+  
     if params[:search].present?
       search_term = params[:search].downcase
       @borrowings = @borrowings.select do |borrowing|

@@ -12,17 +12,18 @@
   </header>
 
   <h2>All <%= @club.Club_Name %> Borrowings</h2>
+  
 
-  <table class="borrowing-table">
+  <table>
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Equipment</th>
+        <th>Equipment Name</th>
+        <th>Club</th>
+        <th>Borrowed Date</th>
+        <th>Due Date</th>
         <th>Quantity</th>
+        <th>Days Remaining</th>
         <th>PIC</th>
-        <th>Date Borrowed</th>
-        <th>Date Due</th>
-        <th>Date Returned</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -30,40 +31,22 @@
       <% if @borrowings.any? %>
         <% @borrowings.each do |borrowing| %>
           <tr>
-            <!-- Borrowing ID -->
-            <td><%= borrowing.id %></td>
-
-            <!-- Equipment Name -->
-            <td><%= borrowing.equipment&.Equipment_Name || 'N/A' %></td>
-
-            <!-- Quantity -->
+            <td><%= borrowing.equipment.Equipment_Name %></td>
+            <td><%= borrowing.club.Club_Name %></td>
+            <td><%= borrowing.borrow_date.strftime("%B %d, %Y") %></td>
+            <td><%= borrowing.due_date.strftime("%B %d, %Y") %></td>
             <td><%= borrowing.quantity %></td>
-
-            <!-- Borrower (PIC) -->
             <td>
-              <% if borrowing.person_in_charge.present? %>
-                <%= borrowing.person_in_charge.name || 'N/A' %>
+              <% days_remaining = (borrowing.due_date.to_date - Date.current).to_i %>
+              <% if days_remaining > 0 %>
+                <%= "#{days_remaining} days" %>
+              <% elsif days_remaining == 0 %>
+                Due today
               <% else %>
-                N/A
+                <%= "#{days_remaining.abs} days overdue" %>
               <% end %>
             </td>
-
-            <!-- Borrow Date -->
-            <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
-
-            <!-- Due Date -->
-            <td><%= borrowing.due_date ? borrowing.due_date.strftime('%d/%m/%Y') : 'Not Returned' %></td>
-
-            <!-- Date Returned -->
-            <td>
-              <% if borrowing.status == "returned" %>
-                <%= borrowing.updated_at.strftime('%d/%m/%Y') %>
-              <% else %>
-                N/A
-              <% end %>
-            </td>
-
-            <!-- Status -->
+            <td><%= borrowing.pic_info %></td>
             <td><%= borrowing.status.capitalize %></td>
           </tr>
         <% end %>
