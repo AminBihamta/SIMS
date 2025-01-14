@@ -1,77 +1,87 @@
-<div class="frame">
-  <header class="header">
-    <button class="back-btn" onclick="history.back()">←</button>
-    <!-- Search Form -->
-    <div class="search-bar">
-      <%= form_with url: borrowing_balance_sheet_path(@club), method: :get, local: true do %>
-        <input type="text" name="search" id="search" placeholder="Search" value="<%= params[:search] %>" />
-        <button type="submit">Search</button>
-      <% end %>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+    <div class="frame">
+
+
+        <h2 class="clean">All <%= @club.Club_Name %> Borrowings</h2>
+
+        <table class=" borrowing-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Equipment</th>
+                    <th>Quantity</th>
+                    <th>PIC</th>
+                    <th>Date Borrowed</th>
+                    <th>Date Due</th>
+                    <th>Date Returned</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if @borrowings.any? %>
+                <% @borrowings.each do |borrowing| %>
+                <tr>
+                    <!-- Borrowing ID -->
+                    <td><%= borrowing.id %></td>
+
+                    <!-- Equipment Name -->
+                    <td><%= borrowing.equipment&.Equipment_Name || 'N/A' %></td>
+
+                    <!-- Quantity -->
+                    <td><%= borrowing.quantity %></td>
+
+                    <!-- Borrower (PIC) -->
+                    <td>
+                        <% if borrowing.person_in_charge.present? %>
+                        <%= borrowing.person_in_charge.name || 'N/A' %>
+                        <% else %>
+                        N/A
+                        <% end %>
+                    </td>
+
+                    <!-- Borrow Date -->
+                    <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
+
+                    <!-- Due Date -->
+                    <td><%= borrowing.due_date ? borrowing.due_date.strftime('%d/%m/%Y') : 'Not Returned' %></td>
+
+                    <!-- Date Returned -->
+                    <td>
+                        <% if borrowing.status == "returned" %>
+                        <%= borrowing.updated_at.strftime('%d/%m/%Y') %>
+                        <% else %>
+                        N/A
+                        <% end %>
+                    </td>
+
+                    <!-- Status -->
+                    <td><%= borrowing.status.capitalize %></td>
+                </tr>
+                <% end %>
+                <% else %>
+                <tr>
+                    <td colspan="8">No borrowings found.</td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
     </div>
-    <div class="user-icon">👤</div>
-  </header>
+</body>
 
-  <h2>All <%= @club.Club_Name %> Borrowings</h2>
-
-  <table class="borrowing-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Equipment</th>
-        <th>Quantity</th>
-        <th>PIC</th>
-        <th>Date Borrowed</th>
-        <th>Date Due</th>
-        <th>Date Returned</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @borrowings.any? %>
-        <% @borrowings.each do |borrowing| %>
-          <tr>
-            <!-- Borrowing ID -->
-            <td><%= borrowing.id %></td>
-
-            <!-- Equipment Name -->
-            <td><%= borrowing.equipment&.Equipment_Name || 'N/A' %></td>
-
-            <!-- Quantity -->
-            <td><%= borrowing.quantity %></td>
-
-            <!-- Borrower (PIC) -->
-            <td>
-              <% if borrowing.person_in_charge.present? %>
-                <%= borrowing.person_in_charge.name || 'N/A' %>
-              <% else %>
-                N/A
-              <% end %>
-            </td>
-
-            <!-- Borrow Date -->
-            <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
-
-            <!-- Due Date -->
-            <td><%= borrowing.due_date ? borrowing.due_date.strftime('%d/%m/%Y') : 'Not Returned' %></td>
-
-            <!-- Date Returned -->
-            <td>
-              <% if borrowing.status == "returned" %>
-                <%= borrowing.updated_at.strftime('%d/%m/%Y') %>
-              <% else %>
-                N/A
-              <% end %>
-            </td>
-
-            <!-- Status -->
-            <td><%= borrowing.status.capitalize %></td>
-          </tr>
-        <% end %>
-      <% else %>
-        <tr>
-          <td colspan="8">No borrowings found.</td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+</html>
