@@ -22,14 +22,6 @@
             <h1 class="welcome">Welcome</h1>
             <p class="email"><%= current_user&.email %></p>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="buttonsDiv">
-            <%= link_to "Send a Notification", notifications_path, class: "regularButtonYellow" %>
-            <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "regularButtonYellow" %>
-            <%= link_to "Generate a Report", reports_path, class: "regularButtonYellow" %>
-
-        </div>
     </div>
 
     <div class="latestBorrowingsParent">
