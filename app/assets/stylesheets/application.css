@@ -173,25 +173,6 @@ header img {
   margin: -0.75em;
 }
 
-.add-card {
-  border-style: solid;
-  border-color: #ccf2c2;
-  padding: 20px;
-  border-radius: 15px;
-  flex: 1 1 calc(33% - 20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0.75;
-  background-color: #ccf2c2;
-  color: #072326;
-}
-
-.add-card:hover {
-  opacity: 1;
-}
-
 .add-link {
   font-size: 2em;
   text-decoration: none;

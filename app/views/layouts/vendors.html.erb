@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>SIMS</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
 
-  <!-- Include global stylesheets -->
-  <%= stylesheet_link_tag 'vendors/application', media: 'all' %>
-  <%= javascript_include_tag "application", defer: true %>
-  <%= javascript_include_tag "overlay", defer: true %>
-  <!-- Include page-specific stylesheets -->
-  <%= yield :stylesheets %>
-  <%= javascript_importmap_tags %>
+<head>
+    <title>SIMS</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Include global stylesheets -->
+    <%= javascript_include_tag "application", defer: true %>
+    <%= javascript_include_tag "overlay", defer: true %>
+    <!-- Include page-specific stylesheets -->
+    <%= yield :stylesheets %>
+    <%= javascript_importmap_tags %>
 </head>
+
 <body>
-<%= yield %>
+    <%= yield %>
 </body>
+
 </html>
