@@ -1293,12 +1293,49 @@ header .regularButtonWhite:hover svg {
   gap: 20px;
 }
 
+.vendor-actions .regularButtonYellow {
+  width: 170px !important;
+  height: 20px;
+}
+
+.vendor-actions .regularButtonRed {
+  width: 210px !important;
+  height: 43px;
+}
+
+.vendor-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+}
+
+.address {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  gap: 10px;
+  align-items: center;
+}
+
+.address:nth-child(3) {
+  margin: 20px 0px;
+}
+
 @media only screen and (max-width: 700px) {
   .budgetDiv {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+
+  .vendor-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .summary-cards {
