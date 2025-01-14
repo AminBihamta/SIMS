@@ -1,24 +1,37 @@
-<div class="frame">
-  <header class="header">
-    <button class="back-btn" onclick="history.back()">←</button>
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Search">
-    </div>
-    <div class="user-icon">👤</div>
-  </header>
+<!DOCTYPE html>
+<html lang="en">
 
-  <h2 class="page-title">Update Borrowing</h2>
-  <%= form_with(model: @borrowing, local: true, class: "edit-borrowing-form") do |form| %>
-    <!-- Club Selection -->
-    <div class="form-row">
-      <%= form.label :club_id, "Club", class: "form-label" %>
-      <%= form.collection_select :club_id, @clubs, :Club_ID, :Club_Name, { prompt: "Select Club" }, { class: "form-input" } %>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-    <!-- Equipment Selection -->
-      <div class="form-row">
-        <%= form.label :equipment_id, "Name of Item", class: "form-label" %>
-        <%= form.select :equipment_id, 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+
+    <div class="equipment-container">
+
+        <h1 class="clean">Update Borrowing Record</h1>
+        <div class="equipment-details">
+
+            <%= form_with(model: @borrowing, local: true, class: "edit-borrowing-form") do |form| %>
+            <!-- Club Selection -->
+            <div class="form-row">
+                <%= form.label :club_id, "Club", class: "form-label" %>
+                <%= form.collection_select :club_id, @clubs, :Club_ID, :Club_Name, { prompt: "Select Club" }, { class: "form-input" } %>
+            </div>
+
+            <!-- Equipment Selection -->
+            <div class="form-row">
+                <%= form.label :equipment_id, "Name of Item", class: "form-label" %>
+                <%= form.select :equipment_id, 
           options_for_select(
             @grouped_equipments.map do |equipment|
               [
@@ -31,38 +44,39 @@
           { prompt: "Select Equipment" },
           { class: "form-input", id: "equipment-select" }
         %>
-      </div>
-      
-      <div id="stock-container" style="display: none;">
-        <p id="stock-available"></p>
-      </div>
+            </div>
 
-    <!-- Quantity Input -->
-    <div class="form-row">
-      <%= form.label :quantity, "Quantity", class: "form-label" %>
-      <%= form.text_field :quantity, value: @borrowing.quantity, class: "form-input", inputmode: "numeric", pattern: "[0-9]*" %>
+            <div id="stock-container" style="display: none;">
+                <p id="stock-available"></p>
+            </div>
+
+            <!-- Quantity Input -->
+            <div class="form-row">
+                <%= form.label :quantity, "Quantity", class: "form-label" %>
+                <%= form.text_field :quantity, value: @borrowing.quantity, class: "form-input", inputmode: "numeric", pattern: "[0-9]*" %>
+            </div>
+
+            <!-- Borrow Date Input -->
+            <div class="form-row">
+                <%= form.label :borrow_date, "Borrow Date", class: "form-label" %>
+                <%= form.date_field :borrow_date, value: @borrowing.borrow_date.to_date, class: "form-input" %>
+            </div>
+
+            <!-- Due Date Input -->
+            <div class="form-row">
+                <%= form.label :due_date, "Due Date", class: "form-label" %>
+                <%= form.date_field :due_date, value: @borrowing.due_date.to_date, class: "form-input" %>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-actions">
+                <%= form.submit "Update Borrowing", class: "regularButtonYellow", style: "margin-top: 20px" %>
+            </div>
+            <% end %>
+
+            <!-- Delete Borrowing Button -->
+            <div class="form-actions">
+                <%= button_to "Delete Borrowing", borrowing_path(@borrowing), method: :delete, class: "regularButtonRed", style: "margin-top: 0px; width: 320px; height: 50px" , data: { confirm: "Are you sure you want to delete this borrowing record?" } %>
+            </div>
+        </div>
     </div>
-
-    <!-- Borrow Date Input -->
-    <div class="form-row">
-      <%= form.label :borrow_date, "Borrow Date", class: "form-label" %>
-      <%= form.date_field :borrow_date, value: @borrowing.borrow_date.to_date, class: "form-input" %>
-    </div>
-
-    <!-- Due Date Input -->
-    <div class="form-row">
-      <%= form.label :due_date, "Due Date", class: "form-label" %>
-      <%= form.date_field :due_date, value: @borrowing.due_date.to_date, class: "form-input" %>
-    </div>
-
-    <!-- Buttons -->
-    <div class="form-actions">
-      <%= form.submit "Update Borrowing", class: "btn-submit" %>
-    </div>
-  <% end %>
-
-  <!-- Delete Borrowing Button -->
-  <div class="form-actions">
-    <%= button_to "Delete Borrowing", borrowing_path(@borrowing), method: :delete, class: "btn-delete", data: { confirm: "Are you sure you want to delete this borrowing record?" } %>
-  </div>
-</div>
