@@ -24,7 +24,7 @@
             <!-- Club Selection -->
             <div class="form-row">
                 <%= form.label :club_id, "Club", class: "form-label" %>
-                <%= form.collection_select :club_id, @clubs, :Club_ID, :Club_Name, { prompt: "Select Club" }, { class: "form-input" } %>
+                <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :id, :Club_Name, { prompt: "Sub-Club" }%>
             </div>
 
             <!-- Equipment Selection -->
