@@ -68,26 +68,30 @@ class BorrowingsController < ApplicationController
   end
 
   # In your existing BorrowingsController
-def create
-  @borrowing = Borrowing.new(borrowing_params)
-  equipment = Equipment.find_by(Equipment_ID: @borrowing.equipment_id)
+  def create
+    @borrowing = Borrowing.new(borrowing_params)
+    equipment = Equipment.find_by(Equipment_ID: @borrowing.equipment_id)
 
-  if equipment.nil?
-    redirect_to new_borrowing_path, alert: "Selected equipment does not exist."
-    return
-  end
+    if equipment.nil?
+      redirect_to new_borrowing_path, alert: "Selected equipment does not exist."
+      return
+    end
 
-  if equipment.Status != 'Available'
-    redirect_to borrowing_notification_path, alert: "Equipment is not available for borrowing."
-    return
-  end
+    if equipment.Status != 'Available'
+      redirect_to borrowing_notification_path, alert: "Equipment is not available for borrowing."
+      return
+    end
 
-  if @borrowing.save
-    redirect_to borrowings_path, notice: "Borrowing record created successfully."
-  else
-    redirect_to borrowing_notification_path, alert: "Failed to create borrowing record. Please try again."
+    if @borrowing.save
+      redirect_to borrowings_path, notice: "Borrowing record created successfully."
+    else
+      @clubs = Club.all
+      @grouped_equipments = Equipment.grouped_for_selection
+      @equipments = Equipment.all
+      flash.now[:alert] = "Failed to create borrowing record. Please try again."
+      render :new
+    end
   end
-end
 
 def edit
   @borrowing = Borrowing.find_by(id: params[:id])
