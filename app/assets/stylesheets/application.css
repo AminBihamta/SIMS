@@ -316,7 +316,7 @@ textarea {
   background-color: #072326;
   border: 1px solid #ccf2c2;
   color: #e5e5e5;
-  border-radius: 20px;
+  border-radius: 12px;
   font-size: 1em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -338,7 +338,7 @@ input [type="submit"] {
   background-color: #072326;
   border: 1px solid #ccf2c2;
   color: #e5e5e5;
-  border-radius: 20px;
+  border-radius: 12px;
   font-size: 1em;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -786,7 +786,7 @@ h2 {
 
 .auth-container input {
   padding: 15px;
-  border-radius: 60px;
+  border-radius: 12px;
 }
 
 .auth-container h2 {
@@ -795,7 +795,7 @@ h2 {
 
 .auth-container input[type="email"],
 .auth-container input[type="password"] {
-  border-radius: 50;
+  border-radius: 12px;
   background-color: transparent;
   border: 1px solid var(--Highlight-Color);
   background-color: var(--Background);
@@ -844,7 +844,7 @@ nav {
 
 nav a {
   padding: 15px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid white;
   text-decoration: none;
   color: white;
