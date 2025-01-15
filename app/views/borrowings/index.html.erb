@@ -1,62 +1,69 @@
-<div class="frame">
-    <header class="header">
-        <button class="back-btn" onclick="history.back()">←</button>
-        <div class="search-bar">
-            <input type="text" id="search" placeholder="Search">
-        </div>
-        <div class="user-icon">👤</div>
-    </header>
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="add-record">
-        <%= link_to "Add Borrowing Record", new_borrowing_path, class: "add-borrowing-record" %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+
+
+    <div class="add-record" style="display: flex; justify-content: center; margin: 0px 0px 20px 0px; align-items: center;">
+        <%= link_to "Add Borrowing Record", new_borrowing_path, class: "regularButtonYellow", style: "width: 200px" %>
     </div>
 
-    <section class="club-selections">
-        <div class="club-list">
-            <div class="club-card">
-                <p><strong>Super Club Borrowings</strong></p>
-                <%= link_to "→", super_club_borrowings_borrowings_path, class: "btn-view-more" %>
-            </div>
-            <div class="club-card">
-                <p><strong>Sub-club Borrowings</strong></p>
-                <%= link_to "→", sub_club_borrowings_borrowings_path, class: "btn-view-more" %>
-            </div>
-        </div>
-    </section>
+    <div class="expenses-card">
+        <%= button_to "Super Club Borrowings", super_club_borrowings_borrowings_path, method: :get, class: 'btn-super-club' %>
+        <%= button_to "Sub-Club Borrowings", sub_club_borrowings_borrowings_path, method: :get, class: 'btn-sub-club' %>
+    </div>
 
-    <section class="overdue-items">
-        <h2>Overdue Items</h2>
-        <div class="overdue-list">
+    <section class="overdue-items borrowingsContainer">
+        <h2 class="clean">Overdue Items</h2>
+
+        <div class="clubsContainer last-disabled">
             <% Borrowing.where(status: "overdue").each do |item| %>
-                <div class="card overdue-card">
-                    <div class="card-content">
-                        <h3><%= item.equipment.Equipment_Name %></h3>
-                        <p>Borrowed by: <%= item.pic_info %></p>
-                        <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
-                        <p>Quantity: <%= item.quantity %></p>
-                        <p>Status: <%= item.status.capitalize %></p>
-                    </div>
-                    <%= link_to "View Details", edit_borrowing_path(item), class: "card-link" %>
+            <div class="club" onclick="window.location='<%= edit_borrowing_path(item) %>'" style="cursor: pointer;">
+                <div class="clubDetails">
+                    <h2><%= item.equipment.Equipment_Name %></h2>
+                    <p>Borrowed by <%= item.pic_info %></p>
+
                 </div>
+                <div class="clubDetails">
+
+                    <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
+                    <p>Quantity: <%= item.quantity %></p>
+                </div>
+            </div>
             <% end %>
         </div>
     </section>
 
-    <section class="borrowed-items">
+    <section class="borrowed-items borrowingsContainer">
         <h2>Borrowed Items</h2>
-        <div class="borrowed-list">
-            <% Borrowing.where(status: ["borrowed", "returned"]).each do |item| %>
-                <div class="card">
-                    <div class="card-content">
-                        <h3><%= item.equipment.Equipment_Name %></h3>
-                        <p>Borrowed by: <%= item.pic_info %></p>
-                        <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
-                        <p>Quantity: <%= item.quantity %></p>
-                        <p>Status: <%= item.status.capitalize %></p>
-                    </div>
-                    <%= link_to "View Details", edit_borrowing_path(item), class: "card-link" %>
+        <div class="clubsContainer last-disabled">
+            <% Borrowing.where(status: "borrowed").each do |item| %>
+            <div class="club" onclick="window.location='<%= edit_borrowing_path(item) %>'" style="cursor: pointer;">
+                <div class="clubDetails">
+                    <h2><%= item.equipment.Equipment_Name %></h2>
+                    <p>Borrowed by: <%= item.pic_info %></p>
                 </div>
+                <div class="clubDetails">
+                    <p>Due date: <%= item.due_date.strftime("%B %d, %Y") %></p>
+                    <p>Quantity: <%= item.quantity %></p>
+                </div>
+            </div>
             <% end %>
         </div>
     </section>
-</div>
+</body>
+
+</html>

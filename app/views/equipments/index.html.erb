@@ -1,68 +1,82 @@
-<%= render 'shared/header', search_url: equipments_path %>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-    <div class="sort">
-        <span>Sorted by Availability</span>
-        <span>
-            <%= image_tag 'filter-icon.svg', alt: 'Filter', style: 'width: 44px;' %>
-        </span>
-    </div>
-    <% if @unique_equipments.present? %>
-    <!-- Cards with equipment having non-zero quantity and available status -->
-    <div class="cards">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+</head>
+
+<body>
+
+
+    <div class="clubsContainerParent">
+        <h2 class="clean">All Equipments</h2>
+
+        <% if @unique_equipments.present? %>
+        <!-- Cards with equipment having non-zero quantity and available status -->
+        <div class="clubsContainer">
+            <% @unique_equipments.each do |equipment| %>
+            <% available_equipment_count = @equipment.where(Equipment_Name: equipment.Equipment_Name, Status: 'Available').size %>
+            <% if available_equipment_count > 0 %>
+            <div class="club">
+                <div class="clubDetails">
+                    <h2><%= equipment.Equipment_Name %></h2>
+                    <p>Quantity: <%= available_equipment_count %> / <%= @equipment.where(Equipment_Name: equipment.Equipment_Name ).size %></p>
+                </div>
+                <%= link_to image_tag('arrow-icon.svg'), group_items_path(equipment.Equipment_Name), class: "more-link" %>
+            </div>
+            <% end %>
+            <% end %>
+            <!-- "+" card to open the modal -->
+            <div class="club">
+                <%= link_to image_tag('plus-icon.svg'), new_equipment_path, id: "open-overlay", class: "add-link" %>
+            </div>
+        </div>
+
+        <!-- Cards with equipment having zero quantity or unavailable status -->
         <% @unique_equipments.each do |equipment| %>
         <% available_equipment_count = @equipment.where(Equipment_Name: equipment.Equipment_Name, Status: 'Available').size %>
-        <% if available_equipment_count > 0 %>
-        <div class="card">
-            <div class="card-content">
-                <div class="card-title"><%= equipment.Equipment_Name %></div>
-                <div class="quantity">Quantity: <%= available_equipment_count %>/<%= @equipment.where(Equipment_Name: equipment.Equipment_Name ).size %></div>
+        <% if available_equipment_count == 0 %>
+        <br>
+        <hr><br>
+        <div class="cards">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title"><%= equipment.Equipment_Name %></div>
+                    <div class="quantity">Unavailable</div>
+                </div>
+                <%= link_to image_tag('arrow-icon.svg'), group_items_path(equipment.Equipment_Name), class: "more-link" %>
             </div>
-            <%= link_to image_tag('arrow-icon.svg'), group_items_path(equipment.Equipment_Name), class: "more-link" %>
         </div>
         <% end %>
         <% end %>
+        <% else %>
+        <p style="text-align:center;">No group found.</p>
         <!-- "+" card to open the modal -->
         <div class="card add-card">
-            <%= link_to image_tag('plus-icon.svg'), new_equipment_path, id: "open-overlay", class: "add-link" %>
+            <%= link_to image_tag('plus-icon.svg'), new_equipment_path, form_url: equipments_path, id: "open-overlay", class: "add-link" %>
         </div>
+        <% end %>
     </div>
 
-    <!-- Cards with equipment having zero quantity or unavailable status -->
-    <% @unique_equipments.each do |equipment| %>
-    <% available_equipment_count = @equipment.where(Equipment_Name: equipment.Equipment_Name, Status: 'Available').size %>
-    <% if available_equipment_count == 0 %>
-    <br>
-    <hr><br>
-    <div class="cards">
-        <div class="card">
-            <div class="card-content">
-                <div class="card-title"><%= equipment.Equipment_Name %></div>
-                <div class="quantity">Unavailable</div>
+    <div class="overlay" id="overlay" style="display: none;">
+        <div class="overlay-content">
+            <h1>Add New Equipment</h1>
+            <!-- Dynamic content (the form) will be loaded here -->
+            <div id="overlay-form-content">
+                <!-- Placeholder for form -->
             </div>
-            <%= link_to image_tag('arrow-icon.svg'), group_items_path(equipment.Equipment_Name), class: "more-link" %>
+            <button id="close-overlay">X</button>
         </div>
     </div>
-    <% end %>
-    <% end %>
-    <% else %>
-    <p style="text-align:center;">No group found.</p>
-    <!-- "+" card to open the modal -->
-    <div class="card add-card">
-        <%= link_to image_tag('plus-icon.svg'), new_equipment_path, form_url: equipments_path, id: "open-overlay", class: "add-link" %>
-    </div>
-    <% end %>
-</div>
+</body>
 
-<div class="overlay" id="overlay" style="display: none;">
-    <div class="overlay-content">
-        <h1>Add New Equipment</h1>
-        <!-- Dynamic content (the form) will be loaded here -->
-        <div id="overlay-form-content">
-            <!-- Placeholder for form -->
-        </div>
-        <button id="close-overlay">Cancel</button>
-    </div>
-</div>
-
-<%= render 'shared/equipment_footer', active_tab: :equipment %>
+</html>

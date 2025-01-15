@@ -1,57 +1,67 @@
-<%= render 'shared/header', search_url: group_items_path(@equipment_name) %>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-  <div class="sort">
-    <span>Sorted by Availability</span>
-    <span>
-      <%= image_tag 'filter-icon.svg', alt: 'Filter', style: 'width: 20px;' %>
-    </span>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
 
-  <!-- Cards for available items -->
-  <% if @items.present? %>
-    <div class="cards">
-      <% @items.each do |item| %>
-        <% if item.Status != 'Unavailable' %> <!-- Show only available items here -->
-          <div class="card">
-            <div class="card-content">
-              <div class="card-title"><%= item.Equipment_Name %></div>
-              <div class="details">
-                <!-- Add additional item details here if needed -->
-                <p>ID: <%= item.Equipment_ID %> | <%= item.Status %></p>
-              </div>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+</head>
+
+<body>
+
+    <div class="clubsContainerParent">
+        <h2 class="clean">Available Equipments</h2>
+
+        <% if @items.present? %>
+        <div class="clubsContainer last-disabled">
+            <% @items.each do |item| %>
+            <% if item.Status != 'Unavailable' %>
+            <!-- Show only available items here -->
+            <div class="club">
+                <div class="clubDetails">
+                    <h2><%= item.Equipment_Name %></h2>
+                    <p>ID: <%= item.Equipment_ID %> | <%= item.Status %></p>
+                </div>
+                <%= link_to image_tag('arrow-icon.svg'), item, class: "more-link" %>
             </div>
-            <%= link_to image_tag('arrow-icon.svg'), item, class: "more-link" %>
-          </div>
+            <% end %>
+            <% end %>
+        </div>
+        <% else %>
+        <p>No items found in this group.</p>
         <% end %>
-      <% end %>
-    </div>
-  <% else %>
-    <p>No items found in this group.</p>
-  <% end %>
 
 
 
-  <!-- Cards for unavailable items -->
-  <% if @items.any? { |item| item.Status == 'Unavailable' } %>
-    <br><hr><br>
-    <div class="cards unavailable-cards">
-      <% @items.each do |item| %>
-        <% if item.Status == 'Unavailable' %> <!-- Show only unavailable items here -->
-          <div class="card unavailable-card">
-            <div class="card-content">
-              <div class="card-title"><%= item.Equipment_Name %></div>
-              <div class="details">
-                <p>ID: <%= item.Equipment_ID %> | <%= item.Status %></p>
-              </div>
+
+        <% if @items.any? { |item| item.Status == 'Unavailable' } %>
+        <br>
+        <hr><br>
+        <h2 class="clean">Unavailable Equipments</h2>
+        <div class="clubsContainer last-disabled">
+            <% @items.each do |item| %>
+            <% if item.Status == 'Unavailable' %>
+            <!-- Show only unavailable items here -->
+            <div class="club">
+                <div class="clubDetails">
+                    <h2><%= item.Equipment_Name %></h2>
+
+                    <p>ID: <%= item.Equipment_ID %> | <%= item.Status %></p>
+                </div>
+                <%= link_to image_tag('arrow-icon.svg'), item, class: "more-link" %>
             </div>
-            <%= link_to image_tag('arrow-icon.svg'), item, class: "more-link" %>
-          </div>
+            <% end %>
+            <% end %>
+        </div>
         <% end %>
-      <% end %>
     </div>
-  <% end %>
-</div>
+</body>
 
-<%= render 'shared/equipment_footer', active_tab: :equipment %>
-
+</html>

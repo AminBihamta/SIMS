@@ -1,26 +1,50 @@
-<%= form_with model: vendor, remote: true, id: "vendor-form" do |form| %>
-  <div>
-    <%= form.text_field :Name, placeholder: "Vendor Name" %>
-    <% vendor.errors.full_messages_for(:Name).each do |message| %>
-      <div class="error-message"><%= message %></div>
-    <% end %>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div>
-    <%= form.text_field :Phone_Number, placeholder: "Phone Number" %>
-    <% vendor.errors.full_messages_for(:Phone_Number).each do |message| %>
-      <div class="error-message"><%= message %></div>
-    <% end %>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <div>
-    <%= form.text_area :Address, placeholder: "Address", rows: 5, cols: 40, class: "textarea" %>
-    <% vendor.errors.full_messages_for(:Address).each do |message| %>
-      <div class="error-message"><%= message %></div>
-    <% end %>
-  </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
 
-  <div>
-    <%= form.submit "Save Vendor", class: "submit-button" %>
-  </div>
-<% end %>
+<body>
+    <div class="equipment-container">
+        <div class="equipment-details">
+
+            <%= form_with model: vendor, remote: true, id: "vendor-form" do |form| %>
+            <div>
+                <%= form.text_field :Name, placeholder: "Vendor Name", required: true  %>
+                <% vendor.errors.full_messages_for(:Name).each do |message| %>
+                <div class="error-message"><%= message %></div>
+                <% end %>
+            </div>
+
+            <div>
+                <%= form.text_field :Phone_Number, placeholder: "Phone Number", required: true  %>
+                <% vendor.errors.full_messages_for(:Phone_Number).each do |message| %>
+                <div class="error-message"><%= message %></div>
+                <% end %>
+            </div>
+
+            <div>
+                <%= form.text_area :Address, placeholder: "Address", rows: 5, cols: 40, class: "textarea", required: true  %>
+                <% vendor.errors.full_messages_for(:Address).each do |message| %>
+                <div class="error-message"><%= message %></div>
+                <% end %>
+            </div>
+
+            <div>
+                <%= form.submit "Save Vendor", class: "regularButtonYellow" %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</body>
+
+</html>

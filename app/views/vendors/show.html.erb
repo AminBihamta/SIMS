@@ -13,82 +13,63 @@
     <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
 
-    <style>
-        .regularButtonYellow {
-            width: 200px
-        }
-
-        .regularButtonRed {
-            width: 240px;
-            margin-top: 20px;
-        }
-        .overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0,0,0,0.5);
-          display: none;
-          z-index: 1000;
-        }
-
-         .overlay-content {
-           background: white;
-           padding: 20px;
-           border-radius: 8px;
-           position: absolute;
-           top: 50%;
-           left: 50%;
-           transform: translate(-50%, -50%);
-         }
-    </style>
 </head>
 
 <body>
     <div class="vendor-details">
         <div class="vendor-header">
             <h1 class="vendor-name"><%= @vendor.Name %></h1>
-            <p class="vendor-phone">📞 <%= @vendor.Phone_Number %></p>
-            <p class="vendor-address"><%= @vendor.Address %></p>
+            <div class="address">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.9677 16.6283L20.9686 20.9593C20.8282 21.5716 20.29 22 19.6596 22C8.81802 21.9991 0 13.1824 0 2.34193C0 1.71204 0.428396 1.17324 1.0408 1.0336L5.37246 0.0346262C6.0033 -0.111546 6.64789 0.215859 6.91003 0.813181L8.90912 5.47505C9.14281 6.02417 8.98519 6.66394 8.52323 7.04119L6.20957 8.89863C7.66979 11.8728 10.0883 14.2909 13.0637 15.7518L14.958 13.4402C15.3313 12.977 15.976 12.8168 16.5252 13.0546L21.1877 15.0529C21.7485 15.3479 22.1138 16.001 21.9677 16.6283Z" fill="white" />
+                </svg>
+                <%= @vendor.Phone_Number %>
+            </div>
+            <div class="address">
+                <svg width="22" height="22" viewBox="0 0  22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.5 0C3.35893 0 0 3.4485 0 7.7C0 13.475 7.5 22 7.5 22C7.5 22 15 13.475 15 7.7C15 3.4485 11.6411 0 7.5 0ZM7.5 10.45C6.02143 10.45 4.82143 9.218 4.82143 7.7C4.82143 6.182 6.02143 4.95 7.5 4.95C8.97857 4.95 10.1786 6.182 10.1786 7.7C10.1786 9.218 8.97857 10.45 7.5 10.45Z" fill="white" />
+                </svg>
+
+                <%= @vendor.Address %>
+            </div>
         </div>
-         <div class="vendor-actions">
-               <%= link_to "Update Vendor", edit_vendor_path(@vendor), data: { controller: "overlay", action: "overlay#show" }, class: "regularButtonYellow" %>
-               <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
-          </div>
+        <div class="vendor-actions">
+            <%= link_to "Update Vendor", edit_vendor_path(@vendor), data: { controller: "overlay", action: "overlay#show" }, class: "regularButtonYellow" %>
+            <%= button_to "Delete Vendor", vendor_path(@vendor), method: :delete, data: { confirm: "Are you sure?" }, class: "regularButtonRed" %>
+        </div>
 
         <div class="vendor-supplies">
-           <h1>Supplies</h1>
-           <% if @equipments.any? %>
-             <table>
-               <thead>
-                 <tr>
-                   <th>Equipment Name</th>
-                   <th>ID</th>
-                   <th>Status</th>
-                   <th>Club</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 <% @equipments.each do |equipment| %>
-                   <tr>
-                     <td><%= equipment.Equipment_Name %></td>
-                     <td><%= equipment.Equipment_ID %></td>
-                     <td><%= equipment.Status %></td>
-                     <td><%= equipment.club&.Club_Name %></td>
-                   </tr>
-                 <% end %>
-               </tbody>
-             </table>
-           <% else %>
-             <p>No equipment found for this vendor.</p>
-           <% end %>
+            <h1>Supplies</h1>
+            <% if @equipments.any? %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Equipment Name</th>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Club</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @equipments.each do |equipment| %>
+                    <tr>
+                        <td><%= equipment.Equipment_Name %></td>
+                        <td><%= equipment.Equipment_ID %></td>
+                        <td><%= equipment.Status %></td>
+                        <td><%= equipment.club&.Club_Name %></td>
+                    </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            <% else %>
+            <p>No equipment found for this vendor.</p>
+            <% end %>
         </div>
 
-       
+
     </div>
 
-    
+
 
 </body>
 

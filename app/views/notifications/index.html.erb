@@ -1,38 +1,55 @@
-<div class="container mx-auto p-4">
-  <a href="/borrowings" class="back-button">← Back to Borrowing Page</a>
+<!DOCTYPE html>
+<html lang="en">
 
-  <h1 class="text-2xl font-bold mb-4">Notifications History</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <table class="min-w-full">
-    <thead>
-      <tr>
-        <th class="px-4 py-2">Message</th>
-        <th class="px-4 py-2">Status</th>
-        <th class="px-4 py-2">Triggered At</th>
-        <th class="px-4 py-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @notifications.each do |notification| %>
-        <tr>
-          <td class="border px-4 py-2"><%= notification.message %></td>
-          <td class="border px-4 py-2"><%= notification.status.titleize %></td>
-          <td class="border px-4 py-2"><%= notification.triggered_at.strftime("%B %d, %Y %H:%M") %></td>
-          <td class="border px-4 py-2">
-            <% if notification.status == "pending" %>
-              <%= button_to "Send to PIC", 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+
+    <div class="container mx-auto p-4">
+
+        <h1 class="clean">Notifications History</h1>
+
+        <table class="min-w-full">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Message</th>
+                    <th class="px-4 py-2">Status</th>
+                    <th class="px-4 py-2">Triggered At</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @notifications.each do |notification| %>
+                <tr>
+                    <td class="border px-4 py-2"><%= notification.message %></td>
+                    <td class="border px-4 py-2"><%= notification.status.titleize %></td>
+                    <td class="border px-4 py-2"><%= notification.triggered_at.strftime("%B %d, %Y %H:%M") %></td>
+                    <td class="border px-4 py-2" style="display: flex; justify-content: center; align-items: center;">
+                        <% if notification.status == "pending" %>
+                        <%= button_to "Send to PIC", 
                   send_to_pic_notification_path(notification), 
                   method: :post,
                   class: "btn btn-primary hover:bg-blue-700" %>
-            <% elsif notification.status == "delivered" %>
-              <%= button_to "Equipment returned", 
+                        <% elsif notification.status == "delivered" %>
+                        <%= button_to "Equipment returned", 
                   return_equipment_notification_path(notification), 
                   method: :post,
                   class: "btn btn-success hover:bg-green-700" %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+                        <% end %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>

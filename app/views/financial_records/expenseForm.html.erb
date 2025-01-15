@@ -1,37 +1,67 @@
-<%= form_with model: @financial_record, local: true, class: "form-container" do |form| %>
-<h1>Add Expense</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<div>
-    <%= form.text_field :Title, placeholder: "Name of Expense", required: true %>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-<div>
-    <%= form.number_field :Amount, step: "0.01", placeholder: "Amount", required: true %>
-    <%= form.collection_select :Vendor_ID, Vendor.all, :id, :Name, { prompt: "Vendor" } %>
-</div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= render 'shared/header', search_url: equipments_path %>
+</head>
 
-<div>
-    <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :id, :Club_Name, { prompt: "Sub-Club" }%>
-</div>
+<body>
+    <div class="expenseDashboard">
+        <%= form_with model: @financial_record, local: true, class: "form-container" do |form| %>
+        <h1>Add Expense</h1>
+        <div class="form-container">
+            <div>
+                <%= form.label :Title, "Name of Expense" %>
+                <%= form.text_field :Title, placeholder: "Name of Expense", required: true %>
+            </div>
 
-<div>
-    <%= form.number_field :Quantity, step: 1, placeholder: "Quantity", required: true %>
-</div>
+            <div>
+                <%= form.label :Amount, "Amount" %>
+                <%= form.number_field :Amount, step: "0.01", placeholder: "Amount", required: true %>
+            </div>
+            <div>
+                <%= form.label :Vendor_ID, "Vendor" %>
+                <%= form.collection_select :Vendor_ID, Vendor.all, :id, :Name, { prompt: "Vendor" } %>
+            </div>
 
-<div>
-    <%= form.date_field :Expense_Date, placeholder: "Expense Date", class: "form-input" %>
-</div>
+            <div>
+                <%= form.label :Club_ID, "Sub-Club" %>
+                <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :id, :Club_Name, { prompt: "Sub-Club" }%>
+            </div>
 
-<%= form.submit "Add Expense" %>
+            <div>
+                <%= form.date_field :Expense_Date, placeholder: "Expense Date", class: "form-input" %>
+            </div>
 
-<% if @financial_record.errors.any? %>
-<div class="error-messages">
-    <h2><%= pluralize(@financial_record.errors.count, "error") %> prohibited this expense from being saved:</h2>
-    <ul>
-        <% @financial_record.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+            <div>
+                <%= form.label :Quantity, "Quantity" %>
+                <%= form.number_field :Quantity, step: 1, placeholder: "Quantity", required: true %>
+            </div>
+
+            <%= form.submit "Add Expense", class: "regularButtonYellow" %>
+        </div>
+
+        <% if @financial_record.errors.any? %>
+        <div class="error-messages">
+            <h2><%= pluralize(@financial_record.errors.count, "error") %> prohibited this expense from being saved:</h2>
+            <ul>
+                <% @financial_record.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
         <% end %>
-    </ul>
-</div>
-<% end %>
-<% end %>
+        <% end %>
+    </div>
+</body>
+
+</html>

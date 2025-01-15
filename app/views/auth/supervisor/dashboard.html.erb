@@ -12,23 +12,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+
 </head>
 
 <body>
-    <%= render 'shared/header', search_url: equipments_path %>
 
     <div class="introDiv">
         <div>
             <h1 class="welcome">Welcome</h1>
-            <p class="email"><%= current_user&.email %></p>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="buttonsDiv">
-            <%= link_to "Send a Notification", notifications_path, class: "regularButtonYellow" %>
-            <%= link_to "View Expenses", expenseDashboard_financial_records_path, class: "regularButtonYellow" %>
-            <%= link_to "Generate a Report", reports_path, class: "regularButtonYellow" %>
-
+            <p class="email"><%= current_user.email.split('@').first %></p>
         </div>
     </div>
 

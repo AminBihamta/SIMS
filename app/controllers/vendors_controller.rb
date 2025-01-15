@@ -33,9 +33,9 @@ class VendorsController < ApplicationController
   def edit
     @vendor = Vendor.find(params[:id])
     @form_url = vendor_path(@vendor)
-    render partial: "form", locals: { 
-      vendor: @vendor, 
-      form_url: @form_url 
+    render partial: "form", locals: {
+      vendor: @vendor,
+      form_url: @form_url
     }
   end
 

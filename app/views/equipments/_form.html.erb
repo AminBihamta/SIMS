@@ -1,40 +1,59 @@
-<%= form_with model: equipment, url: form_url, remote: true, id: "form" do |form| %>
-<div>
-    <%= form.text_field :Equipment_Name, placeholder: "Equipment Name" %>
-    <% equipment.errors.full_messages_for(:Equipment_Name).each do |message| %>
-    <div class="error-message"><%= message %></div>
-    <% end %>
-</div>
+<!DOCTYPE html>
+<html lang="en">
 
-<div>
-    <%= form.select :Financial_Record_Id, options_for_select(FinancialRecord.all.collect { |f| [f.Title, f.Financial_Record_ID] }, equipment.Financial_Record_Id), prompt: "Financial Record" %>
-    <% equipment.errors.full_messages_for(:Financial_Record_Id).each do |message| %>
-    <div class="error-message"><%= message %></div>
-    <% end %>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
 
-<div>
-    <%= form.select :Club_ID, options_for_select(Club.all.collect { |c| [c.Club_Name, c.Club_ID] }, equipment.Club_ID), prompt: "Club" %>
-    <% equipment.errors.full_messages_for(:Club_ID).each do |message| %>
-    <div class="error-message"><%= message %></div>
-    <% end %>
-</div>
 
-<div>
-    <%= form.select :Vendor_ID, options_for_select(Vendor.all.collect { |v| [v.Name, v.Vendor_ID] }, equipment.Vendor_ID), prompt: "Vendor (Optional)" %>
-    <% equipment.errors.full_messages_for(:Vendor_ID).each do |message| %>
-    <div class="error-message"><%= message %></div>
-    <% end %>
-</div>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
 
-<div style="display: flex; align-items: center; gap: 10px;">
-    <% if show_quantity_field %>
-    <%= form.number_field :quantity, min: 1, value: 1, placeholder: "Quantity", style: "width: 80px;" %>
-    <%= form.submit "Save Equipment", class: "button" %>
-    <% else %>
-    <%= form.submit "Save Equipment", class: "button", style: "position: relative; left: 88px;" %>
-    <% end %>
-</div>
-<% end %>
+<body>
+    <%= form_with model: equipment, url: form_url, remote: true, id: "form" do |form| %>
+    <div>
+        <%= form.text_field :Equipment_Name, placeholder: "Equipment Name", required: true %>
+        <% equipment.errors.full_messages_for(:Equipment_Name).each do |message| %>
+        <div class="error-message"><%= message %></div>
+        <% end %>
+    </div>
 
-<button onclick="history.back()">Cancel</button>
+    <div>
+        <%= form.select :Financial_Record_Id, options_for_select(FinancialRecord.all.collect { |f| [f.Title, f.Financial_Record_ID] }, equipment.Financial_Record_Id), prompt: "Financial Record (Optional)"%>
+        <% equipment.errors.full_messages_for(:Financial_Record_Id).each do |message| %>
+        <div class="error-message"><%= message %></div>
+        <% end %>
+    </div>
+
+    <div>
+        <%= form.select :Club_ID, options_for_select(Club.all.collect { |c| [c.Club_Name, c.Club_ID] }, equipment.Club_ID), prompt: "Club", required: true %>
+        <% equipment.errors.full_messages_for(:Club_ID).each do |message| %>
+        <div class="error-message"><%= message %></div>
+        <% end %>
+    </div>
+
+    <div>
+        <%= form.select :Vendor_ID, options_for_select(Vendor.all.collect { |v| [v.Name, v.Vendor_ID] }, equipment.Vendor_ID), prompt: "Vendor (Optional)" %>
+        <% equipment.errors.full_messages_for(:Vendor_ID).each do |message| %>
+        <div class="error-message"><%= message %></div>
+        <% end %>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px; justify-content: center; margin: 10px 0px 20px 0px;">
+        <% if show_quantity_field %>
+        <%= form.number_field :quantity, min: 1, value: 1, placeholder: "Quantity", style: "width: 80px; padding: 0px 10px; margin: 0px" %>
+        <%= form.submit "Save Equipment", class: "regularButtonYellow", style: "width: 290px; margin: 0px" %>
+        <% else %>
+        <%= form.submit "Save Equipment", class: "regularButtonYellow", style: "width: 380px; margin: 0px" %>
+        <% end %>
+    </div>
+    <% end %>
+
+    <button onclick="history.back()">Cancel</button>
+</body>
+
+</html>

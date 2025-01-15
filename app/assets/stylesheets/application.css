@@ -11,8 +11,7 @@ html {
 
 body {
   font-family: Cabin;
-  max-width: 1180px;
-  width: 100%;
+  width: 81.5vw;
   background-color: var(--Background);
   color: white;
 }
@@ -174,25 +173,6 @@ header img {
   margin: -0.75em;
 }
 
-.add-card {
-  border-style: solid;
-  border-color: #ccf2c2;
-  padding: 20px;
-  border-radius: 15px;
-  flex: 1 1 calc(33% - 20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0.75;
-  background-color: #ccf2c2;
-  color: #072326;
-}
-
-.add-card:hover {
-  opacity: 1;
-}
-
 .add-link {
   font-size: 2em;
   text-decoration: none;
@@ -325,6 +305,24 @@ body.overlay-active .overlay {
 .overlay-content h2 {
   margin-top: 0;
   color: #e5e5e5;
+}
+
+input,
+select,
+textarea {
+  width: 320px;
+  height: 47px;
+  padding: 10px;
+  margin: 5px auto;
+  background-color: #072326;
+  border: 1px solid #ccf2c2;
+  color: #e5e5e5;
+  border-radius: 20px;
+  font-size: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color-scheme: dark;
 }
 
 .overlay-content input,
@@ -460,16 +458,6 @@ body.overlay-active .overlay {
   font-weight: 100;
 }
 
-@media only screen and (max-width: 600px) {
-  .clubsContainer {
-    justify-content: center;
-  }
-
-  body {
-    padding-top: 40px;
-  }
-}
-
 .buttonsContainer {
   display: flex;
   flex-direction: row;
@@ -595,16 +583,6 @@ button:hover {
   margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 600px) {
-  .clubsContainer {
-    justify-content: center;
-  }
-
-  body {
-    padding-top: 40px;
-  }
-}
-
 .buttonsContainer {
   display: flex;
   flex-direction: row;
@@ -711,12 +689,6 @@ h2 {
   margin: 0px;
 }
 
-.borrowings .column:first-child {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
 .borrowings .column:nth-child(2) {
   display: flex;
   flex-direction: column;
@@ -772,7 +744,7 @@ h2 {
 .welcome {
   font-size: 80px;
   padding: 0px;
-  margin: 0px 0px 40px 0px;
+  margin: 0px 0px 0px 0px;
 }
 
 .page-title {
@@ -1002,10 +974,6 @@ nav a:hover {
   align-items: center;
 }
 
-.burgerMenu svg {
-  display: none;
-}
-
 .parametersForm {
   display: flex;
   flex-direction: column;
@@ -1159,6 +1127,11 @@ tr:hover {
   padding: 0px;
 }
 
+.pure {
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
 .authParent {
   display: flex;
   flex-direction: row;
@@ -1168,7 +1141,271 @@ tr:hover {
   align-items: center;
 }
 
+.imageContainer {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageContainer h1 {
+  text-align: center;
+}
+
+.authParent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  vertical-align: center;
+  align-items: center;
+}
+
+.authParent {
+  margin-top: 200px;
+}
+
+form.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container > div {
+  width: 300px;
+}
+
+.borrowingsParent {
+  justify-content: start;
+}
+
+.nav-links .regularButtonWhite {
+  cursor: pointer !important;
+}
+
+.nav-links .regularButtonWhite,
+.nav-links .regularButtonRed,
+header .regularButtonRed {
+  width: 30px;
+}
+
+.nav-links .regularButtonWhite svg,
+.nav-links .regularButtonRed svg,
+header .regularButtonWhite svg {
+  fill: white;
+}
+
+.nav-links .regularButtonRed:hover svg {
+  fill: #c60000;
+}
+
+.nav-links .regularButtonWhite:hover svg,
+header .regularButtonWhite:hover svg {
+  fill: var(--Background);
+}
+
+.error-message {
+  display: flex !important;
+  width: 100% !important;
+  justify-self: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.club .column {
+  justify-content: start;
+  align-items: start;
+}
+
+.club .column span {
+  color: rgb(195, 195, 195);
+}
+
+.last-disabled .club {
+  background-color: var(--Background) !important;
+  color: white !important;
+  justify-content: space-between !important;
+}
+
+.last-disabled .club:hover {
+  background-color: rgb(0, 79, 88) !important;
+}
+
+.equipment-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+}
+
+.equipment-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 200px;
+}
+
+.equipment-details a {
+  width: 100px;
+}
+
+.equipment-details button {
+  width: 140px;
+}
+
+.equipment-details p {
+  margin: 0px;
+  padding: 0px;
+}
+
+#close-overlay {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  cursor: pointer;
+  width: 45px;
+}
+
+.expenses-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.expenses-card button {
+  width: 580px;
+}
+
+.expenseDashboard,
+.expenseDashboard .form-container,
+.expenseDashboard .form-container > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.expenseDashboard .form-container {
+  gap: 20px;
+}
+
+.vendor-actions .regularButtonYellow {
+  width: 170px !important;
+  height: 20px;
+}
+
+.vendor-actions .regularButtonRed {
+  width: 210px !important;
+  height: 43px;
+}
+
+.vendor-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+}
+
+.address {
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  gap: 10px;
+  align-items: center;
+}
+
+.address:nth-child(3) {
+  margin: 20px 0px;
+}
+
+.borrowingsContainer .club {
+  width: 44% !important;
+}
+
+.borrowingsContainer .clubsContainer {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.overdue-items .club {
+  background-color: #484f46 !important;
+}
+
+.parametersForm input[type="date"] {
+  width: 220px;
+}
+
 @media only screen and (max-width: 700px) {
+  .borrowingsContainer .club {
+    width: 100% !important;
+  }
+  .budgetDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .vendor-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .summary-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .summary-cards > div {
+    width: 300px;
+  }
+  .expenses-card {
+    flex-direction: column;
+    padding: 0px 20px;
+  }
+
+  .expenses-card button {
+    max-width: 350px;
+  }
+  nav.nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 350px;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+  .borrowingsParent {
+    justify-content: center;
+  }
+  .authParent {
+    flex-direction: column;
+  }
+  .clubsContainer {
+    justify-content: center;
+  }
+
   .desktop-only {
     display: none;
   }
@@ -1200,7 +1437,7 @@ tr:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 10px;
+    padding: 20px 10px;
     margin: 0px;
   }
 

@@ -1,19 +1,37 @@
-<div class="frame">
-  <header class="header">
-    <button class="back-btn" onclick="history.back()">←</button>
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Search">
-    </div>
-    <div class="user-icon">👤</div>
-  </header>
+<!DOCTYPE html>
+<html lang="en">
 
-  <h2>Sub Clubs Borrowing Records</h2>
-  <div class="club-list">
-    <% @sub_clubs.each do |club| %>
-      <div class="club-card">
-        <p><strong><%= club.Club_Name %></strong></p>
-        <%= link_to "→", borrowing_balance_sheet_path(club.id), class: "btn-view-more" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+    <div class="clubsContainerParent">
+
+        <h2 class="clean">Sub Clubs Borrowing Records</h2>
+
+        <div class="clubsContainer last-disabled">
+
+            <% @sub_clubs.each do |club| %>
+            <div class="club" onclick="window.location='<%= borrowing_balance_sheet_path(club.id) %>'" style="cursor: pointer;">
+
+                <h2 style="padding: 0px !important; margin: 0px !important;"><%= club.Club_Name %></h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28" fill="none">
+                    <path d="M0 3.23375L2.69167 0.5L16 14L2.69167 27.5L0 24.7663L10.6083 14L0 3.23375Z" fill="#CCF2C2" />
+                </svg>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</body>
+
+</html>
