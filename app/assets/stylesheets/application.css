@@ -1352,7 +1352,27 @@ header .regularButtonWhite:hover svg {
   width: 100%;
 }
 
+.actions .regularButtonYellow,
+.actions .regularButtonRed {
+  width: 200px;
+  height: 50px;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container form .field {
+  width: auto;
+}
+
 @media only screen and (max-width: 700px) {
+  .actions {
+    flex-direction: column;
+  }
   .borrowingsContainer .club {
     width: 100% !important;
   }
