@@ -40,12 +40,12 @@
                         <%= button_to "Send to PIC", 
                   send_to_pic_notification_path(notification), 
                   method: :post,
-                  class: "btn btn-primary hover:bg-blue-700" %>
+                  class: "regularButtonYellow" %>
                         <% elsif notification.status == "delivered" %>
                         <%= button_to "Equipment returned", 
                   return_equipment_notification_path(notification), 
                   method: :post,
-                  class: "btn btn-success hover:bg-green-700" %>
+                  class: "regularButtonYellow" %>
                         <% end %>
                     </td>
                 </tr>

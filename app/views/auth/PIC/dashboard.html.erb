@@ -25,29 +25,36 @@
 
      <!-- Notification Section -->
      <div class="notifications-container">
-         <h2 class="headline">Latest Notifications</h2>
+         <h2 class="clean">Latest Notifications</h2>
 
          <% @notifications.each do |notification| %>
-         <div class="notification-card <%= notification.status %>">
-             <div class="notification-content">
-                 <p class="notification-message"><%= notification.message %></p>
-                 <p class="notification-time">
-                     Received: <%= notification.updated_at.strftime("%B %d, %Y %H:%M") %>
-                 </p>
 
-                 <% if notification.borrowing %>
-                 <div class="borrowing-details">
-                     <p>Equipment: <%= notification.borrowing.equipment.Equipment_Name %></p>
-                     <p>Due Date: <%= notification.borrowing.due_date.strftime("%B %d, %Y") %></p>
-                     <% if notification.borrowing.status == "overdue" %>
-                     <p class="overdue-warning">
-                         Overdue by: <%= ((Time.current - notification.borrowing.due_date) / 1.day).to_i %> days
-                     </p>
+         <table class="min-w-full">
+             <thead>
+                 <tr>
+                     <th class="px-4 py-2">Message</th>
+                     <th class="px-4 py-2">Received At</th>
+                     <th class="px-4 py-2">Equipment</th>
+                     <th class="px-4 py-2">Due Date</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <% @notifications.each do |notification| %>
+                 <tr class="<%= notification.status %>">
+                     <td class="border px-4 py-2"><%= notification.message %></td>
+                     <td class="border px-4 py-2"><%= notification.updated_at.strftime("%B %d, %Y %H:%M") %></td>
+                     <% if notification.borrowing %>
+                     <td class="border px-4 py-2"><%= notification.borrowing.equipment.Equipment_Name %></td>
+                     <td class="border px-4 py-2"><%= notification.borrowing.due_date.strftime("%B %d, %Y") %></td>
+                     <% else %>
+                     <td class="border px-4 py-2">-</td>
+                     <td class="border px-4 py-2">-</td>
+                     <td class="border px-4 py-2">-</td>
                      <% end %>
-                 </div>
+                 </tr>
                  <% end %>
-             </div>
-         </div>
+             </tbody>
+         </table>
          <% end %>
 
          <% if @notifications.empty? %>
@@ -57,7 +64,7 @@
 
      <!-- Latest Borrowed Section -->
      <div class="clubsContainerParent">
-         <h2 class="headline">Latest Borrowed</h2>
+         <h2 class="clean">Latest Borrowed</h2>
          <div class="clubsContainer last-disabled">
              <% @borrowings.each do |borrowing| %>
              <div class="club" onclick="window.location='<%= borrowing_path(borrowing) %>'" style="cursor: pointer;">
