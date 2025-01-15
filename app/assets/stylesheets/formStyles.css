@@ -39,13 +39,6 @@ p {
   text-align: center;
 }
 
-input,
-select,
-button {
-  padding: 15px;
-  border-radius: 60px;
-}
-
 h2 {
   margin-bottom: 40px;
 }
@@ -65,24 +58,6 @@ button {
 
 input::placeholder {
   color: var(--Highlight-Color);
-}
-
-input[type="submit"],
-button {
-  background-color: #eef26b;
-  color: var(--Background);
-  border: none;
-  border-radius: 50;
-  cursor: pointer;
-  width: 120px;
-  align-self: flex-end;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-input[type="submit"]:hover,
-button:hover {
-  background-color: var(--Highlight-Color);
 }
 
 p {

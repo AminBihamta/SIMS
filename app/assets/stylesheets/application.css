@@ -311,7 +311,6 @@ input,
 select,
 textarea {
   width: 320px;
-  height: 47px;
   padding: 10px;
   margin: 5px auto;
   background-color: #072326;
@@ -323,6 +322,10 @@ textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   color-scheme: dark;
+}
+
+input [type="submit"] {
+  width: auto !important;
 }
 
 .overlay-content input,
@@ -801,18 +804,6 @@ h2 {
 
 .auth-container input::placeholder {
   color: var(--Highlight-Color);
-}
-
-.auth-container input[type="submit"] {
-  background-color: #eef26b;
-  color: var(--Background);
-  border: none;
-  border-radius: 50;
-  cursor: pointer;
-  width: 120px;
-  align-self: flex-end;
-  font-weight: bold;
-  transition: background-color 0.3s;
 }
 
 .auth-container input[type="submit"]:hover {
@@ -1354,8 +1345,6 @@ header .regularButtonWhite:hover svg {
 
 .actions .regularButtonYellow,
 .actions .regularButtonRed {
-  width: 200px;
-  height: 50px;
 }
 
 .container form {

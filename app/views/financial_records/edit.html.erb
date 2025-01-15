@@ -1,37 +1,61 @@
-<h1>Edit Financial Record</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<%= form_with(model: @financial_record, url: @form_url, local: true, class: "edit-financial-record-form") do |form| %>
-  <div class="form-row">
-    <%= form.label :Title, "Title", class: "form-label" %>
-    <%= form.text_field :Title, class: "form-input" %>
-  </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <div class="form-row">
-    <%= form.label :Amount, "Amount", class: "form-label" %>
-    <%= form.number_field :Amount, class: "form-input" %>
-  </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= render 'shared/header', search_url: equipments_path %>
+</head>
 
-  <div class="form-row">
-    <%= form.label :Vendor_ID, "Vendor", class: "form-label" %>
-    <%= form.collection_select :Vendor_ID, Vendor.all, :Vendor_ID, :Name, { prompt: "Select Vendor" }, { class: "form-input" } %>
-  </div>
+<body>
+    <div class="expenseDashboard">
 
-  <div class="form-row">
-    <%= form.label :Club_ID, "Club", class: "form-label" %>
-    <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :Club_ID, :Club_Name, { prompt: "Select Club" }, { class: "form-input" } %>
-  </div>
 
-  <div class="form-row">
-    <%= form.label :Quantity, "Quantity", class: "form-label" %>
-    <%= form.number_field :Quantity, class: "form-input" %>
-  </div>
+        <%= form_with(model: @financial_record, url: @form_url, local: true, class: "edit-financial-record-form") do |form| %>
+        <div class="form-container">
+            <h1>Edit Financial Record</h1>
 
-  <div class="form-row">
-    <%= form.label :Expense_Date, "Expense Date", class: "form-label" %>
-    <%= form.date_field :Expense_Date, class: "form-input" %>
-  </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <%= form.label :Title, "Title", class: "form-label" %>
+                <%= form.text_field :Title, class: "form-input" %>
+            </div>
 
-  <div class="form-actions">
-    <%= form.submit "Update", class: "submit-button" %>
-  </div>
-<% end %>
+            <div>
+                <%= form.label :Amount, "Amount", class: "form-label" %>
+                <%= form.number_field :Amount, class: "form-input" %>
+            </div>
+
+            <div>
+                <%= form.label :Vendor_ID, "Vendor", class: "form-label" %>
+                <%= form.collection_select :Vendor_ID, Vendor.all, :Vendor_ID, :Name, { prompt: "Select Vendor" }, { class: "form-input" } %>
+            </div>
+
+            <div>
+                <%= form.label :Club_ID, "Club", class: "form-label" %>
+                <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :Club_ID, :Club_Name, { prompt: "Select Club" }, { class: "form-input" } %>
+            </div>
+
+            <div>
+                <%= form.label :Quantity, "Quantity", class: "form-label" %>
+                <%= form.number_field :Quantity, class: "form-input" %>
+            </div>
+
+            <div>
+                <%= form.label :Expense_Date, "Expense Date", class: "form-label" %>
+                <%= form.date_field :Expense_Date, class: "form-input" %>
+            </div>
+
+            <div class="form-actions">
+                <%= form.submit "Update", class: "regularButtonYellow"  %>
+            </div>
+            <% end %>
+        </div>
+</body>
+
+</html>
