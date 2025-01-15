@@ -1358,6 +1358,14 @@ header .regularButtonWhite:hover svg {
   width: auto;
 }
 
+.auth-form input {
+  width: 100%;
+}
+
+.auth-container > div {
+  height: auto;
+}
+
 @media only screen and (max-width: 700px) {
   .actions {
     flex-direction: column;
