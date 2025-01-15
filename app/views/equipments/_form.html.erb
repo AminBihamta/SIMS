@@ -30,7 +30,8 @@
     </div>
 
     <div>
-        <%= form.select :Club_ID, options_for_select(Club.all.collect { |c| [c.Club_Name, c.Club_ID] }, equipment.Club_ID), prompt: "Club", required: true %>
+        <%= form.collection_select :Club_ID, Club.where(Is_Super_Club: false), :id, :Club_Name, { prompt: "Sub-Club" }%>
+
         <% equipment.errors.full_messages_for(:Club_ID).each do |message| %>
         <div class="error-message"><%= message %></div>
         <% end %>
