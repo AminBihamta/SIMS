@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <!-- Expenses Table -->
+       <!-- Expenses Table -->
         <table>
             <thead>
                 <tr>
@@ -64,7 +64,7 @@
                     <td><%= record.Quantity %></td>
                     <td><%= record.club&.Club_Name || "N/A" %></td>
                     <td><%= number_to_currency(record.Amount, unit: "RM") %></td>
-                    <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
+                    <td><%= record.Expense_Date.present? ? record.Expense_Date.strftime("%d/%m/%Y") : "N/A" %></td>
                 </tr>
                 <% end %>
             </tbody>

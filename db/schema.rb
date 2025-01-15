@@ -59,7 +59,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_11_102819) do
   end
 
   create_table "equipments", primary_key: "Equipment_ID", id: :bigint, default: nil, force: :cascade do |t|
-    t.bigint "Vendor_ID", null: false
+    t.bigint "Vendor_ID"
     t.bigint "Club_ID"
     t.bigint "Financial_Record_Id"
     t.timestamptz "Created_At", default: -> { "now()" }, null: false
@@ -79,26 +79,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_11_102819) do
     t.datetime "Edited_At", precision: nil
     t.integer "Quantity", default: 1, null: false
     t.bigint "Club_ID"
+    t.date "Expense_Date"
 
     t.unique_constraint ["Financial_Record_ID"], name: "Financial_Record_Financial_Record_ID_key"
-  end
-
-  create_table "notification_histories", force: :cascade do |t|
-    t.bigint "notification_id", null: false
-    t.string "delivery_status", null: false
-    t.string "delivery_method", null: false
-    t.datetime "delivered_at", precision: nil
-    t.text "failure_reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "message"
-    t.index ["notification_id"], name: "index_notification_histories_on_notification_id"
   end
 
   create_table "notifications", force: :cascade do |t|
     t.string "notification_type", null: false
     t.text "message", null: false
-    t.datetime "triggered_at", precision: nil, null: false
+    t.datetime "triggered_at", precision: nil
     t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -121,17 +110,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_11_102819) do
     t.unique_constraint ["Vendor_ID"], name: "Vendor_Vendor_ID_key"
   end
 
-  add_foreign_key "borrowings", "clubs", primary_key: "Club_ID", name: "borrowings_club_id_fk"
-  add_foreign_key "borrowings", "equipments", primary_key: "Equipment_ID", name: "borrowings_equipment_id_fk"
+  add_foreign_key "borrowings", "clubs", primary_key: "Club_ID", name: "borrowings_club_id_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "borrowings", "equipments", primary_key: "Equipment_ID", name: "borrowings_equipment_id_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "clubs", "clubs", column: "Parent_Club", primary_key: "Club_ID", name: "clubs_Parent_Club_fkey"
   add_foreign_key "equipments", "clubs", column: "Club_ID", primary_key: "Club_ID", name: "equipments_Club_ID_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "equipments", "financial_records", column: "Financial_Record_Id", primary_key: "Financial_Record_ID", name: "equipments_Financial_Record_Id_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "equipments", "vendors", column: "Vendor_ID", primary_key: "Vendor_ID", name: "equipments_Vendor_ID_fkey", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "financial_records", "clubs", column: "Club_ID", primary_key: "Club_ID", name: "financial_records_Club_ID_fkey"
-  add_foreign_key "financial_records", "vendors", column: "Vendor_ID", primary_key: "Vendor_ID", name: "Financial_Record_Vendor_ID_fkey"
-  add_foreign_key "notification_histories", "notifications"
-  add_foreign_key "notifications", "borrowings", name: "notifications_borrowing_id_fkey"
+  add_foreign_key "financial_records", "clubs", column: "Club_ID", primary_key: "Club_ID", name: "financial_records_Club_ID_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "financial_records", "vendors", column: "Vendor_ID", primary_key: "Vendor_ID", name: "financial_records_Vendor_ID_fkey", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "notifications", "borrowings", name: "notifications_borrowing_id_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_data", "auth.users", column: "id", name: "user_data_id_fkey", on_update: :cascade, on_delete: :cascade
   add_foreign_key "user_data", "clubs", primary_key: "Club_ID", name: "user_data_club_id_fkey1", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "vendors", "auth.users", column: "PIC", name: "vendors_PIC_fkey"
+  add_foreign_key "vendors", "auth.users", column: "PIC", name: "vendors_PIC_fkey", on_update: :cascade, on_delete: :cascade
 end

@@ -18,6 +18,10 @@
     <%= form.number_field :Quantity, step: 1, placeholder: "Quantity", required: true %>
 </div>
 
+<div>
+    <%= form.date_field :Expense_Date, placeholder: "Expense Date", class: "form-input" %>
+</div>
+
 <%= form.submit "Add Expense" %>
 
 <% if @financial_record.errors.any? %>

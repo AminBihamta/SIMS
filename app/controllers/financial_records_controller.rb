@@ -1,4 +1,6 @@
 class FinancialRecordsController < ApplicationController
+  before_action :set_financial_record, only: [:edit, :update, :destroy]
+  
   def expenseForm
     @financial_record = FinancialRecord.new
   end
@@ -7,9 +9,9 @@ class FinancialRecordsController < ApplicationController
     sort_column = case params[:sort]
     when "amount_asc" then '"Amount" ASC'
     when "amount_desc" then '"Amount" DESC'
-    when "date_asc" then '"created_at" ASC'
-    when "date_desc" then '"created_at" DESC'
-    else '"created_at" DESC' # Default sorting
+    when "date_asc" then '"Expense_Date" ASC'
+    when "date_desc" then '"Expense_Date" DESC'
+    else '"Expense_Date" DESC' # Default sorting
     end
 
     @financial_records = FinancialRecord.includes(:club).order(Arel.sql(sort_column))
@@ -27,15 +29,12 @@ class FinancialRecordsController < ApplicationController
 
   def create
     @financial_record = FinancialRecord.new(financial_record_params)
-
     if @financial_record.save
       redirect_to expenseDashboard_financial_records_path
     else
       render :expenseForm
     end
   end
-
-  before_action :set_financial_record, only: [:edit, :update, :destroy]
 
   def edit
     @form_url = financial_record_path(@financial_record)
@@ -146,7 +145,7 @@ class FinancialRecordsController < ApplicationController
   end
 
   def financial_record_params
-    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Club_ID, :Quantity)
+    params.require(:financial_record).permit(:Title, :Amount, :Vendor_ID, :Club_ID, :Quantity, :Expense_Date)
   end
 end
 

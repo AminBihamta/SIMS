@@ -6,4 +6,6 @@ class FinancialRecord < ApplicationRecord
   belongs_to :vendor, class_name: "Vendor", foreign_key: "Vendor_ID"
 
   has_many :equipments
+
+  validates :Expense_Date, presence: false
 end
