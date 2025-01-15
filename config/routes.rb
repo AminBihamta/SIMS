@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   resources :equipments do
     member do
       get :club_info
+      get 'stock'
     end
   end
 

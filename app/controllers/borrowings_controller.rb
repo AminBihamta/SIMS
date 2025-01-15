@@ -93,19 +93,20 @@ class BorrowingsController < ApplicationController
     end
   end
 
-def edit
-  @borrowing = Borrowing.find_by(id: params[:id])
-  if @borrowing.nil?
-    redirect_to borrowings_path, alert: "Borrowing record not found."
-  else
-    @clubs = Club.all
-    @grouped_equipments = Equipment.grouped_for_selection
-    @equipments = Equipment.all
+  def edit
+    @borrowing = Borrowing.find(params[:id])
+    
+    # Get the current borrowed equipment's name
+    @current_equipment_name = @borrowing.equipment.Equipment_Name
+    
+    # Group equipment and calculate available stock with correct column name casing
+    @grouped_equipments = Equipment
+      .select('equipments."Equipment_Name", 
+               COUNT(CASE WHEN "Status" = \'Available\' THEN 1 END) as available_stock,
+               COUNT(*) as total_count')
+      .group('"Equipment_Name"')
+      .order('"Equipment_Name"')
   end
-rescue => e
-  Rails.logger.error("Error in edit: #{e.message}")
-  redirect_to borrowings_path, alert: "Error loading borrowing record."
-end
   
 def update
   @borrowing = Borrowing.find(params[:id])

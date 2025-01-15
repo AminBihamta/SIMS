@@ -47,7 +47,8 @@ class Borrowing < ApplicationRecord
     ).limit(quantity)
   
     if available_items.count < quantity
-      raise "Not enough available items"
+      errors.add(:quantity, "Not enough available items")
+      raise ActiveRecord::RecordInvalid.new(self)
     end
   
     available_items.each do |item|

@@ -1,23 +1,32 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["overlay", "formContent"]
+  static targets = ["overlay", "formContent", "select", "stockDisplay"]
 
   connect() {
     this.closeListener = this.close.bind(this)
+    // Initialize stock display for pre-selected equipment
+    if (this.hasSelectTarget && this.selectTarget.value) {
+      this.updateStock({ target: this.selectTarget })
+    }
   }
 
   updateStock(event) {
     const equipmentId = event.target.value;
+    if (!this.hasStockDisplayTarget) return;
 
     if (equipmentId) {
       fetch(`/equipments/${equipmentId}/stock`)
         .then((response) => response.json())
         .then((data) => {
-          document.querySelector("#stock-availability").innerText = `Stock Available: ${data.stock}`;
+          this.stockDisplayTarget.innerText = `Stock Available: ${data.stock}`;
+        })
+        .catch(error => {
+          console.error('Error fetching stock:', error);
+          this.stockDisplayTarget.innerText = "Error fetching stock information";
         });
     } else {
-      document.querySelector("#stock-availability").innerText = "Stock Available: 0";
+      this.stockDisplayTarget.innerText = "Stock Available: 0";
     }
   }
 

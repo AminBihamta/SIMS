@@ -87,6 +87,17 @@ class EquipmentsController < ApplicationController
     end
   end
 
+  # app/controllers/equipments_controller.rb
+def stock
+  equipment = Equipment.find(params[:id])
+  available_stock = Equipment.where(
+    Equipment_Name: equipment.Equipment_Name,
+    Status: 'Available'
+  ).count
+
+  render json: { stock: available_stock }
+end
+
   def destroy
       @equipment.destroy
       redirect_to equipments_path, status: :see_other
