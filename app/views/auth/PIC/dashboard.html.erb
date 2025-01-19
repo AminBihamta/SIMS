@@ -67,8 +67,8 @@
          <h2 class="clean">Latest Borrowed</h2>
          <div class="clubsContainer last-disabled">
              <% @borrowings.each do |borrowing| %>
-             <div class="club" onclick="window.location='<%= borrowing_path(borrowing) %>'" style="cursor: pointer;">
-                 <div class="clubDetails">
+             <div class="club">
+                 <div class=" clubDetails">
 
                      <h2><%= borrowing.equipment.Equipment_Name %></h2>
                  </div>
