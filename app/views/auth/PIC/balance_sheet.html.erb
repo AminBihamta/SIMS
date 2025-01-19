@@ -1,28 +1,36 @@
-<!-- app/views/auth/PIC/balance_sheet.html.erb -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Balance Sheet - PIC</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-</head>
+ <!DOCTYPE html>
+ <html lang="en">
 
-<body>
-  <%= render 'auth/PIC/sidebar' %>
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
 
-  <!-- Total Expenses Section -->
-  <div class="expenses-header">
-    <div class="total-expenses">
-      <h2>Total Club Expenses:</h2>
-      <h1>
-        <%= number_to_currency(@total_expenses, unit: "MYR ", precision: 2) %>
-      </h1>
-    </div>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+     <%= render 'shared/header', search_url: equipments_path %>
+     <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+ </head>
 
-    <!-- Date Range Selector -->
-    <div class="date-range-selector">
-      <%= form_with url: pic_balance_sheet_path, method: :get, local: true, class: "date-form" do |f| %>
-        <%= f.select :date_range,
+ <body>
+
+     <!-- Total Expenses Section -->
+
+     <div class="budgetDiv">
+         <div class="budget">
+             <h2>Total Expense</h2>
+         </div>
+         <div class="budgetNumber">
+             <p>RM <%= number_to_currency(@total_spent, unit: "", precision: 2) %></p>
+         </div>
+     </div>
+
+     <!--
+         <div class=" date-range-selector">
+                 <%= form_with url: pic_balance_sheet_path, method: :get, local: true, class: "date-form" do |f| %>
+                 <%= f.select :date_range,
           options_for_select([
             ['Past Month', '1-month'],
             ['Past 6 Months', '6-months'],
@@ -31,42 +39,43 @@
           ], selected: params[:date_range] || '1-month'),
           {}, { onchange: 'this.form.submit()' }
         %>
-      <% end %>
-    </div>
-  </div>
+                 <% end %>
+         </div>
+         -->
 
-  <!-- Page Title -->
-  <h1>Balance Sheet</h1>
+     <!-- Page Title -->
+     <h1>Balance Sheet</h1>
 
-  <div class="main-content">
-    <!-- Financial Records Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Name of Expense</th>
-          <th>Equipment</th>
-          <th>Quantity</th>
-          <th>Amount</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @financial_records.each do |record| %>
-          <tr>
-            <td><%= record.Title %></td>
-            <td><%= record.equipment&.Equipment_Name || "N/A" %></td>
-            <td><%= record.Quantity %></td>
-            <td><%= number_to_currency(record.Amount, unit: "RM ") %></td>
-            <td><%= record.created_at.strftime("%d/%m/%Y") %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+     <div class="main-content">
+         <!-- Financial Records Table -->
+         <table>
+             <thead>
+                 <tr>
+                     <th>Name of Expense</th>
+                     <th>Equipment</th>
+                     <th>Quantity</th>
+                     <th>Amount</th>
+                     <th>Date</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <% @financial_records.each do |record| %>
+                 <tr>
+                     <td><%= record.Title %></td>
+                     <td><%= record.equipment&.Equipment_Name || "N/A" %></td>
+                     <td><%= record.Quantity %></td>
+                     <td><%= number_to_currency(record.Amount, unit: "RM ") %></td>
+                     <td><%= record.Expense_Date.strftime("%d/%m/%Y") %></td>
+                 </tr>
+                 <% end %>
+             </tbody>
+         </table>
 
-    <% if @financial_records.empty? %>
-      <p>No financial records found for this club.</p>
-    <% end %>
-  </div>
+         <% if @financial_records.empty? %>
+         <p>No financial records found for this club.</p>
+         <% end %>
+     </div>
 
-</body>
-</html>
+ </body>
+
+ </html>

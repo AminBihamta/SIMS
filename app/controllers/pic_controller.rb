@@ -5,7 +5,7 @@ class PicController < ApplicationController
     @club_id = session[:club_id]
 
 
-    # Fetch notifications for this PIC
+  # Fetch notifications for this PIC
   @notifications = Notification.includes(:borrowing)
   .where(status: "delivered")
   .joins(:borrowing)
@@ -32,28 +32,34 @@ class PicController < ApplicationController
 
   def balance_sheet
     @club_id = session[:club_id]
-    
+
     # Date range filter
-    range = params[:date_range] || '1-month'
+    range = params[:date_range] || "1-month"
     start_date = case range
-      when '1-month'
+    when "1-month"
         1.month.ago
-      when '6-months'
+    when "6-months"
         6.months.ago
-      when '1-year'
+    when "1-year"
         1.year.ago
-      else
+    else
         100.years.ago # effectively all records
-      end
+    end
 
     @financial_records = FinancialRecord
       .where(Club_ID: @club_id)
-      .where('Created_At >= ?', start_date)
       .includes(:equipment)
-      .order(created_at: :desc)
+      .order(Expense_Date: :desc)
 
-    # Calculate total expenses for the selected period
-    @total_expenses = @financial_records.sum(:Amount)
+# Calculate total expenses for the selected period
+#
+@total_spent = 0
+@financial_records.each do |record|
+  @total_spent += record.Amount
+end
+
+
+@total_expenses = @financial_records.sum(:Amount)
 
     render "auth/PIC/balance_sheet"
   end

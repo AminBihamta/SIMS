@@ -1,41 +1,59 @@
-<%= render 'auth/PIC/sidebar' %>
+<!DOCTYPE html>
+<html lang="en">
 
-  <!-- Page Title -->
-  <h1>Borrowed Items</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-  <div class="main-content">
-    <!-- Borrowed Items Table -->
-    <table>
-      <thead>
-        <tr>
-          <th>Equipment Name</th>
-          <th>Borrowed Date</th>
-          <th>Due Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @borrowed_items.each do |borrowing| %>
-          <tr>
-            <td><%= borrowing.equipment.Equipment_Name %></td>
-            <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
-            <td><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
-            <td>
-              <% case borrowing.status %>
-              <% when :returned %>
-                Returned
-              <% when :overdue %>
-                <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days overdue
-              <% when :borrowed %>
-                Due in <%= (borrowing.due_date.to_date - Date.current).to_i %> days
-              <% end %>
-            </td>
-          </tr>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <%= render 'shared/header', search_url: equipments_path %>
+    <%= stylesheet_link_tag 'financials/expenseDashboard', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+
+<body>
+    <!-- Page Title -->
+    <h1>Borrowed Items</h1>
+
+    <div class="main-content">
+        <!-- Borrowed Items Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Equipment Name</th>
+                    <th>Borrowed Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @borrowed_items.each do |borrowing| %>
+                <tr>
+                    <td><%= borrowing.equipment.Equipment_Name %></td>
+                    <td><%= borrowing.borrow_date.strftime('%d/%m/%Y') %></td>
+                    <td><%= borrowing.due_date.strftime('%d/%m/%Y') %></td>
+                    <td>
+                        <% case borrowing.status %>
+                        <% when :returned %>
+                        Returned
+                        <% when :overdue %>
+                        <%= ((Time.current - borrowing.due_date) / 1.day).to_i %> days overdue
+                        <% when :borrowed %>
+                        Due in <%= (borrowing.due_date.to_date - Date.current).to_i %> days
+                        <% end %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <% if @borrowed_items.empty? %>
+        <p>No borrowed items found for this club.</p>
         <% end %>
-      </tbody>
-    </table>
+    </div>
+</body>
 
-    <% if @borrowed_items.empty? %>
-      <p>No borrowed items found for this club.</p>
-    <% end %>
-  </div>
+</html>
