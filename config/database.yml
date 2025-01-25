@@ -20,16 +20,9 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 
-production:
-  url: <%= ENV['postgresql://postgres.drgdtfebkffeizxxteto:h_iqd-xyHYK37LHZWiAKtQGHw9yo@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres'] %>
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: aws-0-ap-southeast-1.pooler.supabase.com
-  database: postgres
-  username: postgres.drgdtfebkffeizxxteto
-  password: h_iqd-xyHYK37LHZWiAKtQGHw9yo
-  port: 6543
+development:
+  <<: *default
+  database: sims_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -61,18 +54,6 @@ production:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-
-development:
-  url: <%= ENV['postgresql://postgres.drgdtfebkffeizxxteto:h_iqd-xyHYK37LHZWiAKtQGHw9yo@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres'] %>
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: aws-0-ap-southeast-1.pooler.supabase.com
-  database: postgres
-  username: postgres.drgdtfebkffeizxxteto
-  password: h_iqd-xyHYK37LHZWiAKtQGHw9yo
-  port: 6543
-
 test:
   <<: *default
   database: sims_test
